@@ -3,10 +3,19 @@ Submission scripts for CPTAC3.b1.B December 15 submission.
 Based on work on Epazote here: /Users/mwyczalk/Data/CPTAC3/submit.CPTAC3.b1.A, which is partly copied 
 to ./submit.CPTAC3.b1.A for reference
 
-Some improvements can be made here for modularity (e.g., process per-modality)
-Also, clear up redundancy between data summary and manifest
-
 Data are staged for downloding here: /gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.CPTAC3.b1.B
+
+# TODO
+
+* In all cases, analysis and disease are arguments, so these scripts can be modular
+* Remove redundancy between data links and manifest
+* Manifest creation splits disease types
+* Move data files away from scripts directory
+* Generalize this work so works on DC2 and Epazote too
+
+# Background
+
+* submit.CPTAC3.b1.A/ has work from epazote, which was used to submit CPTAC3.b1.A.  Most of that work has been superceded by workflow here
 
 # Workflow:
 
