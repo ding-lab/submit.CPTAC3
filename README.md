@@ -13,6 +13,11 @@ Data are staged for downloding here: /gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-subm
 * Move data files away from scripts directory
 * Generalize this work so works on DC2 and Epazote too
 
+# git strategy
+
+* Different submissions will have different directories on disk, but share codebase, which is versioned and tagged for every submit.  Implicit assumption is that submissions worked on one at a time, then not reworked thereafter.
+
+
 # Background
 
 * submit.CPTAC3.b1.A/ has work from epazote, which was used to submit CPTAC3.b1.A.  Most of that work has been superceded by workflow here
