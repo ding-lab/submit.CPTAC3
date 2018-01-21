@@ -1,0 +1,38 @@
+Uploading and downloading of data to CPTAC DCC.
+
+Based on work here: 
+  * DC2 (earlier work) /home/mwyczalk_test/src/aspera/download
+  * MGI (later work) /gscuser/mwyczalk/projects/CPTAC3/DCC
+
+DCC has private and restricted areas.  Scripts in package above for accessing both:
+    cptacdcc (for transferring from private portal) 
+    cptactransfer (for transferring from restricted area).
+
+Installation:
+    Downloaded to ~/src from :
+        http://edwardslab.bmcb.georgetown.edu/software/downloads/CPTAC-DCC/cptacdcc-1.6.20.src.tgz
+    Note that for OS X usage, using python version of the client
+
+    Downloaded and installed 
+        http://download.asperasoft.com/download/sw/cli/3.7.6/aspera-cli-3.7.6.636.4d51a47-mac-10.7-64-release.sh
+
+    Added the following to ~/.bashrc_profile
+        export PATH="/Users/mwyczalk/Applications/Aspera\ CLI/bin:/Users/mwyczalk/src/cptacdcc:$PATH"
+
+    Files cptacdcc.ini and cptactransfer.ini are copied from MGI, modified so that Install = /Users/mwyczalk/Applications/Aspera CLI/bin
+
+Testing:
+
+    Test examples for cptacdcc:
+        Downloading SummaryReports.08272017 from
+            https://cptacdcc.georgetown.edu/cptac/dataPrivate/list/4_CPTAC2_Ovarian_Prospective_Collection_PNNL?currentPath=/cptac_shared
+
+        Using cptacdcc for this private data
+
+        To view directory
+            cptacdcc cptac_shared/4_CPTAC2_Ovarian_Prospective_Collection_PNNL/SummaryReports.08272017/
+        To download
+            cptacdcc get cptac_shared/4_CPTAC2_Ovarian_Prospective_Collection_PNNL/SummaryReports.08272017/
+
+    Similar approach will work for restriced.  This is implemented in test_dcc_restricted.sh
+
