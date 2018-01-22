@@ -16,27 +16,37 @@ BM="$IMPORT_CONFIG/CPTAC3.b1.WXS.BamMap.dat"
 PROJECT="CPTAC3.b1"
 BATCH="batch1"
 VER="v1.0"
-DATE="20180122"  # YYYYMMDD
+DATESTAMP="20180122"  # YYYYMMDD
 SUBMIT="C"  # This is not currently used, but implies WGS-Somatic and WGS-Germline
 
+# We loop through all these diseases
 DISEASES="CCRC UCEC"
 
 # where verbatim copy of uploaded data is stored
 STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
 
+# Uploading is with cptactransfer.py.  Define installation path
+CPTACTRANSFER="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc/cptactransfer.py"
+# cptactransfer.py requires that cptactransfer.ini be in the current path
+INI="/gscuser/mwyczalk/projects/CPTAC3/submit.CPTAC3.b1.B/DCC/cptactransfer.ini"
+
 ###
 # get canonical staging directory names.  This is what the paths on DCC will look like
 # e.g. CPTAC3_UCEC/UCEC_CNV_WXS_batch1_v1.0_12062017
 # CCRC has directory name CCRCC
-function getd {
+function getrd { # get the remote directory name.
     CANCER=$1
-    PROC=$2
 
     if [ $CANCER == "CCRC" ]; then
-        D="CPTAC3_CCRCC"
+        echo "CPTAC3_CCRCC"
     else
-        D="CPTAC3_$CANCER"
+        echo "CPTAC3_$CANCER"
     fi
+}
 
-    echo $STAGE_ROOT/$D/${CANCER}_${PROC}_${BATCH}_${VER}_${DATE}
+function getd {
+    CANCER=$1
+    ANALYSIS=$2
+    D=$(getrd $CANCER)
+    echo $STAGE_ROOT/$D/${CANCER}_${ANALYSIS}_${BATCH}_${VER}_${DATESTAMP}
 }
