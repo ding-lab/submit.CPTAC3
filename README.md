@@ -1,9 +1,19 @@
-Submission scripts for CPTAC3.b1.B December 15 submission.
+Submission scripts for CPTAC3.b1.C Jan 15 submission.
 
-Based on work on Epazote here: /Users/mwyczalk/Data/CPTAC3/submit.CPTAC3.b1.A, which is partly copied 
-to ./submit.CPTAC3.b1.A for reference
+* WGS Somatic
+* WGS Germline
+* WGS CNV - no.  CNV is in submission D from DC2
 
-Data are staged for downloding here: /gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.CPTAC3.b1.B
+Somatic manifest has both tumor and normal, while germline has just normal
+Somitic manifest based on epazote:/Users/mwyczalk/Data/CPTAC3/submit.CPTAC3.b1.A/manifest/2_make_Somatic.WXW_Manifest.sh
+
+# data.link, manifest file, and staging
+
+Step 2 (2_summarize_WGS-Germline.sh) and 3 create links to original source data in data.link directory.
+These are then copied in the staging step into the staging directory
+Step 4 (4_make_WGS-Germline_Manifest.sh) and 5 evaluate filesize and md5sum of the orginal source datafile 
+
+These steps to not allow for compressing of vcf before staging.
 
 # TODO
 
@@ -11,32 +21,39 @@ Data are staged for downloding here: /gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-subm
 * Remove redundancy between data links and manifest
 * Manifest creation splits disease types
 * Move data files away from scripts directory
-* Generalize this work so works on DC2 and Epazote too
+
+* VCF need to be gzipped prior to upload
 
 # git strategy
 
 * Different submissions will have different directories on disk, but share codebase, which is versioned and tagged for every submit.  Implicit assumption is that submissions worked on one at a time, then not reworked thereafter.
 
 
-# Background
+# Data source details
 
-* submit.CPTAC3.b1.A/ has work from epazote, which was used to submit CPTAC3.b1.A.  Most of that work has been superceded by workflow here
+## WGS CNV
+### Description: 
+``` ```
+### Data: 
+``` ```
 
-# Workflow:
+## WGS Germline
+### Description: 
+``` /gscmnt/gc2521/dinglab/scao/cptac3/wgs/germline_per_sample/processing_description_121517.txt ```
+### Data: 
+``` /gscmnt/gc2521/dinglab/scao/cptac3/wgs/germline_per_sample  ```
 
-Process the following Analyses:
-* WXS Germline
-* Fusion
+## WGS Somatic
+### Description: 
+``` /gscmnt/gc2521/dinglab/scao/cptac3/wgs/somatic_per_sample/processing_description_121517.txt ```
+### Data: 
+``` /gscuser/scao/gc2521/dinglab/scao/cptac3/wgs/somatic_per_sample ```
 
-For each, need data and processing description.
 
-WXS Germline
-* Description: /gscmnt/gc2521/dinglab/scao/cptac3/wxs/germline_per_sample/processing_description_121517.txt
-* Data: /gscmnt/gc2521/dinglab/scao/cptac3/wxs/germline_per_sample
 
-Fusion
-* Description: /gscmnt/gc2521/dinglab/qgao/Scripts/Fusion/fusion_worklog
-* Data: /gscmnt/gc2521/dinglab/qgao/Submission/Fusion/Fusionsin*.txt
+
+
+
 
 # Data Summary
 
