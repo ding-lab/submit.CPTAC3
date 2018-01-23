@@ -47,6 +47,8 @@ else
     ONELINEDONE=1   # this lets us quit when one line has been printed
 fi
 
+>&2 echo Processing $CASE \($CANCER\)
+
 # Taking advantage of logic used to build sample name, which separates tumor and normal. E.g.,
 # C3L-00010.WXS.T
 # C3L-00010.WXS.N
@@ -117,7 +119,6 @@ printf $HEADER > $MANIFEST_FN
 while read CASE; do
 
     [[ $CASE = \#* ]] && continue  # Skip commented out entries
-    >&2 echo Processing $CASE
 
     process_case $CASE $COI >> $MANIFEST_FN
 
