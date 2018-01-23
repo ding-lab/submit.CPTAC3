@@ -8,11 +8,12 @@ PROCESSING_TXT=$2
 function stage_processing_description {
 COI=$1
 
-FN="$ANALYSIS.description.txt" 
+FN="processing_description.$ANALYSIS.$PROJECT.txt" 
 DESTD=$(getd $COI $ANALYSIS)
+DESTFN="$DESTD/$FN"
 
->&2 echo Copying $PROCESSING_TXT to $FN/$DESTD
-cp $PROCESSING_TXT $FN/$DESTD
+>&2 echo Copying $PROCESSING_TXT to $DESTFN
+cp $PROCESSING_TXT $DESTFN
 
 }
 
