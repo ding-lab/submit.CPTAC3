@@ -24,7 +24,7 @@ CANCER=$(cut -f 1,2 $SR | grep $CASE | cut -f 2 | sort -u)
 FN="$DATD/${CASE}.vcf"
 
 if [ ! -e $FN ]; then
-echo $FN does not exist.
+>&2 echo $FN does not exist.  Continuing
 return
 fi
 
@@ -32,9 +32,15 @@ fi
 DESTD=$(getd $CANCER $ANALYSIS)
 DESTFN="$DESTD/${ANALYSIS}.${CASE}.vcf.gz"
 
->2& echo Compressiong $FN to $DESTFN
-gzip -v - <$FN > $DESTFN
+if [ -e $DESTFN ] && [ -s $DESTFN ];  then  # file exists and is not zero size
+>&2 echo Destination file $DESTFN exists.  Not reprocessing.
+return
+fi
 
+>&2 echo Compressing $FN to $DESTFN
+#>&2 echo skipping gzip
+
+gzip -v - <$FN > $DESTFN
 }
 
 # Make staging directories
