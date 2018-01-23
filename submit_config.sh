@@ -10,9 +10,6 @@ IMPORT_CONFIG="/gscuser/mwyczalk/projects/CPTAC3/data/GDC_import/import.config/C
 # for download of BAM and FASTQ files from GDC
 SR="$IMPORT_CONFIG/SR.CPTAC3.b1.dat"
 
-# BamMap file is generated during download of BAM/FASTQ, provides paths to the sequence data
-BM="$IMPORT_CONFIG/CPTAC3.b1.WXS.BamMap.dat"
-
 PROJECT="CPTAC3.b1"
 BATCH="batch1"
 VER="v1.0"
@@ -29,6 +26,14 @@ STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}
 CPTACTRANSFER="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc/cptactransfer.py"
 # cptactransfer.py requires that cptactransfer.ini be in the current path
 INI="/gscuser/mwyczalk/projects/CPTAC3/submit.CPTAC3.b1.B/DCC/cptactransfer.ini"
+
+# Get the path to the BamMap file for a given experimental strategy
+function getBM {
+    SES=$1  # Source Experimental Strategy.  Typically WGS, WXS, or RNA-Seq
+    # BamMap file is generated during download of BAM/FASTQ, provides paths to the sequence data
+    echo "$IMPORT_CONFIG/$PROJECT.$SES.BamMap.dat"
+}
+
 
 ###
 # get canonical staging directory names.  This is what the paths on DCC will look like

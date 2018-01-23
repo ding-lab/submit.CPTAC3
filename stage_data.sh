@@ -5,6 +5,8 @@
 # analysis: canonical analysis name, e.g., WGS-Germline
 # datadir: root directory of data
 # datatype: type of data, i.e., suffix of data name
+# source-es: experimental strategy of input data: WGS, WXS, or RNA-Seq 
+#   this is used only to get the path to the appropriate BamMap file, which is parsed to get all cases
 #
 # There are assumptions about the filename of the source data; currently, it is assumed
 # to be of the format CASE.datatype (works for Song's VCF and MAF files).  Other formats will
@@ -14,7 +16,7 @@
 # -z: compress the file while staging
 # -f: force overwrite of target even if it exists
 # -d: dry run.  Only pretend to copy
-# -1: Stop after one
+# -1: Stop after one case
 
 source submit_config.sh
 
@@ -111,14 +113,15 @@ done
 shift $((OPTIND-1))
 
 # Require 3 arguments
-if [ "$#" -ne 3 ]; then
-    >&2 echo Error: Require 3 arguments: analysis, datadir, datatype
+if [ "$#" -ne 4 ]; then
+    >&2 echo Error: Require 4 arguments: analysis, datadir, datatype, source_es
     exit 1  # exit code 1 indicates error
 fi
 
 ANALYSIS=$1  # e.g. WGS-Somatic
 DATD=$2
 DATFT=$3
+SOURCE_ES=$4
 
 mkdir -p $STAGE_ROOT
 echo Writing data to $STAGE_ROOT
@@ -127,6 +130,9 @@ echo Writing data to $STAGE_ROOT
 for D in $DISEASES; do
     make_staging_dir $D
 done
+
+# get the BamMap path for this particular experimental strategy 
+BM=$(getBM $SOURCE_ES)
 
 
 while read CASE; do
