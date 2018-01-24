@@ -1,7 +1,8 @@
-Uploading and downloading of data to CPTAC DCC.
+# Uploading and downloading of data to CPTAC DCC.
 
-Brief summary of past work:
-  * submit.CPTAC3.b1.C - this project.  Using python, get "Server not responding." error
+## Brief summary of past work:
+
+  * submit.CPTAC3.b1.C - this project.  Moving from cptacdcc scripts to aspera ascp client
     - see README.networking-debug for details
   * submit.cptac3.b1.B - previous project.  Successfully used Python version of cptactransfer
     - /gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B
@@ -13,31 +14,22 @@ Brief summary of past work:
     - successfully use python version of cptactransfer
     - `cptactransfer.py` continues to work while submit.CPTAC3.b1.C at MGI does not
 
-DCC has private and restricted areas.  Scripts in package above for accessing both:
-    cptacdcc (for transferring from private portal) 
-    cptactransfer (for transferring from restricted area).
+DCC has private and restricted areas.  Focus here is transfer to restricted areas.
 
-Installation:
-    Downloaded to ~/src from :
-        http://edwardslab.bmcb.georgetown.edu/software/downloads/CPTAC-DCC/cptacdcc-1.6.20.src.tgz
-    to /gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20
+## Installation:
+    Need to download aspera connect: http://downloads.asperasoft.com/connect2//
 
-    Files cptacdcc.ini and cptactransfer.ini are copied from MGI, modified so that Install = /gscuser/mwyczalk/.aspera/cli
+    copy ascp_config.ini-template to ascp_config.ini, and define the username and token values
 
-Testing:
-    * Rework this to be more generic, simple.
-    * simply running cptactransfer should give back directory listing
+## Obtaining token
 
-    Test examples for cptacdcc:
-        Downloading SummaryReports.08272017 from
-            https://cptacdcc.georgetown.edu/cptac/dataPrivate/list/4_CPTAC2_Ovarian_Prospective_Collection_PNNL?currentPath=/cptac_shared
+Get the upload token from the web interface
+a. Login to https://cptc-xfer.uis.georgetown.edu/aspera/home.html with aspera direct login/password
+b. Browse to desired page/folder where you want to upload and Right click to go to ‘view page source’ to view the html source of the page
+c. On the Source page search (Ctrl+F) for the word 'send' and then look for a token tag in the html code and copy the code 
+e.g., `ATM3_cf867dcf96959cfd1f5339b67e390dafcf867dcf96959cfd1f5339b67e390dafuhdbaj_3MTA`
 
-        Using cptacdcc for this private data
+## Testing:
 
-        To view directory
-            cptacdcc cptac_shared/4_CPTAC2_Ovarian_Prospective_Collection_PNNL/SummaryReports.08272017/
-        To download
-            cptacdcc get cptac_shared/4_CPTAC2_Ovarian_Prospective_Collection_PNNL/SummaryReports.08272017/
-
-    Similar approach will work for restriced.  This is implemented in test_dcc_restricted.sh
+`ascp_test` copies a test data tree (`DCC-debug/test_dataset`) to root folder of DCC
 

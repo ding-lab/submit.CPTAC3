@@ -1,8 +1,5 @@
 # Project definitions
 
-DATD="dat"
-mkdir -p $DATD
-
 # SR and BAM MAP are used to get all cases and the associated disease
 IMPORT_CONFIG="/gscuser/mwyczalk/projects/CPTAC3/data/GDC_import/import.config/CPTAC3.b1"
 
@@ -22,16 +19,12 @@ DISEASES="CCRC UCEC"
 # where verbatim copy of uploaded data is stored
 STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
 
-# Uploading is with cptactransfer.py.  Define installation path
-#CPTACDCC="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc/cptactransfer.py"
-CPTACDCC="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc"
+#ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
+ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
+ASCP_INI="DCC/ascp_config.ini"
 
-# cptactransfer.py requires that cptactransfer.ini be in the current path
-INIR="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B/DCC/cptactransfer.ini"  # for DCC restricted
-INIP="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B/DCC/cptacdcc.ini"       # for DCC private
-
-if [ ! -e $INI ]; then
-    >&2 echo CPTAC Transfer file does not exist: $INI
+if [ ! -e $ASCP_INI ]; then
+    >&2 echo ASCP configuration file does not exist: $ASCP_INI
     exit 1
 fi
 

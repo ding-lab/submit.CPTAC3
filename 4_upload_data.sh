@@ -1,5 +1,7 @@
 
 #https://cptc-xfer.uis.georgetown.edu/aspera/home.html
 
-#bash upload_data.sh WGS-Germline
-bash upload_data.sh WGS-Somatic
+source submit_config.sh
+
+# Upload all staged data
+bash ascp_transfer.sh $STAGE_ROOT /
