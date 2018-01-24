@@ -3,5 +3,5 @@
 
 source submit_config.sh
 
-# Upload all staged data
-bash ascp_transfer.sh $STAGE_ROOT /
+# Upload all staged data.  Formulation below places all staged directories relative to / remotely
+bash ascp_transfer.sh "$STAGE_ROOT/*" /
