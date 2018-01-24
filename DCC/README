@@ -1,8 +1,17 @@
 Uploading and downloading of data to CPTAC DCC.
 
-Based on work here: 
-  * DC2 (earlier work) /home/mwyczalk_test/src/aspera/download
-  * MGI (later work) /gscuser/mwyczalk/projects/CPTAC3/DCC
+Brief summary of past work:
+  * submit.CPTAC3.b1.C - this project.  Using python, get "Server not responding." error
+    - see README.networking-debug for details
+  * submit.cptac3.b1.B - previous project.  Successfully used Python version of cptactransfer
+    - /gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B
+  * /gscuser/mwyczalk/projects/CPTAC3/DCC - prior work on MGI.  Was not able to get binary executable to work.
+    - Got help from MGI, issue ITSD-2310
+    - cptactransfer error: "Server not responding." 
+  * DC2: /home/mwyczalk_test/src/aspera/download - status unclear
+  * Epazote b1.A submission: /Users/mwyczalk/Data/CPTAC3/submit.CPTAC3.b1.A/DCC
+    - successfully use python version of cptactransfer
+    - `cptactransfer.py` continues to work while submit.CPTAC3.b1.C at MGI does not
 
 DCC has private and restricted areas.  Scripts in package above for accessing both:
     cptacdcc (for transferring from private portal) 
@@ -11,17 +20,13 @@ DCC has private and restricted areas.  Scripts in package above for accessing bo
 Installation:
     Downloaded to ~/src from :
         http://edwardslab.bmcb.georgetown.edu/software/downloads/CPTAC-DCC/cptacdcc-1.6.20.src.tgz
-    Note that for OS X usage, using python version of the client
+    to /gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20
 
-    Downloaded and installed 
-        http://download.asperasoft.com/download/sw/cli/3.7.6/aspera-cli-3.7.6.636.4d51a47-mac-10.7-64-release.sh
-
-    Added the following to ~/.bashrc_profile
-        export PATH="/Users/mwyczalk/Applications/Aspera\ CLI/bin:/Users/mwyczalk/src/cptacdcc:$PATH"
-
-    Files cptacdcc.ini and cptactransfer.ini are copied from MGI, modified so that Install = /Users/mwyczalk/Applications/Aspera CLI/bin
+    Files cptacdcc.ini and cptactransfer.ini are copied from MGI, modified so that Install = /gscuser/mwyczalk/.aspera/cli
 
 Testing:
+    * Rework this to be more generic, simple.
+    * simply running cptactransfer should give back directory listing
 
     Test examples for cptacdcc:
         Downloading SummaryReports.08272017 from

@@ -1,7 +1,7 @@
 ANALYSIS=$1
 
 source submit_config.sh
-ln -fs $INI
+ln -fs $INIR
 
 #https://cptc-xfer.uis.georgetown.edu/aspera/home.html
 
@@ -9,7 +9,8 @@ function transfer {
 DATA=$1
 REMOTE_DIR=$2
 
-python $CPTACTRANSFER put $DATA $REMOTE_DIR
+echo python $CPTACDCC/cptactransfer.py put $DATA $REMOTE_DIR
+exit
 
 }
 

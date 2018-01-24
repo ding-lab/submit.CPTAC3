@@ -23,9 +23,17 @@ DISEASES="CCRC UCEC"
 STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
 
 # Uploading is with cptactransfer.py.  Define installation path
-CPTACTRANSFER="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc/cptactransfer.py"
+#CPTACDCC="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc/cptactransfer.py"
+CPTACDCC="/gscuser/mwyczalk/projects/CPTAC3/DCC/cptacdcc-1.6.20/cptacdcc"
+
 # cptactransfer.py requires that cptactransfer.ini be in the current path
-INI="/gscuser/mwyczalk/projects/CPTAC3/submit.CPTAC3.b1.B/DCC/cptactransfer.ini"
+INIR="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B/DCC/cptactransfer.ini"  # for DCC restricted
+INIP="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.B/DCC/cptacdcc.ini"       # for DCC private
+
+if [ ! -e $INI ]; then
+    >&2 echo CPTAC Transfer file does not exist: $INI
+    exit 1
+fi
 
 # Get the path to the BamMap file for a given experimental strategy
 function getBM {
