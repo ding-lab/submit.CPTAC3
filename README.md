@@ -11,7 +11,9 @@ VCF is gzipped prior to upload
 # git strategy
 
 * Different submissions will have different directories on disk, but share codebase, which is versioned and tagged for every submit.  Implicit assumption is that submissions worked on one at a time, then not reworked thereafter.
-
+```
+git tag -a CPTAC3.b1.C
+```
 
 # Data source details
 
