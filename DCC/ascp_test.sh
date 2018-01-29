@@ -1,14 +1,17 @@
 # Based on email from Ratna Thangudu 1/24/18
 
-ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
+#ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
+source ../path_config.sh
+ASCP="$ASCP_CONNECT/bin/ascp"
+ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
 source ascp_config.ini
 
-SRC="DCC-debug/test_dataset"
+SRC="test_dataset.tmp"
 DEST="/"
 
-echo $ASCP  \
+$ASCP  \
  -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh \
  -P 33001 \
  -O 33001 \

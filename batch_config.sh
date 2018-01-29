@@ -1,12 +1,5 @@
 # Project definitions
 
-# SR and BAM MAP are used to get all cases and the associated disease
-IMPORT_CONFIG="/gscuser/mwyczalk/projects/CPTAC3/data/GDC_import/import.config/CPTAC3.b1"
-
-# SR file (from "Submitted Reads") is created by case discovery, and provides information necessary
-# for download of BAM and FASTQ files from GDC
-SR="$IMPORT_CONFIG/SR.CPTAC3.b1.dat"
-
 PROJECT="CPTAC3.b1"
 BATCH="batch1"
 VER="v1.0"
@@ -16,23 +9,25 @@ SUBMIT="C"  # This is not currently used, but implies WGS-Somatic and WGS-Germli
 # We loop through all these diseases
 DISEASES="CCRC UCEC"
 
-# where verbatim copy of uploaded data is stored
-STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
+# path_config has system-specific path info
+source path_config.sh
 
-#ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
-ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
+# not sure this should stay here...
 ASCP_INI="DCC/ascp_config.ini"
-
 if [ ! -e $ASCP_INI ]; then
     >&2 echo ASCP configuration file does not exist: $ASCP_INI
     exit 1
 fi
 
+echo STAGE_ROOT:
+echo $STAGE_ROOT
+exit
+
 # Get the path to the BamMap file for a given experimental strategy
 function getBM {
     SES=$1  # Source Experimental Strategy.  Typically WGS, WXS, or RNA-Seq
     # BamMap file is generated during download of BAM/FASTQ, provides paths to the sequence data
-    echo "$IMPORT_CONFIG/$PROJECT.$SES.BamMap.dat"
+    echo "$BMHOME/$PROJECT.$SES.BamMap.dat"
 }
 
 
