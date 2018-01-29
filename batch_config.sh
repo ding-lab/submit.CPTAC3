@@ -1,10 +1,10 @@
 # Project definitions
 
+DATESTAMP="20180128"  # YYYYMMDD
+SUBMIT="D"  # This is not currently used
 PROJECT="CPTAC3.b1"
 BATCH="batch1"
 VER="v1.0"
-DATESTAMP="20180122"  # YYYYMMDD
-SUBMIT="C"  # This is not currently used, but implies WGS-Somatic and WGS-Germline
 
 # We loop through all these diseases
 DISEASES="CCRC UCEC"
@@ -18,10 +18,6 @@ if [ ! -e $ASCP_INI ]; then
     >&2 echo ASCP configuration file does not exist: $ASCP_INI
     exit 1
 fi
-
-echo STAGE_ROOT:
-echo $STAGE_ROOT
-exit
 
 # Get the path to the BamMap file for a given experimental strategy
 function getBM {
