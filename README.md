@@ -49,4 +49,4 @@ Create a results.summary file, with the following columns for each Sample Name:
 
 # Upload
 
-using ascp 
+## How to test (`DCC/test_ascp.sh`)
