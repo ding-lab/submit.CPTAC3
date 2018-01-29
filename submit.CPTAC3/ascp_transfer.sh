@@ -6,7 +6,7 @@
 # dcc_dest: path to base directory where submitted data will be written on DCC.  
 # Note that the token must be obtained for dcc_dest; it is typically /
 
-source submit_config.sh
+source batch_config.sh
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
 source $ASCP_INI

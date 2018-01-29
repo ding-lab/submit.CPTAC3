@@ -1,6 +1,6 @@
 ANALYSIS=$1
 
-source submit_config.sh
+source batch_config.sh
 
 #https://cptc-xfer.uis.georgetown.edu/aspera/home.html
 

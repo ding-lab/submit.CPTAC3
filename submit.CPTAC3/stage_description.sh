@@ -1,7 +1,7 @@
 # Copy processing description to staging directory
 # Does this for all disease types 
 
-source submit_config.sh
+source batch_config.sh
 ANALYSIS=$1
 PROCESSING_TXT=$2
 

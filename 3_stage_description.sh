@@ -1,9 +1,6 @@
 
-# WGS Germline
-DAT="/gscmnt/gc2521/dinglab/scao/cptac3/wgs/germline_per_sample/processing_description_121517.txt"
-bash ./stage_description.sh "WGS-Germline" $DAT
+# WGS CNV
+DAT="/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/batch1/README.md"
+bash ./submit.CPTAC3/stage_description.sh "WGS-CNV" $DAT
 
-# WGS Somatic
-DAT="/gscmnt/gc2521/dinglab/scao/cptac3/wgs/somatic_per_sample/processing_description_121517.txt"
-bash ./stage_description.sh "WGS-Somatic" $DAT
 

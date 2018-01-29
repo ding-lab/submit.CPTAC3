@@ -1,17 +1,11 @@
 # Create and stage manifest files for WGS-Germline and WGS-Somatic
 # Note that there is one manifest file per disease
 
-ANALYSIS="WGS-Germline"
+ANALYSIS="WGS-CNV"
 SOURCE_ES="WGS" # Experimental Strategy
 REF="hg19"      # Reference
 
-bash ./write_manifest.sh -t germline -y "vcf.gz" $ANALYSIS $DATD $SOURCE_ES $REF
-
-ANALYSIS="WGS-Somatic"
-SOURCE_ES="WGS" # Experimental Strategy
-REF="hg19"      # Reference
-
-bash ./write_manifest.sh -t somatic -y "maf" $ANALYSIS $DATD $SOURCE_ES $REF
+bash ./submit.CPTAC3/write_manifest.sh -t cnv -y "vcf.gz" $ANALYSIS $DATD $SOURCE_ES $REF
 
 # Usage: 
 #  write_manifest.sh [options] analysis source-es reference

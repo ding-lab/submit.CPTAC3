@@ -20,6 +20,12 @@
 # -1: Stop after one case
 # -T: Data as tumor/normal pair
 
+# Note that CNV analysis differs significantly from germline/somatic wrapper results in that it has more than one result
+# per case; specifically, tumor and normal results exist for each case.
+# For now, "process_case" is tweaked so that the passed argument (CASE) is a string corresponding to the case ID for the
+# wrapper results (e.g., C3L-00003), whereas for CNV analyses (-T set), CASE takes values like C3L-00003.T and C3L-00003.N (from the sample name)
+# Such renaming is confusing and fragile, and in future revisions the flow should be reworked to incorporate these two cases more gracefully
+
 source batch_config.sh
 source submit.CPTAC3/get_SN.sh
 
