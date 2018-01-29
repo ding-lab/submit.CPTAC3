@@ -4,4 +4,4 @@
 source path_config.sh
 
 # Upload all staged data.  Formulation below places all staged directories relative to / remotely
-echo bash submit.CPTAC3/ascp_transfer.sh "$STAGE_ROOT/*" /
+bash submit.CPTAC3/ascp_transfer.sh "$STAGE_ROOT/*" /

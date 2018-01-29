@@ -1,10 +1,13 @@
 # Upload (submit) data to DCC
 # Usage:
-# ascp_transfer.sh local_src dcc_dest
+# ascp_transfer.sh [options] local_src dcc_dest
 #
 # local_src: path to base of local directory to be copied
 # dcc_dest: path to base directory where submitted data will be written on DCC.  
 # Note that the token must be obtained for dcc_dest; it is typically /
+
+# Options:
+# -d: dry run
 
 source batch_config.sh
 
@@ -12,6 +15,29 @@ source batch_config.sh
 source $ASCP_INI
 
 ASCP="$ASCP_CONNECT/bin/ascp"
+
+# http://wiki.bash-hackers.org/howto/getopts_tutorial
+while getopts ":d" opt; do
+  case $opt in
+    d) # Dry run 
+      >&2 echo "Dry run" >&2
+      ASCP="echo $ASCP"
+      ;;
+#    x) # example of value argument
+#      FILTER=$OPTARG
+#      >&2 echo "Setting memory $MEMGB Gb" 
+#      ;;
+    \?)
+      >&2 echo "Invalid option: -$OPTARG" 
+      exit 1
+      ;;
+    :)
+      >&2 echo "Option -$OPTARG requires an argument." 
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND-1))
 
 # Require 1 argument
 if [ "$#" -ne 2 ]; then
