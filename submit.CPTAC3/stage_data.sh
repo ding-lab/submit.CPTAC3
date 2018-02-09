@@ -3,8 +3,8 @@
 #  stage_data.sh [options] analysis datadir datatype source-es
 #
 # analysis: canonical analysis name, e.g., WGS-Germline
-# datadir: root directory of data
-# datatype: type of data, i.e., suffix of data name
+# datadir: root directory of data 
+# datatype: type of data, i.e., suffix of data name (DATFT). Used only for constructing source filename
 # source-es: experimental strategy of input data: WGS, WXS, or RNA-Seq 
 #   this is used only to get the path to the appropriate BamMap file, which is parsed to get all cases
 #
@@ -19,6 +19,7 @@
 # -d: dry run.  Only pretend to copy
 # -1: Stop after one case
 # -T: Data as tumor/normal pair
+# -D: Append cancer type to datadir, e.g., /data/UCEC/CASE.fn for UCEC
 
 # Note that CNV analysis differs significantly from germline/somatic wrapper results in that it has more than one result
 # per case; specifically, tumor and normal results exist for each case.
@@ -27,7 +28,7 @@
 # Such renaming is confusing and fragile, and in future revisions the flow should be reworked to incorporate these two cases more gracefully
 
 source batch_config.sh
-source submit.CPTAC3/get_SN.sh
+#source submit.CPTAC3/get_SN.sh  # this is no longer needed?
 
 # Make destination directory
 function make_staging_dir {
@@ -47,7 +48,11 @@ function process_case {
 
     # We may make this an assumption about the filename naming convention, with the understanding
     # that "CASE" here may be "CASE.T" or "CASE.N", if workflow spits these out individually
-    FN="$DATD/${CASE}.${DATFT}"
+    if [ -z $APPEND_DIS ]; then
+        FN="$DATD/${CASE}.${DATFT}"
+    else
+        FN="$DATD/$CANCER/${CASE}.${DATFT}"
+    fi
 
     if [ ! -e $FN ]; then  # Might be good to have option here to either warn or quit 
         >&2 echo $FN does not exist.  Quitting
@@ -90,7 +95,7 @@ function process_case {
 }
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":dzf1T" opt; do
+while getopts ":dzf1TD" opt; do
   case $opt in
     d) # Dry run 
       >&2 echo "Dry run" >&2
@@ -109,6 +114,9 @@ while getopts ":dzf1T" opt; do
       ;;
     T)  
       IS_TUMOR_NORMAL=1
+      ;;
+    D)  
+      APPEND_DIS=1
       ;;
 #    x) # example of value argument
 #      FILTER=$OPTARG

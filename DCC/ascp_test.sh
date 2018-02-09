@@ -3,7 +3,7 @@
 #ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
 source ../path_config.sh
 ASCP="$ASCP_CONNECT/bin/ascp"
-ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
+#ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
 source ascp_config.ini

@@ -1,12 +1,13 @@
-Submission scripts for CPTAC3.b1.D submission late January
+Submission scripts for CPTAC3.b1.E submission early February 2018
 
-* WGS CNV
+* WGS SV
 
 # Data sources
 
-## WGS CNV
+## WGS SV
 
-I've put per-sample VCFs at `/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/batch1`. There's also processing description in REAME.md (with address to the git repository containing the codes).
+UCEC: `/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/UCEC`
+CCRC: `/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/CCRC`
 
 # Git strategy
 
@@ -23,23 +24,14 @@ git tag -a CPTAC3.b1.C
 
 ## WGS CNV
 ### Description: 
-``` 
-/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/batch1/README.md
-```
+`/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.C/batch.dat/description.somaticSV.txt`
+
 ### Data: 
 ``` 
-/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/batch1/C3L-00032.N.vcf
+/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/CCRC/C3L-00359.somaticSV.filtered.vcf
 ```
 
 # Data Summary
-
-???
-
-Create a results.summary file, with the following columns for each Sample Name:
-* SampleName
-* Disease
-* AnalysisType
-* DataPath - where result file found
 
 # Manifest
 
