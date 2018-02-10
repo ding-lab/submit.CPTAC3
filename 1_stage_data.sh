@@ -3,7 +3,9 @@
 
 ANALYSIS="WGS-SV"
 DATD="/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF"
-FT="somaticSV.filtered.vcf"  # Leo's filename is CASE.somaticSV.filtered.vcf
+INPUT_SUFFIX="somaticSV.filtered.vcf"
+OUTPUT_SUFFIX="vcf"
+
 
 # -D adds disease name to path
-bash ./submit.CPTAC3/stage_data.sh -D $ANALYSIS $DATD $FT WGS
+bash ./submit.CPTAC3/stage_data.sh -D $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX WGS
