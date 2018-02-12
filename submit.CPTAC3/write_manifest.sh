@@ -39,7 +39,7 @@ source batch_config.sh
 # Old versions of BamMap have 9 columns.  Newer versions have filesize column, and 10 columns in all
 # UUID is the last column. Here, we simply hard code it, with the understanding that this will be changed to 10
 # once upstream analyses stabilize
-UUID_COL=9
+UUID_COL=10
 
 # Write to stdout manifest details for given case, provided that case cancer matches requested disease
 function process_case {
