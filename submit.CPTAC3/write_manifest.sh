@@ -42,7 +42,7 @@ source batch_config.sh
 # Old versions of BamMap have 9 columns.  Newer versions have filesize column, and 10 columns in all
 # UUID is the last column. Here, we simply hard code it, with the understanding that this will be changed to 10
 # once upstream analyses stabilize
-UUID_COL=9
+UUID_COL=10
 
 # Write to stdout manifest details for given case, provided that case cancer matches requested disease
 function process_case {
@@ -51,7 +51,8 @@ COI=$2  # the cancer of interest we wish to retain
 TUMOR_SUFFIX=$3  # T or N if MANIFEST_TYPE=cnv, ignored otherwise
     # see stage_data.sh comments for comments about multiple results per case
 
-CANCER=$(cut -f 1,2 $SR | grep $CASE | cut -f 2 | sort -u)
+# Batch 2 SR has Sample Name as first column, followed by case and disease
+CANCER=$(cut -f 2,3 $SR | grep $CASE | cut -f 2 | sort -u)
 
 # Skip without writing if cancer types differ
 if [ ! $COI == $CANCER ]; then
@@ -71,34 +72,34 @@ fi
 
 if [[ $MANIFEST_TYPE == "RNA-Seq" ]]; then
     R1SN="${CASE}.RNA-Seq.R1.T"
-    R1UUID=$(grep $R1SN $BM | cut -f $UUID_COL)
+    R1UUID=$(grep $R1SN $BAMMAP | cut -f $UUID_COL)
     if [ -z $R1UUID ]; then  # want to catch unmatched sample name because it leads to confusing errors downstream
-        >&2 echo Entry for $R1SN not found in $BM
+        >&2 echo Entry for $R1SN not found in $BAMMAP
         exit 1
     fi
-    R1FN=$(grep $R1SN $BM | cut -f 6 | xargs basename )
+    R1FN=$(grep $R1SN $BAMMAP | cut -f 6 | xargs basename )
     R2SN="${CASE}.RNA-Seq.R2.T"
-    R2UUID=$(grep $R2SN $BM | cut -f $UUID_COL)
-    R2FN=$(grep $R2SN $BM | cut -f 6 | xargs basename )
+    R2UUID=$(grep $R2SN $BAMMAP | cut -f $UUID_COL)
+    R2FN=$(grep $R2SN $BAMMAP | cut -f 6 | xargs basename )
 
 
 else  # Using WGS/WXS BAM files.  Find tumor and normal samples in BamMap and add them to manifest as appropriate for analysis type
       # Note that we are *assuming* what the upstream analysis did; it would be better if they provided us this list
     TSN="${CASE}.${SOURCE_ES}.T"
-    TUUID=$(grep $TSN $BM | cut -f $UUID_COL)
+    TUUID=$(grep $TSN $BAMMAP | cut -f $UUID_COL)
     if [ -z $TUUID ]; then  # want to catch unmatched sample name because it leads to confusing errors downstream
-        >&2 echo Entry for $TSN not found in $BM
+        >&2 echo Entry for $TSN not found in $BAMMAP
         exit 1
     fi
-    TFN=$(grep $TSN $BM | cut -f 6 | xargs basename )
+    TFN=$(grep $TSN $BAMMAP | cut -f 6 | xargs basename )
 
     NSN="${CASE}.${SOURCE_ES}.N"
-    NUUID=$(grep $NSN $BM | cut -f $UUID_COL)
+    NUUID=$(grep $NSN $BAMMAP | cut -f $UUID_COL)
     if [ -z $NUUID ]; then
-        >&2 echo Entry for $NSN not found in $BM
+        >&2 echo Entry for $NSN not found in $BAMMAP
         exit 1
     fi
-    NFN=$(grep $NSN $BM | cut -f 6 | xargs basename )
+    NFN=$(grep $NSN $BAMMAP | cut -f 6 | xargs basename )
 fi
  
 # Constructing FN as generated during staging
@@ -185,7 +186,7 @@ while read CASE; do
         exit 0  # 0 indicates no error 
     fi
 
-done < <(grep -v "^#" $BM | cut -f 2 | sort -u)  # pull out all case IDs out of BamMap and loop through them
+done < <(grep -v "^#" $BAMMAP | cut -f 2 | sort -u)  # pull out all case IDs out of BamMap and loop through them
 
 >&2 echo Written to $MANIFEST_FN
 }
@@ -242,9 +243,6 @@ fi
 ANALYSIS=$1
 SOURCE_ES=$2 # "WGS" # Experimental Strategy
 REF=$3 # "hg19"      # Reference
-
-# get the BamMap path for this particular experimental strategy 
-BM=$(getBM $SOURCE_ES)
 
 for COI in $DISEASES; do
     write_disease_manifest $COI

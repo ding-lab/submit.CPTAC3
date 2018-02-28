@@ -1,26 +1,24 @@
-Submission scripts for CPTAC3.b1.F submission February 2018
+Submission scripts for CPTAC3.b2.A submission February 2018
 
-* Timestamp: 20180225
-* De Novo pipeline.  Processing RNA-Seq.
+* Timestamp: 20180228
+    * WGS SV 
+    * WXS CNV
 
 # Data sources
 
-Description: /Projects/cptac/denovo/Scripts/denovo_worklog
-TODO: Edit the description to remove local dependencies 
+## WGS SV
 
-Data: /Projects/cptac/denovo/Submission
+Results: `/diskmnt/Projects/Users/wliao/CPTAC3/somatic/SV/batch2`
 
-Data filename example: `CCRC__C3N-00194.fasta.gz`
+Please read README.md for the workflow description: `/diskmnt/Projects/Users/wliao/CPTAC3/somatic/SV/batch2/README.md`
 
-Note that these files are ~1Gb in size uncompressed.  Qingsong has compressed these.
+Data filename example: `C3L-00004.SV.WGS.vcf`
 
-# Description (updated)
-```
-RNA-Seq denovo assembly was preformed with Trinity (v2.5.1), available at https://github.com/trinityrnaseq/trinityrnaseq/releases
+## WXS CNV
 
-Output files are in standard FASTA format.  Details can be found in https://github.com/trinityrnaseq/trinityrnaseq/wiki/Output-of-Trinity-Assembly
-```
-This is saved to the file `description/RNA-Seq_DeNovo.txt` by the script `3_stage_description.sh`
+Results: `/diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables`
+Processing: /diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables/README.md
+Filename exmple: `C3L-00769.gatk4wxscnv.cnv`
 
 
 # Git strategy

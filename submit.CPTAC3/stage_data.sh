@@ -162,16 +162,13 @@ for D in $DISEASES; do
     make_staging_dir $D
 done
 
-# get the BamMap path for this particular experimental strategy 
-BM=$(getBM $SOURCE_ES)
-
-
 while read C; do
 
     [[ $C = \#* ]] && continue  # Skip commented out entries
     >&2 echo Processing $C
 
-    CANCER=$(cut -f 1,2 $SR | grep $C | cut -f 2 | sort -u)
+    # Batch 2 SR has Sample Name as first column, followed by case and disease
+    CANCER=$(cut -f 2,3 $SR | grep $C | cut -f 2 | sort -u)
 
     if [ $IS_TUMOR_NORMAL ]; then
     # this mimicks naming convention in BamMap
@@ -186,4 +183,4 @@ while read C; do
         exit 0  # 0 indicates no error 
     fi
 
-done < <(grep -v "^#" $BM | cut -f 2 | sort -u)  # pull out all case IDs out of BamMap and loop through them
+done < <(grep -v "^#" $BAMMAP | cut -f 2 | sort -u)  # pull out all case IDs out of BamMap and loop through them

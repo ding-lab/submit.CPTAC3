@@ -1,9 +1,9 @@
 # Project definitions
 
 DATESTAMP="20180228"  # YYYYMMDD
-SUBMIT="F"  # This is not currently used
-PROJECT="CPTAC3.b1"
-BATCH="batch1"
+SUBMIT="A"  # This is not currently used
+PROJECT="CPTAC3.b2"
+BATCH="batch2"
 VER="v1.0"
 
 # We loop through all these diseases
@@ -19,11 +19,9 @@ if [ ! -e $ASCP_INI ]; then
     exit 1
 fi
 
-# Get the path to the BamMap file for a given experimental strategy
+# Deprecated.  Simply returns $BAMMAP
 function getBM {
-    SES=$1  # Source Experimental Strategy.  Typically WGS, WXS, or RNA-Seq
-    # BamMap file is generated during download of BAM/FASTQ, provides paths to the sequence data
-    echo "$BMHOME/$PROJECT.$SES.BamMap.dat"
+    echo $BAMMAP
 }
 
 
