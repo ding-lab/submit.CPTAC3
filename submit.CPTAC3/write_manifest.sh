@@ -6,28 +6,31 @@
 # source-es: experimental strategy of input data: WGS or WXS typically
 # reference: the reference used in this analysis.  e.g., 'hg19'
 
-# There are assumptions about the nature of the source data, which is determined by -t manifest_type
-# If -t is cnv, assumed data has both tumor and normal files 
-# If -t is germline or somatic, assumed that one data file per case
+# The parameter "-t manifest_type" determines the data files associated with analysis for this case
+# The following types are known: cnv, germline, somatic, tumor, RNA-Seq
+#  * germline: normal sample associated with each case
+#  * tumor: tumor sample associated with each case
+#  * somatic: a paired tumor and normal sample associated with each case
+#  * cnv: tumor and normal samples are analyzed individually for each case
+#  * RNA-Seq: two FASTQ data files (R1, R2) associated with each case
+# Development notes: Ideally, upstream analyses should report explicitly what files they used, rather than us
+# having to assume it here.  In particular, adjacent normal analysis may complicate this scheme significantly
 #
 # Options:
 # -1: Stop after one case
-# -t manifest_type: currently only the following are known
-#       germline - only normal sample indicated
-#       somatic - both germline and tumor sample (default)
-#       cnv - germline and tumor samples are analyzed independently
+# -t manifest_type: See above.  somatic is default
 # -y filetype: the type of data, e.g., 'maf' or 'vcf', as output in manifest. Default is 'vcf'
 # -s file_suffix: Used to construct data filename, as ANALYSIS.CASE.SUFFIX
 #       If not defined, set to value of filetype
 
-# Manifest columns - note this differs slightly based on 
+# Manifest columns - note this differs slightly based on manifest_type
 # * cancer
 # * case_ID
 # * input_experimental_strategy
-# * tumor_submitter_id          SOMATIC ONLY
-# * tumor_UUID                  SOMATIC ONLY
-# * normal_submitter_id
-# * normal_UUID
+# * tumor_submitter_id          Varies with manifest_type
+# * tumor_UUID                  Varies with manifest_type
+# * normal_submitter_id         Varies with manifest_type
+# * normal_UUID                 Varies with manifest_type
 # * reference_version
 # * file_type
 # * file_name
@@ -39,7 +42,7 @@ source batch_config.sh
 # Old versions of BamMap have 9 columns.  Newer versions have filesize column, and 10 columns in all
 # UUID is the last column. Here, we simply hard code it, with the understanding that this will be changed to 10
 # once upstream analyses stabilize
-UUID_COL=10
+UUID_COL=9
 
 # Write to stdout manifest details for given case, provided that case cancer matches requested disease
 function process_case {
@@ -62,23 +65,41 @@ fi
 # Taking advantage of logic used to build sample name, which separates tumor and normal. E.g.,
 # C3L-00010.WXS.T
 # C3L-00010.WXS.N
-TSN="${CASE}.${SOURCE_ES}.T"
-TUUID=$(grep $TSN $BM | cut -f $UUID_COL)
-if [ -z $TUUID ]; then  # want to catch unmatched sample name because it leads to confusing errors downstream
-    >&2 echo Entry for $TSN not found in $BM
-    exit 1
-fi
-TFN=$(grep $TSN $BM | cut -f 6 | xargs basename )
+# incorporate this into logic
+    # C3L-000010.RNA-Seq.R1.T
+    # C3L-000010.RNA-Seq.R2.T
 
-NSN="${CASE}.${SOURCE_ES}.N"
-NUUID=$(grep $NSN $BM | cut -f $UUID_COL)
-if [ -z $NUUID ]; then
-    >&2 echo Entry for $NSN not found in $BM
-    exit 1
-fi
-NFN=$(grep $NSN $BM | cut -f 6 | xargs basename )
+if [[ $MANIFEST_TYPE == "RNA-Seq" ]]; then
+    R1SN="${CASE}.RNA-Seq.R1.T"
+    R1UUID=$(grep $R1SN $BM | cut -f $UUID_COL)
+    if [ -z $R1UUID ]; then  # want to catch unmatched sample name because it leads to confusing errors downstream
+        >&2 echo Entry for $R1SN not found in $BM
+        exit 1
+    fi
+    R1FN=$(grep $R1SN $BM | cut -f 6 | xargs basename )
+    R2SN="${CASE}.RNA-Seq.R2.T"
+    R2UUID=$(grep $R2SN $BM | cut -f $UUID_COL)
+    R2FN=$(grep $R2SN $BM | cut -f 6 | xargs basename )
 
-SSID=$(echo $NFN | cut -f 1 -d .)
+
+else  # Using WGS/WXS BAM files.  Find tumor and normal samples in BamMap and add them to manifest as appropriate for analysis type
+      # Note that we are *assuming* what the upstream analysis did; it would be better if they provided us this list
+    TSN="${CASE}.${SOURCE_ES}.T"
+    TUUID=$(grep $TSN $BM | cut -f $UUID_COL)
+    if [ -z $TUUID ]; then  # want to catch unmatched sample name because it leads to confusing errors downstream
+        >&2 echo Entry for $TSN not found in $BM
+        exit 1
+    fi
+    TFN=$(grep $TSN $BM | cut -f 6 | xargs basename )
+
+    NSN="${CASE}.${SOURCE_ES}.N"
+    NUUID=$(grep $NSN $BM | cut -f $UUID_COL)
+    if [ -z $NUUID ]; then
+        >&2 echo Entry for $NSN not found in $BM
+        exit 1
+    fi
+    NFN=$(grep $NSN $BM | cut -f 6 | xargs basename )
+fi
  
 # Constructing FN as generated during staging
 
@@ -107,12 +128,16 @@ if [[ $MANIFEST_TYPE == "somatic" ]]; then
     printf "$CANCER\t$CASE\t$SOURCE_ES\t$TFN\t$TUUID\t$NFN\t$NUUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n" 
 elif [[ $MANIFEST_TYPE == "germline" ]]; then
     printf "$CANCER\t$CASE\t$SOURCE_ES\t$NFN\t$NUUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n" 
+elif [[ $MANIFEST_TYPE == "tumor" ]]; then
+    printf "$CANCER\t$CASE\t$SOURCE_ES\t$TFN\t$TUUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n" 
 elif [[ $MANIFEST_TYPE == "cnv" ]]; then
     if [[ $TUMOR_SUFFIX == "T" ]]; then
         printf "$CANCER\t$CASE\t$SOURCE_ES\t$TFN\t$TUUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n" 
     else
         printf "$CANCER\t$CASE\t$SOURCE_ES\t$NFN\t$NUUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n" 
     fi
+elif [[ $MANIFEST_TYPE == "RNA-Seq" ]]; then
+    printf "$CANCER\t$CASE\t$SOURCE_ES\t$R1FN\t$R1UUID\t$R2FN\t$R2UUID\t$REF\t$FILETYPE\t$FN\t$SIZE\t$MD5\n"
 else
     &>2 echo Unknown manifest type: $MANIFEST_FN
 fi
@@ -130,9 +155,13 @@ if [[ $MANIFEST_TYPE == "somatic" ]]; then
     HEADER="cancer\tcase_ID\tinput_experimental_strategy\ttumor_submitter_id\ttumor_UUID\tnormal_submitter_id\tnormal_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
 elif [[ $MANIFEST_TYPE == "germline" ]]; then
     HEADER="cancer\tcase_ID\tinput_experimental_strategy\tnormal_submitter_id\tnormal_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
+elif [[ $MANIFEST_TYPE == "tumor" ]]; then
+    HEADER="cancer\tcase_ID\tinput_experimental_strategy\ttumor_submitter_id\ttumor_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
 elif [[ $MANIFEST_TYPE == "cnv" ]]; then
     # we're changing to "input_UUID", etc., to avoid confusion since both tumor and normal have separate results
     HEADER="cancer\tcase_ID\tinput_experimental_strategy\tinput_submitter_id\tinput_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
+elif [[ $MANIFEST_TYPE == "RNA-Seq" ]]; then
+    HEADER="cancer\tcase_ID\tinput_experimental_strategy\tR1_submitter_id\tR1_UUID\tR2_submitter_id\tR2_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
 else
     &>2 echo Unknown manifest type: $MANIFSET_TYPE
 fi
@@ -203,9 +232,10 @@ if [ "$#" -ne 3 ]; then
     exit 1  # exit code 1 indicates error
 fi
 
-if [[ "$MANIFEST_TYPE" != "somatic" && "$MANIFEST_TYPE" != "germline" && "$MANIFEST_TYPE" != "cnv" ]]; then
+if [[ "$MANIFEST_TYPE" != "somatic" && "$MANIFEST_TYPE" != "germline" && "$MANIFEST_TYPE" != "tumor" \
+        && "$MANIFEST_TYPE" != "cnv" && "$MANIFEST_TYPE" != "RNA-Seq" ]]; then
     >&2 echo Error: unknown manifest type : $MANIFEST_TYPE
-    >&2 echo Must be one of : somatic, germline, cnv
+    >&2 echo Must be one of : somatic, germline, tumor, cnv, RNA-Seq
     exit 1
 fi
 

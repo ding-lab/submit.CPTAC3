@@ -1,7 +1,7 @@
 # Project definitions
 
-DATESTAMP="20180209"  # YYYYMMDD
-SUBMIT="E"  # This is not currently used
+DATESTAMP="20180228"  # YYYYMMDD
+SUBMIT="F"  # This is not currently used
 PROJECT="CPTAC3.b1"
 BATCH="batch1"
 VER="v1.0"

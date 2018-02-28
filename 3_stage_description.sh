@@ -1,6 +1,6 @@
+DAT="description/RNA-Seq_DeNovo.txt"
+ANALYSIS="RNA-Seq_DeNovo"
 
-# WGS CNV
-DAT="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.C/batch.dat/description.somaticSV.txt"
-bash ./submit.CPTAC3/stage_description.sh "WGS-SV" $DAT
+bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT
 
 

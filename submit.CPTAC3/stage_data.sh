@@ -21,6 +21,7 @@
 # -1: Stop after one case
 # -T: Data as tumor/normal pair
 # -D: Append cancer type to datadir, e.g., /data/UCEC/CASE.fn for UCEC
+# -Q: Append cancer type to filename, e.g., /data/UCEC__CASE.fn for UCEC.  This is ad hoc and can be removed after file naming standardized
 
 # Note that CNV analysis differs significantly from germline/somatic wrapper results in that it has more than one result
 # per case; specifically, tumor and normal results exist for each case.
@@ -52,6 +53,8 @@ function process_case {
     # FN is the input filename
     if [ -z $APPEND_DIS ]; then
         FN="$DATD/${CASE}.${INPUT_SUFFIX}"
+    elif [ -z $QS_MODE ]; then
+        FN="$DATD/${CANCER}__${CASE}.${INPUT_SUFFIX}"
     else
         FN="$DATD/$CANCER/${CASE}.${INPUT_SUFFIX}"
     fi
@@ -97,7 +100,7 @@ function process_case {
 }
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":dzf1TD" opt; do
+while getopts ":dzf1TDQ" opt; do
   case $opt in
     d) # Dry run 
       >&2 echo "Dry run" >&2
@@ -119,6 +122,9 @@ while getopts ":dzf1TD" opt; do
       ;;
     D)  
       APPEND_DIS=1
+      ;;
+    Q) # Ad hoc naming mode where filename is e.g., /data/UCEC__C3N-00734.suffix
+      QG_MODE=1
       ;;
 #    x) # example of value argument
 #      FILTER=$OPTARG

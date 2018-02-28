@@ -1,13 +1,27 @@
-Submission scripts for CPTAC3.b1.E submission early February 2018
+Submission scripts for CPTAC3.b1.F submission February 2018
 
-* WGS SV
+* Timestamp: 20180225
+* De Novo pipeline.  Processing RNA-Seq.
 
 # Data sources
 
-## WGS SV
+Description: /Projects/cptac/denovo/Scripts/denovo_worklog
+TODO: Edit the description to remove local dependencies 
 
-UCEC: `/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/UCEC`
-CCRC: `/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/CCRC`
+Data: /Projects/cptac/denovo/Submission
+
+Data filename example: `CCRC__C3N-00194.fasta.gz`
+
+Note that these files are ~1Gb in size uncompressed.  Qingsong has compressed these.
+
+# Description (updated)
+```
+RNA-Seq denovo assembly was preformed with Trinity (v2.5.1), available at https://github.com/trinityrnaseq/trinityrnaseq/releases
+
+Output files are in standard FASTA format.  Details can be found in https://github.com/trinityrnaseq/trinityrnaseq/wiki/Output-of-Trinity-Assembly
+```
+This is saved to the file `description/RNA-Seq_DeNovo.txt` by the script `3_stage_description.sh`
+
 
 # Git strategy
 
@@ -20,25 +34,3 @@ thereafter (pearls on a string).
 git tag -a CPTAC3.b1.C
 ```
 
-# Data source details
-
-## WGS CNV
-### Description: 
-`/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b1.C/batch.dat/description.somaticSV.txt`
-
-### Data: 
-``` 
-/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF/CCRC/C3L-00359.somaticSV.filtered.vcf
-```
-
-# Data Summary
-
-# Manifest
-
-
-# Staging
-
-
-# Upload
-
-## How to test (`DCC/test_ascp.sh`)

@@ -1,10 +1,10 @@
 # Stage WGS-SV
 # WGS-Germline has large VCF-format output. Compress it (gz) during staging
 
-ANALYSIS="WGS-SV"
-DATD="/gscmnt/gc2521/dinglab/wliao/somatic/SV/Manta/filtered_VCF"
-INPUT_SUFFIX="somaticSV.filtered.vcf"
-OUTPUT_SUFFIX="vcf"
+ANALYSIS="RNA-Seq_DeNovo"
+DATD="/Projects/cptac/denovo/Submission"
+INPUT_SUFFIX="fasta.gz"
+OUTPUT_SUFFIX="fasta.gz"
 
 
 # -D adds disease name to path
