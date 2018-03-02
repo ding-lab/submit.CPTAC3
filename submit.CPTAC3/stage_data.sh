@@ -162,6 +162,15 @@ for D in $DISEASES; do
     make_staging_dir $D
 done
 
+if [ -z $BAMMAP ]; then
+>&2 echo ERROR: BAMMAP undefined.  Quitting
+exit 1
+fi
+if [ ! -f $BAMMAP ]; then
+>&2 echo ERROR: BAMMAP file $BAMMAP does not exist.  Quitting
+exit 1
+fi
+
 while read C; do
 
     [[ $C = \#* ]] && continue  # Skip commented out entries

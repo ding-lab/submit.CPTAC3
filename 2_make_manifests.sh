@@ -1,19 +1,19 @@
 # SV uses both Tumor and Normal WGS data to produce calls.  As a result, using -t somatic
 
-ANALYSIS="WGS_SV"
-SOURCE_ES="WGS" # Experimental Strategy
+ANALYSIS="WXS_Germline"
+SOURCE_ES="WXS" # Experimental Strategy
 REF="hg19"      # Reference
-MANIFEST_TYPE="somatic"
-RESULT_SUFFIX="vcf"
+MANIFEST_TYPE="germline"
+RESULT_SUFFIX="maf.gz"
 
 bash ./submit.CPTAC3/write_manifest.sh -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $DATD $SOURCE_ES $REF
 
 # 
-ANALYSIS="WXS_CNV"
+ANALYSIS="WXS_Somatic"
 SOURCE_ES="WXS" # Experimental Strategy
 REF="hg19"      # Reference
 MANIFEST_TYPE="somatic"
-RESULT_SUFFIX="cnv"
+RESULT_SUFFIX="maf.gz"
 
 bash ./submit.CPTAC3/write_manifest.sh -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $DATD $SOURCE_ES $REF
 

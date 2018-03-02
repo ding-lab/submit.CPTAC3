@@ -1,10 +1,10 @@
-DAT="/diskmnt/Projects/Users/wliao/CPTAC3/somatic/SV/batch2/README.md"
-ANALYSIS="WGS_SV"
+DAT="/gscmnt/gc2741/ding/scao/cptac3/batch2/wxs/germline_per_sample/processing_description.txt"
+ANALYSIS="WXS_Germline"
 bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT
 
 
-DAT="/diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables/README.md"
-ANALYSIS="WXS_CNV"
+DAT="/gscmnt/gc2741/ding/scao/cptac3/batch2/wxs/somatic_per_sample/processing_description.txt"
+ANALYSIS="WXS_Somatic"
 bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT
 
 
