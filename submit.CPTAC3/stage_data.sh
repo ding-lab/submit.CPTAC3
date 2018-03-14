@@ -1,6 +1,6 @@
 # stage data by copying source data to target.  Staging directories created
 # Usage: 
-#  stage_data.sh [options] analysis datadir input.suffix output.suffix source-es
+#  stage_data.sh [options] analysis datadir input.suffix output.suffix source-es pipeline_version
 #
 # analysis: canonical analysis name, e.g., WGS-Germline
 # datadir: root directory of data 
@@ -8,6 +8,7 @@
 # output.suffix: suffix of output filename.  Added to CASE to construct output filename.  Need not be the same as input.suffix
 # source-es: experimental strategy of input data: WGS, WXS, or RNA-Seq 
 #   this is used only to get the path to the appropriate BamMap file, which is parsed to get all cases
+# pipeline_version: a text identifier of this pipeline, used for destination path creation
 #
 # There are assumptions about the filename of the source data, which is determined by -T flag.
 # If -T not set, assumed that one data file per case, with the data filename format CASE.suffix 
@@ -35,7 +36,7 @@ source batch_config.sh
 # Make destination directory
 function make_staging_dir {
     CANCER=$1
-    mkdir -p $(getd $CANCER $ANALYSIS)
+    mkdir -p $(getd $CANCER $ANALYSIS $PIPELINE_VER)
 }
 
 # for CNV, each case has two results, one for tumor and one for normal
@@ -65,7 +66,7 @@ function process_case {
     fi
 
     # Staging directory
-    DESTD=$(getd $CANCER $ANALYSIS)
+    DESTD=$(getd $CANCER $ANALYSIS $PIPELINE_VER)
 
     if [ $COMPRESS ]; then
         DESTFN="$DESTD/${ANALYSIS}.${CASE}.${OUTPUT_SUFFIX}.gz"
@@ -149,10 +150,10 @@ fi
 
 ANALYSIS=$1  # e.g. WGS-Somatic
 DATD=$2
-#DATFT=$3
 INPUT_SUFFIX=$3
 OUTPUT_SUFFIX=$4
 SOURCE_ES=$5
+PIPELINE_VER=$6
 
 mkdir -p $STAGE_ROOT
 echo Writing data to $STAGE_ROOT

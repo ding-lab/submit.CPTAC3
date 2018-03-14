@@ -1,10 +1,9 @@
 # Project definitions
 
 DATESTAMP="20180302"  # YYYYMMDD
-SUBMIT="B"  
-PROJECT="CPTAC3.b2"
-BATCH="batch2"
-VER="v1.0"
+SUBMIT="C"  
+PROJECT="CPTAC3.b3"
+BATCH="batch3"
 
 # We loop through all these diseases
 DISEASES="CCRC UCEC"
@@ -42,6 +41,12 @@ function getrd { # get the remote directory name.
 function getd {
     CANCER=$1
     ANALYSIS=$2
+    PVER=$3
+	if [ -z $PVER ]; then
+		>&2 echo Error: Pipeline version not passed to getd()
+		exit 1
+	fi
+
     D=$(getrd $CANCER)
-    echo $STAGE_ROOT/$D/${CANCER}_${ANALYSIS}_${BATCH}_${VER}_${DATESTAMP}
+    echo $STAGE_ROOT/$D/${CANCER}_${ANALYSIS}_${BATCH}_${PVER}_${DATESTAMP}
 }

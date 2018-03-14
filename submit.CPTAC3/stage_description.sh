@@ -4,12 +4,13 @@
 source batch_config.sh
 ANALYSIS=$1
 PROCESSING_TXT=$2
+PIPELINE_VER=$3
 
 function stage_processing_description {
 COI=$1
 
 FN="processing_description.$ANALYSIS.$PROJECT.txt" 
-DESTD=$(getd $COI $ANALYSIS)
+DESTD=$(getd $COI $ANALYSIS $PIPELINE_VER)
 DESTFN="$DESTD/$FN"
 
 >&2 echo Copying $PROCESSING_TXT to $DESTFN

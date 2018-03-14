@@ -1,10 +1,11 @@
 # stage data by copying source data to target.  Staging directories created
 # Usage: 
-#  write_manifest.sh [options] analysis source-es reference
+#  write_manifest.sh [options] analysis source-es reference pipeline_version
 #
 # analysis: canonical analysis name, e.g., WGS-Germline
 # source-es: experimental strategy of input data: WGS or WXS typically
 # reference: the reference used in this analysis.  e.g., 'hg19'
+# pipeline_version: a text identifier of this pipeline, used for destination path creation
 
 # The parameter "-t manifest_type" determines the data files associated with analysis for this case
 # The following types are known: cnv, germline, somatic, tumor, RNA-Seq
@@ -114,7 +115,7 @@ else
     #   `Somatic.WXS/C3L-00010.maf
     FN="$ANALYSIS.${CASE}.${FILE_SUFFIX}"
 fi
-DESTD=$(getd $CANCER $ANALYSIS)
+DESTD=$(getd $CANCER $ANALYSIS $PIPELINE_VER)
 DESTFN="$DESTD/$FN"  # this is the staged filename
 
 if [ ! -e $DESTFN ] ; then
@@ -149,7 +150,7 @@ fi
 function write_disease_manifest {
 COI=$1  # The cancer of interest we wish to retain
 
-DESTD=$(getd $COI $ANALYSIS)
+DESTD=$(getd $COI $ANALYSIS $PIPELINE_VER)
 MANIFEST_FN="$DESTD/manifest.$ANALYSIS.$PROJECT.$COI.dat"
 
 if [[ $MANIFEST_TYPE == "somatic" ]]; then
@@ -228,8 +229,8 @@ if [ -z $FILE_SUFFIX ]; then
 fi
 
 # Require 3 arguments
-if [ "$#" -ne 3 ]; then
-    >&2 echo Error: Require 3 arguments: analysis, source-es, referenece
+if [ "$#" -ne 4 ]; then
+    >&2 echo Error: Require 4 arguments: analysis, source-es, reference, pipeline_version
     exit 1  # exit code 1 indicates error
 fi
 
@@ -243,6 +244,7 @@ fi
 ANALYSIS=$1
 SOURCE_ES=$2 # "WGS" # Experimental Strategy
 REF=$3 # "hg19"      # Reference
+PIPELINE_VER=$4      # e.g., "v1.0"
 
 for COI in $DISEASES; do
     write_disease_manifest $COI
