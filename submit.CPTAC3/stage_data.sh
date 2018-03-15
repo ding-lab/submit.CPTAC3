@@ -143,8 +143,8 @@ while getopts ":dzf1TDQ" opt; do
 done
 shift $((OPTIND-1))
 
-if [ "$#" -ne 5 ]; then
-    >&2 echo Error: Require 5 arguments: analysis, datadir, input.suffix, output.suffix, source_es
+if [ "$#" -ne 6 ]; then
+    >&2 echo Error: Require 5 arguments: analysis, datadir, input.suffix, output.suffix, source_es, pipeline_version
     exit 1  # exit code 1 indicates error
 fi
 

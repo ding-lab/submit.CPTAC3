@@ -1,4 +1,4 @@
-# stage data by copying source data to target.  Staging directories created
+# Create a manifest file to provide metadata on analysis type
 # Usage: 
 #  write_manifest.sh [options] analysis source-es reference pipeline_version
 #
@@ -17,12 +17,19 @@
 # Development notes: Ideally, upstream analyses should report explicitly what files they used, rather than us
 # having to assume it here.  In particular, adjacent normal analysis may complicate this scheme significantly
 #
+# An additional use case is having two types of output files per analysis, for instance, Transcript BED and FPKM
+# files.  In general, we check if a manifest file already exists and exit with an error if it does.
+# If -a is specified, we will append to an existing manifest file if it exists, and not write an additional
+# header. Care should be taken that the manifest type in the secondary invocation is the same as in the first,
+# so that columns retain the same meaning
+#
 # Options:
 # -1: Stop after one case
 # -t manifest_type: See above.  somatic is default
 # -y filetype: the type of data, e.g., 'maf' or 'vcf', as output in manifest. Default is 'vcf'
 # -s file_suffix: Used to construct data filename, as ANALYSIS.CASE.SUFFIX
 #       If not defined, set to value of filetype
+# -a: append to an existing manifest file, and do not write header
 
 # Manifest columns - note this differs slightly based on manifest_type
 # * cancer
@@ -168,7 +175,9 @@ else
     &>2 echo Unknown manifest type: $MANIFSET_TYPE
 fi
 
-printf $HEADER > $MANIFEST_FN
+if [ -z $APPEND_EXISTING ]; then
+	printf $HEADER > $MANIFEST_FN
+fi
 
 while read CASE; do
 
@@ -197,7 +206,7 @@ MANIFEST_TYPE="somatic"
 FILETYPE="vcf"
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":1t:y:s:" opt; do
+while getopts ":1t:y:s:a" opt; do
   case $opt in
     1)  
       STOPATONE=1
@@ -210,6 +219,9 @@ while getopts ":1t:y:s:" opt; do
       ;;
     s) 
       FILE_SUFFIX=$OPTARG
+      ;;
+    a)  
+      APPEND_EXISTING=1
       ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG" 
@@ -228,7 +240,6 @@ if [ -z $FILE_SUFFIX ]; then
     FILE_SUFFIX=$FILETYPE
 fi
 
-# Require 3 arguments
 if [ "$#" -ne 4 ]; then
     >&2 echo Error: Require 4 arguments: analysis, source-es, reference, pipeline_version
     exit 1  # exit code 1 indicates error
