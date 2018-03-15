@@ -1,7 +1,6 @@
 
 #https://cptc-xfer.uis.georgetown.edu/aspera/home.html
 
-#source path_config.sh
 source batch_config.sh
 
 # Upload all staged data.  Formulation below places all staged directories relative to / remotely

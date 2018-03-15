@@ -1,9 +1,9 @@
 # Project definitions
 
-DATESTAMP="20180302"  # YYYYMMDD
+DATESTAMP="20180314"  # YYYYMMDD
 SUBMIT="C"  
-PROJECT="CPTAC3.b3"
-BATCH="batch3"
+PROJECT="CPTAC3.b2"
+BATCH="batch2"
 
 # We loop through all these diseases
 DISEASES="CCRC UCEC"
@@ -43,7 +43,7 @@ function getd {
     ANALYSIS=$2
     PVER=$3
 	if [ -z $PVER ]; then
-		>&2 echo Error: Pipeline version not passed to getd()
+		>&2 echo Error: Pipeline version not passed to getd
 		exit 1
 	fi
 

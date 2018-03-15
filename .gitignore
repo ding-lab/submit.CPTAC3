@@ -1,3 +1,4 @@
 *.ini
 DCC-debug
 description
+*.tmp
