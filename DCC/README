@@ -34,3 +34,9 @@ e.g., `ATM3_cf867dcf96959cfd1f5339b67e390dafcf867dcf96959cfd1f5339b67e390dafuhdb
 
 `ascp_test` copies a test data tree (`DCC-debug/test_dataset`) to root folder of DCC
 
+# Downloading
+
+`ascp_recv_test.sh` used for downloading data.  The trick here is that you need to obtain a token corresponding to each
+data file or directory you wish to download.  The procecure to obtain the token is similar to that for the upload token,
+but search instead for `data-direction="receive"` and save the token associated with the file or directory of interest
+in ascp_config.ini as ASCP_TOKEN_RECEIVE
