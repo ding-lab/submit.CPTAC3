@@ -242,6 +242,7 @@ fi
 
 if [ "$#" -ne 4 ]; then
     >&2 echo Error: Require 4 arguments: analysis, source-es, reference, pipeline_version
+    >&2 echo Arguments: $# : $@
     exit 1  # exit code 1 indicates error
 fi
 
@@ -256,6 +257,11 @@ ANALYSIS=$1
 SOURCE_ES=$2 # "WGS" # Experimental Strategy
 REF=$3 # "hg19"      # Reference
 PIPELINE_VER=$4      # e.g., "v1.0"
+
+#echo ANALYSIS $ANALYSIS
+#echo SOURCE_ES $SOURCE_ES
+#echo REF $REF
+#echo PIPELINE_VER $PIPELINE_VER
 
 for COI in $DISEASES; do
     write_disease_manifest $COI

@@ -1,4 +1,4 @@
-ES="WGS"
+SOURCE_ES="WGS"
 MANIFEST_TYPE="somatic"
 INPUT_SUFFIX="Somatic.WGS.maf"
 OUTPUT_SUFFIX="maf"

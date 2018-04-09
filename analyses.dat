@@ -7,4 +7,4 @@
 # PIPELINE_DAT
 
 WGS_Germline	v1.1	/gscmnt/gc2533/dinglab/scao/cptac3/batch2/wgs/germline_per_sample	/gscmnt/gc2533/dinglab/scao/cptac3/batch2/wgs/germline_per_sample/processing_description.txt	hg19	dat/WGS_Germline.dat
-WGS_Somatic	v1.1	/gscmnt/gc2741/ding/scao/cptac3/batch2/wgs/somatic_per_sample	/???/processing_description.txt	hg19	dat/WGS_Somatic.dat
+WGS_Somatic	v1.1	/gscmnt/gc2741/ding/scao/cptac3/batch2/wgs/somatic_per_sample	/gscmnt/gc2741/ding/scao/cptac3/batch2/wgs/somatic_per_sample/processing_description.txt	hg19	dat/WGS_Somatic.dat

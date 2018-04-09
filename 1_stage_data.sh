@@ -1,6 +1,3 @@
-# TODO:
-# source batch_config.sh
-# loop over all entries in analyses.dat
 
 # set +o posix  # this might need to be set on OS X 
 
@@ -23,6 +20,8 @@ while read i; do
     ANALYSIS=$( echo "$i" | cut -f 1 )
     PIPELINE_VER=$( echo "$i" | cut -f 2 )
     DATD=$( echo "$i" | cut -f 3  )
+    PROCESSING_TXT=$( echo "$i" | cut -f 4  )
+    REF=$( echo "$i" | cut -f 5  )
     PIPELINE_DAT=$( echo "$i" | cut -f 6  )
 
     if [ ! -e $PIPELINE_DAT ]; then
@@ -36,8 +35,9 @@ while read i; do
         ARGS="$ARGS -z"
     fi
 
+# TODO: add manifest and processing description here - do it all in one go
+# TODO: will need to be able to control which steps are taken: stage, manifest, description.  Upload will always be separate
     bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
-exit
 
 done < <(sed 's/#.*$//' $ANALYSES | sed '/^\s*$/d' )  # skip comments and blank lines
 
