@@ -36,7 +36,9 @@ source batch_config.sh
 # Make destination directory
 function make_staging_dir {
     CANCER=$1
-    mkdir -p $(getd $CANCER $ANALYSIS $PIPELINE_VER)
+    STAGINGD=$(getd $CANCER $ANALYSIS $PIPELINE_VER)
+    >&2 echo Making directory $STAGINGD
+    mkdir -p $STAGINGD
 }
 
 # for CNV, each case has two results, one for tumor and one for normal
@@ -86,14 +88,14 @@ function process_case {
     if [ $COMPRESS ]; then
         >&2 echo Compressing $FN to $DESTFN
         if [ $DRYRUN ]; then
-            echo gzip -v - \<$FN \> $DESTFN
+            >&2 echo gzip -v - \<$FN \> $DESTFN
         else 
             gzip -v - <$FN > $DESTFN
         fi
     else
         >&2 echo Copying $FN to $DESTFN
         if [ $DRYRUN ]; then
-            echo cp $FN $DESTFN
+            >&2 echo cp $FN $DESTFN
         else
             cp $FN $DESTFN
         fi
@@ -104,15 +106,15 @@ function process_case {
 while getopts ":dzf1TDQ" opt; do
   case $opt in
     d) # Dry run 
-      >&2 echo "Dry run" >&2
+      >&2 echo "Dry run" 
       DRYRUN=1
       ;;
     z) # compress while copying 
-      >&2 echo "Compressing" >&2
+      >&2 echo "Compressing" 
       COMPRESS=1
       ;;
     f)  
-      >&2 echo "Force Overwrite" >&2
+      >&2 echo "Force Overwrite" 
       FORCE_OVERWRITE=1
       ;;
     1)  
@@ -144,7 +146,8 @@ done
 shift $((OPTIND-1))
 
 if [ "$#" -ne 6 ]; then
-    >&2 echo Error: Require 5 arguments: analysis, datadir, input.suffix, output.suffix, source_es, pipeline_version
+    >&2 echo Error: Require 6 arguments: analysis, datadir, input.suffix, output.suffix, source_es, pipeline_version
+    >&2 echo Got: $# : $@ 
     exit 1  # exit code 1 indicates error
 fi
 

@@ -1,52 +1,43 @@
-#* Timestamp: 20180312
-#  * MSI
-#  * Transcript.  Includes batch 2 Gene Expression
-#  * Fusion
+# TODO:
+# source batch_config.sh
+# loop over all entries in analyses.dat
 
-# TODO: in future revisions, all the details below should be defined just once, rather than in steps 1, 2, 3
+# set +o posix  # this might need to be set on OS X 
 
-#  MSI
-ANALYSIS="WXS_MSI"
-ES="WXS"
-DATD="MSI.tmp/dat"  # prestage to normalize filenames
-INPUT_SUFFIX="dat"
-OUTPUT_SUFFIX="MSIsensor.dat"
-PIPELINE_VER="v1.0"
-# -z to compress while staging
-ARGS=""
-bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
+ANALYSES="analyses.dat"
+# Columns in data file
+    # ANALYSIS
+    # PIPELINE_VER
+    # DATD
+    # PROCESSING_TXT
+    # REF
+    # PIPELINE
 
-## Transcript BED
-ANALYSIS="RNA-Seq_Transcript"
-ES="RNA-Seq"
-DATD="/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/Transcript"
-INPUT_SUFFIX="bed"
-OUTPUT_SUFFIX="bed"
-PIPELINE_VER="v1.0"
-# -z to compress while staging
-ARGS="-z "
+source batch_config.sh
 
-bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
+# use to pass -d -1 and other debugging flags
+SCRIPT_ARGS="$@"
 
-## Transcript FPKM
-ANALYSIS="RNA-Seq_Transcript"
-ES="RNA-Seq"
-DATD="/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/GE"
-INPUT_SUFFIX="fpkm"
-OUTPUT_SUFFIX="fpkm"
-PIPELINE_VER="v1.0"
-# -z to compress while staging
-ARGS="-z "
+while read i; do
 
-bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
+    ANALYSIS=$( echo "$i" | cut -f 1 )
+    PIPELINE_VER=$( echo "$i" | cut -f 2 )
+    DATD=$( echo "$i" | cut -f 3  )
+    PIPELINE_DAT=$( echo "$i" | cut -f 6  )
 
-# Fusion
-ANALYSIS="RNA-Seq_Fusion"
-ES="RNA-Seq"
-DATD="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b2.C/Fusions.tmp/dat"
-INPUT_SUFFIX="Fusions.dat"
-OUTPUT_SUFFIX="Fusions.dat"
-PIPELINE_VER="v1.0"
-# -z to compress while staging
-ARGS=""
-bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
+    if [ ! -e $PIPELINE_DAT ]; then
+        >&2 echo Error: $PIPELINE_DAT does not exist
+        exit 1
+    fi
+    source $PIPELINE_DAT
+
+    ARGS="$SCRIPT_ARGS"
+    if [ $IS_COMPRESSED == 1 ]; then
+        ARGS="$ARGS -z"
+    fi
+
+    bash ./submit.CPTAC3/stage_data.sh $ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $ES $PIPELINE_VER
+exit
+
+done < <(sed 's/#.*$//' $ANALYSES | sed '/^\s*$/d' )  # skip comments and blank lines
+

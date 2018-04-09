@@ -1,0 +1,8 @@
+# Define parameters specific to this submission
+# This is a bash script
+
+DATESTAMP="20180404"  # YYYYMMDD
+SUBMIT="E"  
+PROJECT="CPTAC3.b2"
+BATCH="batch2"
+DISEASES="CCRC UCEC"

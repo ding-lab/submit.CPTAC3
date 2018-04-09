@@ -12,7 +12,7 @@ SRC="test_dataset.tmp"
 DEST="/"
 
 $ASCP  \
- -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh \
+ -i /gscuser/mwyczalk/.aspera/connect/etc/asperaweb_id_dsa.openssh \
  -P 33001 \
  -O 33001 \
  -l 300M \

@@ -1,0 +1,6 @@
+ES="WGS"
+MANIFEST_TYPE="germline"
+INPUT_SUFFIX="Germline.WGS.vcf"
+OUTPUT_SUFFIX="vcf"
+IS_COMPRESSED=1
+RESULT_SUFFIX="vcf.gz"  # this can be figured out based on OUTPUT_SUFFIX and IS_COMPRESSED

@@ -1,65 +1,44 @@
-Submission scripts for CPTAC3.b2.C submission February 2018
+Submission scripts for CPTAC3.b2.E submission April 2018
 
-* Timestamp: 20180312
-  * MSI
-  * Transcript.  Includes Gene Expression
-  * Fusion
+* Timestamp: 20180404
+  * WGS Germline
+  * WGS Somatic
 
 # Uploads
 
-## MSI Batch 2
+Note: standardized analysis names [here][1]
 
-Get the output files in the analysis directories,
-`/gscmnt/gc2741/ding/qgao/CPTAC3/MSI/Batch_20180209/{FN}/{FN}`
+[1]: https://docs.google.com/spreadsheets/d/1Q0GdJpyqJAJBAwk7VkI0Jbqtyldnm4qRjwLjxgLLxRE/edit#gid=1202137727
 
-Normalize for this batch only in MSI.tmp/dat
-data file name: C3L-00004.dat
+# New definition files:
 
-Processing description: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/MSI/README`
-OK as is
+Each analysis in each submission has configuration defined by 4 files:
+* system.dat - system paths
+  * BAMMAP - path to BamMap file, which defines the paths to input data
+  * SR - "Submitted Reads" file, providing information about data at GDC
+  * STAGE_ROOT - path to staging directory
+  * ASCP_CONNECT - path to ascp
+* batch.dat - timestamp, other per-submission information
+  * DATESTAMP - YYYYMMDD timestamp
+  * SUBMIT - Submission round (A, B, etc)
+  * PROJECT - e.g., CPTAC3.b2
+  * BATCH - e.g., "batch 2".  This might go away in the future
+  * DISEASES - white-space separated list of diseases
+* analyses.dat - one row per analysis, may be multiple rows.  Columns are:
+  * ANALYSIS - canonical analysis name
+  * PIPELINE_VER - version of this pipeline, e.g., v1.1
+  * DATD - location of pipeline results directory
+  * PROCESSING_TXT - path to processing description
+  * REF - string description of reference
+  * PIPELINE_DAT - filename of the per-pipeline.dat file, below
+* per-pipeline.dat - specified for each analysis, has details of processing and output filename of each pipeline
+  * ES - experimental strategy
+  * MANIFEST_TYPE - defines the input files associated with this analysis
+  * INPUT_SUFFIX - Output filenames have the form, CASE.INPUT_SUFFIX (e.g., germline.vcf)
+  * OUTPUT_SUFFIX - the suffix of the staged files
+  * IS_COMPRESSED - 1 if compressing file upon staging
+  * RESULT_SUFFIX - is OUTPUT_SUFFIX, add .gz if IS_COMPRESSED
 
-Analyses uses tumor WXS hg19 data
+`batch_config.sh` sources all these and has various scripts for defining paths
 
-
-## Transcript and Gene Expression
-
-Gene expression is an additional analysis to be added to Transcript analysis. Save these to the same directory.
-
-### Batch 1
-
-**We are not uploading batch 1 data here**
-
-Gene expression (FPKM) batch 1: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20171110/GE`
-
-Processing: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20171110/GE/README`
-filename: C3L-00010.fpkm
-
-These are large and should be compressed
-RNA-Seq
-
-### Batch 2
-
-Transcript BED: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/Transcript`
-Processing: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/Transcript/README`
-Data filename format: C3L-00004.bed
-These are large and should be compressed
-RNA-Seq
-
-Gene expression (FPKM) batch 2: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/GE`
-Processing: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/GE/README`
-Data filename format: C3L-00004.fpkm
-These are large and should be compressed
-RNA-Seq
-
-## Fusion
-
-Data: `/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/Fusion`
-filename: `Fusions_in_C3L-00004.txt`
-RNA-Seq
-
-Text of processing description: 
-```
-Analysis scripts processing details can be found here: https://github.com/ding-lab/CPTAC3-RNA-related-pipeline
-```
-
-
+The motivation for all these definitions is to allow easier reuse and standardization of pipeline submission

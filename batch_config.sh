@@ -1,15 +1,7 @@
 # Project definitions
 
-DATESTAMP="20180314"  # YYYYMMDD
-SUBMIT="C"  
-PROJECT="CPTAC3.b2"
-BATCH="batch2"
-
-# We loop through all these diseases
-DISEASES="CCRC UCEC"
-
-# path_config has system-specific path info
-source path_config.sh
+source batch.dat # timestamp, other per-submission information
+source system.dat # system paths
 
 # not sure this should stay here...
 ASCP_INI="DCC/ascp_config.ini"

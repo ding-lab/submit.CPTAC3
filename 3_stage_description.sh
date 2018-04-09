@@ -1,21 +1,12 @@
 
-#  MSI
-DAT="/gscmnt/gc2741/ding/qgao/CPTAC3/Submission/Batch_20180209/MSI/README"
-ANALYSIS="WXS_MSI"
-PIPELINE_VER="v1.0"
+#  WGS Germline
+DAT="/gscmnt/gc2533/dinglab/scao/cptac3/batch2/wgs/germline_per_sample/processing_description.txt"
+ANALYSIS="WGS_Germline"
+PIPELINE_VER="v1.1"
 bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT $PIPELINE_VER
 
-## Transcript BED + Transcript FPKM - combined description
-DAT="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b2.C/processing.tmp/Transcript_GeneExpression.txt"
-ANALYSIS="RNA-Seq_Transcript"
-PIPELINE_VER="v1.0"
+#  WGS Germline
+DAT="/gscuser/scao/gc2521/dinglab/scao/cptac3/wgs/somatic_per_sample/processing_description_121517.txt"
+ANALYSIS="WGS_Somatic"
+PIPELINE_VER="v1.1"
 bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT $PIPELINE_VER
-
-# Fusion
-DAT="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.b2.C/processing.tmp/Fusions.txt"
-ANALYSIS="RNA-Seq_Fusion"
-PIPELINE_VER="v1.0"
-bash ./submit.CPTAC3/stage_description.sh $ANALYSIS $DAT $PIPELINE_VER
-
-
-
