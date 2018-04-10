@@ -1,0 +1,6 @@
+SOURCE_ES="RNA-Seq"
+MANIFEST_TYPE="RNA-Seq"
+INPUT_SUFFIX="fasta.gz"
+OUTPUT_SUFFIX="fasta.gz"
+IS_COMPRESSED=0  # this is confusing nomenclature - defines whether to compress data file during staging
+RESULT_SUFFIX="fasta.gz"  

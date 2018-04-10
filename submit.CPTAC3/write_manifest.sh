@@ -127,7 +127,7 @@ DESTFN="$DESTD/$FN"  # this is the staged filename
 
 if [ ! -e $DESTFN ] ; then
     >&2 echo $DESTFN does not exist
-    exit
+    exit 1
 fi
 SIZE=$(stat --printf="%s" $DESTFN)
 MD5=$(md5sum $DESTFN | cut -f 1 -d ' ')

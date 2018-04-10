@@ -1,7 +1,7 @@
 # Based on email from Ratna Thangudu 1/24/18
 
 #ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
-source ../path_config.sh
+source ../system.dat
 ASCP="$ASCP_CONNECT/bin/ascp"
 #ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
 
@@ -12,7 +12,7 @@ SRC="test_dataset.tmp"
 DEST="/"
 
 $ASCP  \
- -i /gscuser/mwyczalk/.aspera/connect/etc/asperaweb_id_dsa.openssh \
+ -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
  -P 33001 \
  -O 33001 \
  -l 300M \
