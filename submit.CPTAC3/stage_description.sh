@@ -2,6 +2,28 @@
 # Does this for all disease types 
 
 source batch_config.sh
+
+# http://wiki.bash-hackers.org/howto/getopts_tutorial
+while getopts ":1d" opt; do
+  case $opt in
+    1)  
+      STOPATONE=1 # this is meaningless, but keeping for consistency
+      ;;
+    d)  
+      DRY_RUN=1
+      ;;
+    \?)
+      >&2 echo "Invalid option: -$OPTARG" 
+      exit 1
+      ;;
+    :)
+      >&2 echo "Option -$OPTARG requires an argument." 
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
 ANALYSIS=$1
 PROCESSING_TXT=$2
 PIPELINE_VER=$3
@@ -14,7 +36,11 @@ DESTD=$(getd $COI $ANALYSIS $PIPELINE_VER)
 DESTFN="$DESTD/$FN"
 
 >&2 echo Copying $PROCESSING_TXT to $DESTFN
-cp $PROCESSING_TXT $DESTFN
+if [ -z $DRY_RUN ]; then
+    cp $PROCESSING_TXT $DESTFN
+else
+    >&2 echo cp $PROCESSING_TXT $DESTFN
+fi
 
 }
 

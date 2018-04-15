@@ -9,11 +9,11 @@
 
 # The parameter "-t manifest_type" determines the data files associated with analysis for this case
 # The following types are known: cnv, germline, somatic, tumor, RNA-Seq
-#  * germline: normal sample associated with each case
-#  * tumor: tumor sample associated with each case
-#  * somatic: a paired tumor and normal sample associated with each case
-#  * cnv: tumor and normal samples are analyzed individually for each case
-#  * RNA-Seq: two FASTQ data files (R1, R2) associated with each case
+#  * germline: normal sample associated with each case ("W?S N")
+#  * tumor: tumor sample associated with each case  ("W?S T")
+#  * somatic: a paired tumor and normal sample associated with each case ("W?S T+N")
+#  * cnv: tumor and normal samples are analyzed individually for each case (typically applies to WGS only) ("WGS T,N")
+#  * RNA-Seq: two FASTQ data files (R1, R2) associated with each case ("RNA-Seq T")
 # Development notes: Ideally, upstream analyses should report explicitly what files they used, rather than us
 # having to assume it here.  In particular, adjacent normal analysis may complicate this scheme significantly
 #
@@ -30,6 +30,7 @@
 # -s file_suffix: Used to construct data filename, as ANALYSIS.CASE.SUFFIX
 #       If not defined, set to value of filetype
 # -a: append to an existing manifest file, and do not write header
+# -d: dry run. Print to stdout rather than file, for testing
 
 # Manifest columns - note this differs slightly based on manifest_type
 # * cancer
@@ -176,19 +177,33 @@ else
 fi
 
 if [ -z $APPEND_EXISTING ]; then
-	printf $HEADER > $MANIFEST_FN
+    if [ -z $DRY_RUN ]; then
+        printf $HEADER > $MANIFEST_FN
+    else
+        printf $HEADER
+    fi
 fi
 
 while read CASE; do
 
     [[ $CASE = \#* ]] && continue  # Skip commented out entries
 
-    if [ $MANIFEST_TYPE == "cnv" ]; then
-        process_case $CASE $COI T >> $MANIFEST_FN
-        process_case $CASE $COI N >> $MANIFEST_FN
-    else 
-        process_case $CASE $COI X >> $MANIFEST_FN
+    if [ -z $DRY_RUN ]; then 
+        if [ $MANIFEST_TYPE == "cnv" ]; then
+            process_case $CASE $COI T >> $MANIFEST_FN
+            process_case $CASE $COI N >> $MANIFEST_FN
+        else 
+            process_case $CASE $COI X >> $MANIFEST_FN
+        fi
+    else
+        if [ $MANIFEST_TYPE == "cnv" ]; then
+            process_case $CASE $COI T 
+            process_case $CASE $COI N 
+        else 
+            process_case $CASE $COI X 
+        fi
     fi
+
 
     if [ $STOPATONE ] && [ $ONELINEDONE ]; then
         >&2 echo Stopping after one case
@@ -206,7 +221,7 @@ MANIFEST_TYPE="somatic"
 FILETYPE="vcf"
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":1t:y:s:a" opt; do
+while getopts ":1t:y:s:ad" opt; do
   case $opt in
     1)  
       STOPATONE=1
@@ -222,6 +237,9 @@ while getopts ":1t:y:s:a" opt; do
       ;;
     a)  
       APPEND_EXISTING=1
+      ;;
+    d)  
+      DRY_RUN=1
       ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG" 
