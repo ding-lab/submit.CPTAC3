@@ -1,0 +1,9 @@
+# WXS_MSI
+
+SOURCE_ES="WXS"
+MANIFEST_TYPE="somatic"  # b2 had this incorrectly as tumor
+INPUT_SUFFIX="MSI.dat"
+OUTPUT_SUFFIX="MSI.dat"
+IS_COMPRESSED=0
+RESULT_SUFFIX="MSI.dat"  
+IS_SEPARATE_TUMOR_NORMAL=0

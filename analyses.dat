@@ -6,5 +6,10 @@
 # REF
 # PIPELINE_DAT
 
-WXS_CNV	v1.0	/diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables/b3	/diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables/b3/README.md	hg19	dat/WXS_CNV.dat
-WGS_CNV	v1.1	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/b3	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/b3/README.md	hg19	dat/WGS_CNV.dat
+RNA-Seq_Expression	v1.0	/gscmnt/gc2517/dinglab/CPTAC3/Batch_20180319/Submission/GE/	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/FPKM.README	hg19	dat/Expression.dat
+RNA-Seq_Fusion	v1.1	Fusions.tmp/dat	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Fusion.README	hg19	dat/Fusion.dat
+RNA-Seq_Transcript	v1.0	/gscmnt/gc2741/ding/wliao/CPTAC3/batch3/results	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Transcript.README	hg19	dat/Transcript.dat
+WGS_SV	v1.1	/gscmnt/gc2741/ding/wliao/CPTAC3/batch3/results	/gscmnt/gc2741/ding/wliao/CPTAC3/batch3/results/README.md	hg19	dat/WGS_SV.dat
+WXS_Germline	v1.1	/gscmnt/gc2533/dinglab/scao/cptac3/batch3/wxs/germline_per_sample	/gscmnt/gc2533/dinglab/scao/cptac3/batch3/wxs/germline_per_sample/processing_description.txt	hg19	dat/WXS_Germline.dat
+WXS_MSI	v1.0	MSI.tmp/dat	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/MSI.README	hg19	dat/WXS_MSI.dat
+WXS_Somatic	v1.1	/gscmnt/gc2533/dinglab/scao/cptac3/batch3/wxs/somatic_per_sample	/gscmnt/gc2533/dinglab/scao/cptac3/batch3/wxs/somatic_per_sample/processing_description.txt	hg19	dat/WXS_Somatic.dat

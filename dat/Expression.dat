@@ -1,0 +1,10 @@
+# RNA-Seq Expression
+# Assume already compressed
+
+SOURCE_ES="RNA-Seq"
+MANIFEST_TYPE="RNA-Seq"
+INPUT_SUFFIX="fpkm.gz"
+OUTPUT_SUFFIX="fpkm.gz"
+IS_COMPRESSED=0
+RESULT_SUFFIX="fpkm.gz"
+IS_SEPARATE_TUMOR_NORMAL=0
