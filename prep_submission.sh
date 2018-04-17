@@ -72,6 +72,8 @@ while read i; do
     REF=$( echo "$i" | cut -f 5  )
     PIPELINE_DAT=$( echo "$i" | cut -f 6  )
 
+	>&2 echo Processing $ANALYSIS
+
     if [ ! -e $PIPELINE_DAT ]; then
         >&2 echo Error: Pipeline file $PIPELINE_DAT does not exist
         exit 1

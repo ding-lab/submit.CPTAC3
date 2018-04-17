@@ -4,7 +4,7 @@
 # SR and BAM MAP are used to get all cases and the associated disease
 
 #CONFIGD="/diskmnt/Projects/cptac_downloads/data/GDC_import/import.config"
-CONFIGD="/gscuser/mwyczalk/projects/CPTAC3/data/GDC_import/import.config"
+CONFIGD="/gscmnt/gc2741/ding/CPTAC3-data/GDC_import/import.config"
 BAMMAP="$CONFIGD/${PROJECT}/${PROJECT}.BamMap.dat"
 
 # SR file (from "Submitted Reads") is created by case discovery, and provides information necessary
