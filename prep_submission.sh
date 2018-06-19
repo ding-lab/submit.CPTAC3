@@ -63,6 +63,7 @@ source batch_config.sh
 ## use to pass -d -1 and other debugging flags
 #SCRIPT_ARGS="$@"
 
+# Iterate over all entries in analyses.dat
 while read i; do
 
     ANALYSIS=$( echo "$i" | cut -f 1 )

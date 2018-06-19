@@ -40,5 +40,5 @@ function getd {
 	fi
 
     D=$(getrd $CANCER)
-    echo $STAGE_ROOT/$D/${CANCER}_${ANALYSIS}_${BATCH}_${PVER}_${DATESTAMP}
+    echo $STAGE_ROOT/$D/${CANCER}_${ANALYSIS}_${PROJECT}_${PVER}_${DATESTAMP}
 }

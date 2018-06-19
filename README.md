@@ -1,12 +1,3 @@
-Submission scripts for CPTAC3.b3.B submission April 2018
-
-* RNA-Seq_Expression
-* RNA-Seq_Fusion
-* RNA-Seq_Transcript
-* WGS_SV
-* WXS_Germline
-* WXS_MSI
-* WXS_Somatic
 
 [Submission details](https://docs.google.com/spreadsheets/d/1Q0GdJpyqJAJBAwk7VkI0Jbqtyldnm4qRjwLjxgLLxRE/edit#gid=386370036)
 
@@ -31,7 +22,6 @@ Each analysis in each submission has configuration defined by 4 files:
   * `DATESTAMP` - YYYYMMDD timestamp
   * `SUBMIT` - Submission round (A, B, etc)
   * `PROJECT` - e.g., CPTAC3.b2
-  * `BATCH` - e.g., "batch 2".  This might go away in the future
   * `DISEASES` - white-space separated list of diseases
 * analyses.dat - one row per analysis, may be multiple rows.  Columns are:
   * `ANALYSIS` - canonical analysis name
