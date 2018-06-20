@@ -6,5 +6,4 @@
 # REF
 # PIPELINE_DAT
 
-WXS_CNV	v1.0	./wxscnv	/diskmnt/Projects/CPTAC3CNV/gatk4wxscnv/deliverables/LUAD.b1/README.md	hg19	dat/WXS_CNV.dat
-WGS_CNV	v1.0	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/LUAD.b1	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/LUAD.b1/README.md	hg19	dat/WGS_CNV.dat
+WXS_Somatic	v1.1	/gscmnt/gc2533/dinglab/scao/cptac3/LUAD.b1/wxs/somatic_perl_sample	/gscmnt/gc2533/dinglab/scao/cptac3/LUAD.b1/wxs/somatic_perl_sample/processing_description.txt	hg19	dat/WXS_Somatic.dat

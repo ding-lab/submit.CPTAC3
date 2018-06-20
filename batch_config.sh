@@ -1,7 +1,7 @@
 # Project definitions
 
 source batch.dat # timestamp, other per-submission information
-source system.dat # system paths
+source system.dat $LOCALE # system paths
 
 # not sure this should stay here...
 ASCP_INI="DCC/ascp_config.ini"

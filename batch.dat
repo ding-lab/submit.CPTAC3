@@ -1,7 +1,8 @@
 # Define parameters specific to this submission
 # This is a bash script
 
-DATESTAMP="20180525"  # YYYYMMDD
-SUBMIT="B"  
-PROJECT="CPTAC3.b1.LUAD"    # this is used to find BAMMAP, etc
+DATESTAMP="20180618"  # YYYYMMDD
+SUBMIT="D"  
+PROJECT="CPTAC3.LUAD.b1"    # this is used to find BAMMAP, etc
 DISEASES="LUAD"
+LOCALE="MGI"

@@ -1,7 +1,35 @@
 
 [Submission details](https://docs.google.com/spreadsheets/d/1Q0GdJpyqJAJBAwk7VkI0Jbqtyldnm4qRjwLjxgLLxRE/edit#gid=386370036)
 
-# Processing
+# Quick start
+## Configuration
+
+### Config file 
+
+Edit the following files.  
+* batch.dat - timestamp, locale, other per-submission information
+* system.dat - system paths per locale
+* analyses.dat - Details of analyses (pipelines) used in this batch.  One row per analysis 
+Note that all of these are executed as bash scripts.
+
+### DCC
+Configure DCC upload files.  
+```
+cd DCC
+cp ascp_config.ini-template ascp_config.ini
+```
+Configure `ascp_config.ini` with username and token.  Note that if you are not
+uploading to DCC there is no need to configure this file.
+
+#### Testing
+Note that this test procedure places a small test file named `uploader_test.tmp` in the root directory of DCC.
+It will have the upload user and date, and it is your responsibility to remove it.
+```
+bash ascp_test.sh
+```
+Remove test file from DCC using the web interface.
+
+## Processing
 
 ```
 bash prep_submission.sh stage
@@ -10,7 +38,8 @@ bash prep_submission.sh description
 bash upload_submission.sh
 ```
 
-# Definition files:
+# Details
+## Definition files:
 
 Each analysis in each submission has configuration defined by 4 files:
 * system.dat - system paths
