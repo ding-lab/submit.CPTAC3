@@ -6,4 +6,10 @@
 # REF
 # PIPELINE_DAT
 
-WXS_Somatic	v1.1	/gscmnt/gc2533/dinglab/scao/cptac3/LUAD.b1/wxs/somatic_perl_sample	/gscmnt/gc2533/dinglab/scao/cptac3/LUAD.b1/wxs/somatic_perl_sample/processing_description.txt	hg19	dat/WXS_Somatic.dat
+RNA-Seq_Expression	v1.0	/gscmnt/gc2500/dinglab/qgao/CPTAC3/Batch_20180517/Submission/batch4/Expression	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/FPKM.README	hg19	dat/RNA-Seq_Expression.dat
+RNA-Seq_Fusion	v1.1	/gscmnt/gc2500/dinglab/qgao/CPTAC3/Batch_20180517/Submission/batch4/Fusion	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Fusion.README	hg19	dat/RNA-Seq_Fusion.dat
+RNA-Seq_Transcript	v1.0	/gscmnt/gc2500/dinglab/qgao/CPTAC3/Batch_20180517/Submission/batch4/Transcript	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Transcript.README	hg19	dat/RNA-Seq_Transcript.dat
+WGS_SV	v1.1	/gscmnt/gc2741/ding/wliao/CPTAC3/CPTAC3.b4/results	/gscmnt/gc2741/ding/wliao/CPTAC3/CPTAC3.b4/results/README.md	hg19	dat/WGS_SV.dat
+WXS_Germline	v1.1	/gscmnt/gc2737/ding/scao/cptac3/b4/wxs/germline_per_sample	/gscmnt/gc2737/ding/scao/cptac3/b4/wxs/germline_per_sample/processing_description.txt	hg19	dat/WXS_Germline.dat
+WXS_MSI	v1.0	/gscmnt/gc2500/dinglab/qgao/CPTAC3/Batch_20180517/Submission/batch4/MSI	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/MSI.README	hg19	dat/WXS_MSI.dat
+WXS_Somatic	v1.1	/gscmnt/gc2737/ding/scao/cptac3/b4/wxs/somatic_per_sample	/gscmnt/gc2737/ding/scao/cptac3/b4/wxs/somatic_per_sample/processing_description.txt	hg19	dat/WXS_Somatic.dat

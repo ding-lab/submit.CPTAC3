@@ -1,5 +1,9 @@
-This is a submission for CPTAC3 LUAD batch 1 upload D:
-* WXS_Somatic 
+This is a submission for CPTAC3 CCRC+UCEC batch 4 upload A:
+* RNA-Seq_Expression
+* RNA-Seq_Fusion
+* RNA-Seq_Transcript
+* WGS_SV
+* WXS_Germline
+* WXS_MSI
+* WXS_Somatic
 
-Confirmed:
-/gscmnt/gc2619/dinglab_cptac3/GDC_import/import.config/CPTAC3.LUAD.b1/CPTAC3.LUAD.b1.BamMap.dat
