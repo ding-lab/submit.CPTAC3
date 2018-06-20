@@ -30,6 +30,15 @@ fi
 BAMMAP="$CONFIGD/$PROJECT/${PROJECT}.BamMap.dat"
 SR="$CONFIGD/$PROJECT/${PROJECT}.SR.dat"
 
+# Test to make sure these exist
+if [ ! -e $BAMMAP ]; then
+    >&2 echo ERROR: BAM_MAP $BAMMAP does not exist
+    exit 1
+fi
+if [ ! -e $SR ]; then
+    >&2 echo ERROR: SR File $SR does not exist
+    exit 1
+fi
 
 # NOTES: 
 
