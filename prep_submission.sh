@@ -108,6 +108,7 @@ while read i; do
     elif [ $STEP == "description" ]; then
         bash ./submit.CPTAC3/stage_description.sh $ARGS $ANALYSIS $PROCESSING_TXT $PIPELINE_VER
     fi
+    test_exit_status
 
 done < <(sed 's/#.*$//' $ANALYSES | sed '/^\s*$/d' )  # skip comments and blank lines. May require `set +o posix`
 
