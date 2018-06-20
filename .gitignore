@@ -1,5 +1,7 @@
+# Do not include any ASCP account details in tracked files
 *.ini
 DCC-debug
 description
 *.tmp
 *.swp
+uploader_test.tmp
