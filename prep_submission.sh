@@ -48,6 +48,19 @@ if [ $STEP != "stage" ] && [ $STEP != "manifest" ] && [ $STEP != "description" ]
     exit 1
 fi
 
+function test_exit_status {
+    # Evaluate return value for chain of pipes; see https://stackoverflow.com/questions/90418/exit-shell-script-based-on-process-exit-code
+    # exit code 137 is fatal error signal 9: http://tldp.org/LDP/abs/html/exitcodes.html
+
+    rcs=${PIPESTATUS[*]}; 
+    for rc in ${rcs}; do 
+        if [[ $rc != 0 ]]; then 
+            >&2 echo Fatal error.  Exiting 
+            exit $rc; 
+        fi; 
+    done
+}
+
 
 ANALYSES="analyses.dat"
 # Columns in data file

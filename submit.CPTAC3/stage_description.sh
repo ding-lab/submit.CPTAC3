@@ -35,6 +35,19 @@ FN="processing_description.$ANALYSIS.$PROJECT.txt"
 DESTD=$(getd $COI $ANALYSIS $PIPELINE_VER)
 DESTFN="$DESTD/$FN"
 
+# Confirm file exists and is not empty
+
+if [ ! -e $PROCESSING_TEXT ]; then
+    >&2 echo ERROR: Processing description $PROCESSING_TEXT does not exist
+    exit 1
+fi
+
+if [ ! -s $PROCESSING_TEXT ]; then
+    >&2 echo ERROR: Processing description $PROCESSING_TEXT zero size
+    exit 1
+fi
+
+
 >&2 echo Copying $PROCESSING_TXT to $DESTFN
 if [ -z $DRY_RUN ]; then
     cp $PROCESSING_TXT $DESTFN
