@@ -40,6 +40,9 @@ if [ ! -e $SR ]; then
     exit 1
 fi
 
+echo SR File: $SR
+echo BAMMAP: $BAMMAP
+
 # NOTES: 
 
 # LUAD b1 file copied from:
