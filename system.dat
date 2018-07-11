@@ -17,8 +17,11 @@ if [ $LOCALE == "MGI" ]; then
     CONFIGD="/gscmnt/gc2619/dinglab_cptac3/GDC_import/import.config"
     STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
     ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
-elif [ $LOCALE == "DC2" ]; then 
+elif [ $LOCALE == "denali" ]; then 
     CONFIGD="/diskmnt/Projects/cptac_downloads/data/GDC_import/import.config"
+    STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
+elif [ $LOCALE == "katmai" ]; then 
+    CONFIGD="/diskmnt/Projects/cptac/GDC_import/import.config"
     STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
 else 

@@ -1,9 +1,11 @@
 # Based on email from Ratna Thangudu 1/24/18
 
 #ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
-source ../system.dat
+source ../batch.dat
+source ../system.dat $LOCALE
 ASCP="$ASCP_CONNECT/bin/ascp"
 #ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
+
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
 source ascp_config.ini
