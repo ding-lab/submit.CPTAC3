@@ -43,7 +43,7 @@ bash upload_submission.sh
 
 Each analysis in each submission has configuration defined by 4 files:
 * system.dat - system paths
-  * `BAMMAP` - path to BamMap file, which defines the paths to input data
+  * `BAMMAP` - path to BamMap file, which defines the paths to input data.  Submission scripts iterate over this file
   * `SR` - "Submitted Reads" file, providing information about data at GDC
   * `STAGE_ROOT` - path to staging directory
   * `ASCP_CONNECT` - path to ascp
@@ -81,4 +81,7 @@ Need to get token in ./DCC
 
 Run `DCC/test_dcc.sh`.  Will need to delete test dataset on DCC.
 
+# TODO:
 
+For future work, need simply to have a cases list, rather than a BAM file.  Be able to use a master BAM file instead,
+and match the reference

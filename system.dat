@@ -30,8 +30,14 @@ else
 fi
 
 # Definitions common to locales
-BAMMAP="$CONFIGD/$PROJECT/${PROJECT}.BamMap.dat"
-SR="$CONFIGD/$PROJECT/${PROJECT}.SR.dat"
+#BAMMAP="$CONFIGD/$PROJECT/${PROJECT}.BamMap.dat"
+#SR="$CONFIGD/$PROJECT/${PROJECT}.SR.dat"
+
+# to accommodate master BamMaps which contain ALL BAMs on a system, we create our own
+# local bammap for upload purposes only.  This is quite ad hoc and will need to be 
+# changed
+BAMMAP="/home/mwyczalk_test/Projects/CPTAC3/submit/submit.CPTAC3.LUAD.b56.A/dat.tmp/katmai.BamMap.WXS.LUAD.b56.dat"
+SR="/home/mwyczalk_test/Projects/CPTAC3/CPTAC3.catalog/CPTAC3.hg38.HAR.dat"
 
 # Test to make sure these exist
 if [ ! -e $BAMMAP ]; then
@@ -45,11 +51,4 @@ fi
 
 echo SR File: $SR
 echo BAMMAP: $BAMMAP
-
-# NOTES: 
-
-# LUAD b1 file copied from:
-#   /diskmnt/Projects/cptac_downloads/data/GDC_import/import.config/CPTAC3.b1.LUAD/CPTAC3.b1.LUAD.SR.dat
-#SR="/gscmnt/gc2521/dinglab/mwyczalk/somatic-wrapper-data/GDC_import/import.config/${PROJECT}/${PROJECT}.SR.dat"
-
 
