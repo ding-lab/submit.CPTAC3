@@ -6,4 +6,8 @@
 # REF
 # PIPELINE_DAT
 
-WGS_CNV	v1.2	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/LUAD.b2	/diskmnt/Projects/CPTAC3CNV/genomestrip/deliverables/LUAD.b2/README.md	hg19	dat/WGS_CNV.dat
+WXS_Germline	v1.2	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/germline_per_sample	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/germline_per_sample/processing_description.txt	hg38	dat/WXS_Germline.dat
+WXS_Somatic	v1.2	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/somatic_per_sample	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/somatic_per_sample/processing_description.txt	hg38	dat/WXS_Somatic.dat
+WXS_MSI	v1.1	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/LUAD_b5_b6	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/MSI.README	hg38	dat/WXS_MSI.dat
+WXS_MSI	v1.1	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/LUAD_b5_b6	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/MSI.README	hg38	dat/WXS_MSI_Sites.dat
+WGS_SV	v1.2	/gscmnt/gc2741/ding/scao/SV/test.for.mike	/gscuser/mwendl/cptac3_project/README	hg38	dat/WGS_SV.dat

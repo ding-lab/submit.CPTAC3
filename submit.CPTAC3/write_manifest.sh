@@ -30,6 +30,7 @@
 # -s file_suffix: Used to construct data filename, as ANALYSIS.CASE.SUFFIX
 #       If not defined, set to value of filetype
 # -a: append to an existing manifest file, and do not write header
+# -A: Append to existing manifest file and do not write header if the manifest file exists
 # -d: dry run. Print to stdout rather than file, for testing
 
 # Manifest columns - note this differs slightly based on manifest_type
@@ -161,6 +162,17 @@ COI=$1  # The cancer of interest we wish to retain
 DESTD=$(getd $COI $ANALYSIS $PIPELINE_VER)
 MANIFEST_FN="$DESTD/manifest.$ANALYSIS.$PROJECT.$COI.dat"
 
+if [ ! -z $APPEND_EXISTING_IF_EXISTS ]; then
+    >&2 echo Testing if manifest exists: $MANIFEST_FN
+    if [ -e $MANIFEST_FN ]; then
+        >&2 echo Appending to existing manifest 
+        APPEND_EXISTING=1
+    else
+        >&2 echo Manifest does not exist 
+    fi
+fi
+    
+
 if [[ $MANIFEST_TYPE == "somatic" ]]; then
     HEADER="cancer\tcase_ID\tinput_experimental_strategy\ttumor_submitter_id\ttumor_UUID\tnormal_submitter_id\tnormal_UUID\treference_version\tfile_type\tfile_name\tfile_size\tmd5sum\n" 
 elif [[ $MANIFEST_TYPE == "germline" ]]; then
@@ -221,7 +233,7 @@ MANIFEST_TYPE="somatic"
 FILETYPE="vcf"
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":1t:y:s:ad" opt; do
+while getopts ":1t:y:s:aAd" opt; do
   case $opt in
     1)  
       STOPATONE=1
@@ -237,6 +249,9 @@ while getopts ":1t:y:s:ad" opt; do
       ;;
     a)  
       APPEND_EXISTING=1
+      ;;
+    A)  
+      APPEND_EXISTING_IF_EXISTS=1
       ;;
     d)  
       DRY_RUN=1

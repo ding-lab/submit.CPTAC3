@@ -104,7 +104,7 @@ while read i; do
         fi
         bash ./submit.CPTAC3/stage_data.sh $STEP_ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $SOURCE_ES $PIPELINE_VER
     elif [ $STEP == "manifest" ]; then
-        bash ./submit.CPTAC3/write_manifest.sh $ARGS -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $SOURCE_ES $REF $PIPELINE_VER
+        bash ./submit.CPTAC3/write_manifest.sh $ARGS -A -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $SOURCE_ES $REF $PIPELINE_VER
     elif [ $STEP == "description" ]; then
         bash ./submit.CPTAC3/stage_description.sh $ARGS $ANALYSIS $PROCESSING_TXT $PIPELINE_VER
     fi

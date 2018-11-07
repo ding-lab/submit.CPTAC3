@@ -1,0 +1,4 @@
+Changes to implement in future work
+* Allow .A, .T, .N endings
+* Processing driven by Cases list, not BamMap
+
