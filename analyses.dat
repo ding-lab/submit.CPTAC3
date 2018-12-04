@@ -6,8 +6,6 @@
 # REF
 # PIPELINE_DAT
 
-WXS_Germline	v1.2	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/germline_per_sample	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/germline_per_sample/processing_description.txt	hg38	dat/WXS_Germline.dat
-WXS_Somatic	v1.2	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/somatic_per_sample	/gscmnt/gc2518/dinglab/cptac3/hg38/luad.b5.b6/somatic_per_sample/processing_description.txt	hg38	dat/WXS_Somatic.dat
-WXS_MSI	v1.1	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/LUAD_b5_b6	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/MSI.README	hg38	dat/WXS_MSI.dat
-WXS_MSI	v1.1	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/LUAD_b5_b6	/gscmnt/gc2737/ding/dcui/Submission/hg38/MSI/MSI.README	hg38	dat/WXS_MSI_Sites.dat
-WGS_SV	v1.2	/gscmnt/gc2741/ding/scao/SV/test.for.mike	/gscuser/mwendl/cptac3_project/README	hg38	dat/WGS_SV.dat
+# Need to stage batch 5 and 6 together
+RNA-Seq_Expression	v1.0	/gscmnt/gc2737/ding/qgao/TMP/LUAD_b5/Submission/GRCh38/Expression	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/FPKM_count.README	hg38	pipes/RNA-Seq_Expression.dat
+RNA-Seq_Transcript	v1.0	/gscmnt/gc2737/ding/qgao/TMP/LUAD_b5/Submission/GRCh38/Transcript	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Transcript_GRCh38.README	hg38	pipes/RNA-Seq_Transcript.dat

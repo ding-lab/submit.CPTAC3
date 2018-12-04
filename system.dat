@@ -13,17 +13,27 @@
 # Locale: defines system-specific details.  Currently MGI and DC2 implemented
 LOCALE=$1
 
+# Both BAMMAP and SR are master files
 if [ $LOCALE == "MGI" ]; then
     CONFIGD="/gscmnt/gc2619/dinglab_cptac3/GDC_import/import.config"
     STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
     ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
+    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
+    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/MGI.BamMap.dat"
+    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
 elif [ $LOCALE == "denali" ]; then 
     CONFIGD="/diskmnt/Projects/cptac_downloads/data/GDC_import/import.config"
     STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
+    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
+    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/denali.BamMap.dat"
+    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
 elif [ $LOCALE == "katmai" ]; then 
     CONFIGD="/diskmnt/Projects/cptac/GDC_import/import.config"
     STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
+    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
+    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/katmai.BamMap.dat"
+    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
 else 
     >&2 echo Unknown LOCALE $LOCALE
     exit 1
@@ -33,11 +43,8 @@ fi
 #BAMMAP="$CONFIGD/$PROJECT/${PROJECT}.BamMap.dat"
 #SR="$CONFIGD/$PROJECT/${PROJECT}.SR.dat"
 
-# to accommodate master BamMaps which contain ALL BAMs on a system, we create our own
-# local bammap for upload purposes only.  This is quite ad hoc and will need to be 
-# changed
-BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/submit/submit.CPTAC3.LUAD.b56.B/dat.tmp/MGI.BamMap.WXS.LUAD.b56.dat"
-SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.hg38.HAR.dat"
+CASES="dat/cases.dat"
+
 
 # Test to make sure these exist
 if [ ! -e $BAMMAP ]; then

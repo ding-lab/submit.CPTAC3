@@ -1,0 +1,18 @@
+Submission script being abandoned for LUAD 5/6 because a variety of unexpected scenarios
+make things too complicated.  
+
+Previous goal was to identify in the manifest the input data used for each result, as 
+well as checking to make sure that results exist for all cases.
+
+This is a good approach, but it requires cooperation from pipeline runners to report input
+data used.  Trying to discover this information during manifest file creation is untenably complex.  
+New scenarios which complicate things to the point of requiring a rewrite:
+* RNA-Seq analysis (expression, transcript) will have tumor and optionally adjacent normal
+    - Need to lookup input files accordingly
+    - Adjacent normals are frequently missing, so analysis were not performe
+* adjacent normal somatic analysis requires tumor + adjacent normal
+* Sometimes datasets will have normals missing, so pipeline cannot run.  This results in
+  subset of cases having data.  
+
+Going forward, it must be the responsibility of those providing results to identify the input data
+(including UUID) used for each analysis.

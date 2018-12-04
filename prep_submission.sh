@@ -11,10 +11,11 @@
 # options:
 # -1: process just one step and stop
 # -d: dry run.  Print out what would be done, but don't do anything
+# -w: Warn if data file missing, rather than quit
 
 ARGS=""
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":d1" opt; do
+while getopts ":d1w" opt; do
   case $opt in
     d)  
       echo "Dry run" >&2
@@ -23,6 +24,10 @@ while getopts ":d1" opt; do
     1) 
       echo "Stop after one" >&2
       ARGS="$ARGS -1" 
+      ;;
+    w) 
+      echo "Warn if data missing" >&2
+      ARGS="$ARGS -w" 
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -101,10 +106,12 @@ while read i; do
         fi
         if [ $IS_SEPARATE_TUMOR_NORMAL == 1 ]; then
             STEP_ARGS="$STEP_ARGS -T"
+        elif [ $IS_SEPARATE_TUMOR_ADJACENT == 1 ]; then
+            STEP_ARGS="$STEP_ARGS -A"
         fi
-        bash ./submit.CPTAC3/stage_data.sh $STEP_ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $SOURCE_ES $PIPELINE_VER
+        bash ./submit.CPTAC3/stage_data.sh -C $CASES $STEP_ARGS $ANALYSIS $DATD $INPUT_SUFFIX $OUTPUT_SUFFIX $PIPELINE_VER
     elif [ $STEP == "manifest" ]; then
-        bash ./submit.CPTAC3/write_manifest.sh $ARGS -A -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $SOURCE_ES $REF $PIPELINE_VER
+        bash ./submit.CPTAC3/write_manifest.sh $ARGS -A -t $MANIFEST_TYPE -y $RESULT_SUFFIX $ANALYSIS $REF $PIPELINE_VER
     elif [ $STEP == "description" ]; then
         bash ./submit.CPTAC3/stage_description.sh $ARGS $ANALYSIS $PROCESSING_TXT $PIPELINE_VER
     fi

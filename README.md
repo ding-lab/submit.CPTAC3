@@ -85,3 +85,10 @@ Run `DCC/test_dcc.sh`.  Will need to delete test dataset on DCC.
 
 For future work, need simply to have a cases list, rather than a BAM file.  Be able to use a master BAM file instead,
 and match the reference
+
+several complications crop up:
+* We need to have a uniform list of cases for all data in analysis.dat.  That means that cannot have a mix of batches with different directories
+  It would be good if can have list of cases defined per line in analysis.dat, so that can have heterogenous lists
+  Currently, data will have to be staged
+* Multiple datafiles per analysis (e.g., one analysis outputs C3L-00001.vcf and C3L-00001.bed) are difficult to process, and require separate
+  lines in analysis.dat

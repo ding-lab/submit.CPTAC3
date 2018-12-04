@@ -1,19 +1,18 @@
 # stage data by copying source data to target.  Staging directories created
 # Usage: 
-#  stage_data.sh [options] analysis datadir input.suffix output.suffix source-es pipeline_version
+#  stage_data.sh [options] analysis datadir input.suffix output.suffix pipeline_version
 #
 # analysis: canonical analysis name, e.g., WGS-Germline
 # datadir: root directory of data 
 # input.suffix: suffix of input filename.  Added to CASE to construct input data filename, like "C3L-00004.SVsomatic.vcf"
 # output.suffix: suffix of output filename.  Added to CASE to construct output filename.  Need not be the same as input.suffix
-# source-es: experimental strategy of input data: WGS, WXS, or RNA-Seq 
-#   this is used only to get the path to the appropriate BamMap file, which is parsed to get all cases
 # pipeline_version: a text identifier of this pipeline, used for destination path creation
 #
-# There are assumptions about the filename of the source data, which is determined by -T flag.
-# If -T not set, assumed that one data file per case, with the data filename format CASE.suffix 
+# There are assumptions about the filename of the source data, which is determined by -T/-A flags.
+# If neither -T nor -A set, assumed that one data file per case, with the data filename format CASE.suffix 
 # If -T is set, assumed data filename format is CASE.X.suffix, with X either T (tumor) or N (normal)
-# Other options will be added as necessary.
+# If -A is set, assumed data filename format is CASE.X.suffix, with X either T (tumor) or A (adjacent)
+# Currently, having both -T and -A is an error.  This may be relaxed in the future
 #
 # Options:
 # -z: compress the file while staging
@@ -21,8 +20,11 @@
 # -d: dry run.  Only pretend to copy
 # -1: Stop after one case
 # -T: Data as tumor/normal pair
+# -A: Data as tumor/adjacent pair
 # -D: Append cancer type to datadir, e.g., /data/UCEC/CASE.fn for UCEC
 # -Q: Append cancer type to filename, e.g., /data/UCEC__CASE.fn for UCEC.  This is ad hoc and can be removed after file naming standardized
+# -w: Warn if data file does not exist rather than quitting
+# -C cases: File listing all cases of interest.  Required
 
 # Note that CNV analysis differs significantly from germline/somatic wrapper results in that it has more than one result
 # per case; specifically, tumor and normal results exist for each case.
@@ -31,7 +33,6 @@
 # Such renaming is confusing and fragile, and in future revisions the flow should be reworked to incorporate these two cases more gracefully
 
 source batch_config.sh
-#source submit.CPTAC3/get_SN.sh  # this is no longer needed?
 
 # Make destination directory
 function make_staging_dir {
@@ -63,8 +64,13 @@ function process_case {
     fi
 
     if [ ! -e $FN ]; then  # Might be good to have option here to either warn or quit 
-        >&2 echo $FN does not exist.  Quitting
-        exit 1
+        if [ $WARN_MISSING ]; then
+            >&2 echo WARNING: $FN does not exist.  Continuing
+            return
+        else
+            >&2 echo $FN does not exist.  Quitting
+            exit 1
+        fi
     fi
 
     # Staging directory
@@ -103,7 +109,7 @@ function process_case {
 }
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":dzf1TDQ" opt; do
+while getopts ":dzf1TADQwC:" opt; do
   case $opt in
     d) # Dry run 
       >&2 echo "Dry run" 
@@ -123,11 +129,21 @@ while getopts ":dzf1TDQ" opt; do
     T)  
       IS_TUMOR_NORMAL=1
       ;;
+    A)  
+      IS_TUMOR_ADJACENT=1
+      ;;
     D)  
       APPEND_DIS=1
       ;;
     Q) # Ad hoc naming mode where filename is e.g., /data/UCEC__C3N-00734.suffix
       QG_MODE=1
+      ;;
+    w) 
+      WARN_MISSING=1
+      ;;
+    C) # example of value argument
+      CASES=$OPTARG
+      >&2 echo "Iterating over cases in $CASES" 
       ;;
 #    x) # example of value argument
 #      FILTER=$OPTARG
@@ -145,18 +161,31 @@ while getopts ":dzf1TDQ" opt; do
 done
 shift $((OPTIND-1))
 
-if [ "$#" -ne 6 ]; then
-    >&2 echo Error: Require 6 arguments: analysis, datadir, input.suffix, output.suffix, source_es, pipeline_version
+if [ -z $CASES ]; then
+    >&2 echo Error: Cases file \(-C\) not defined
+    exit 1
+fi
+if [ ! -e $CASES ]; then
+    >&2 echo Error: Cases file $CASES does not exist
+    exit 1
+fi
+
+if [ "$#" -ne 5 ]; then
+    >&2 echo Error: Require 5 arguments: analysis, datadir, input.suffix, output.suffix, pipeline_version
     >&2 echo Got: $# : $@ 
     exit 1  # exit code 1 indicates error
+fi
+
+if [[ $IS_TUMOR_NORMAL && $IS_TUMOR_ADJACENT ]]; then
+    >&2 echo Error: both -T and -A defined.  This is currently not supported
+    exit 1
 fi
 
 ANALYSIS=$1  # e.g. WGS-Somatic
 DATD=$2
 INPUT_SUFFIX=$3
 OUTPUT_SUFFIX=$4
-SOURCE_ES=$5
-PIPELINE_VER=$6
+PIPELINE_VER=$5
 
 mkdir -p $STAGE_ROOT
 echo Writing data to $STAGE_ROOT
@@ -187,6 +216,9 @@ while read C; do
     # this mimicks naming convention in BamMap
         process_case ${C}.T $CANCER
         process_case ${C}.N $CANCER
+    elif [ $IS_TUMOR_ADJACENT ]; then
+        process_case ${C}.T $CANCER
+        process_case ${C}.A $CANCER
     else
         process_case ${C} $CANCER
     fi
@@ -196,4 +228,4 @@ while read C; do
         exit 0  # 0 indicates no error 
     fi
 
-done < <(grep -v "^#" $BAMMAP | cut -f 2 | sort -u)  # pull out all case IDs out of BamMap and loop through them
+done < $CASES  # Loop over all cases

@@ -1,15 +1,16 @@
 # Based on email from Ratna Thangudu 1/24/18
 
 #ASCP="/gscuser/mwyczalk/.aspera/connect/bin/ascp"
-source ../batch.dat
-source ../system.dat $LOCALE
+cd ..
+source batch.dat
+source system.dat $LOCALE
 ASCP="$ASCP_CONNECT/bin/ascp"
 #ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
 
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
-source ascp_config.ini
-TEMPLATE="upload_template.txt"
+source DCC/ascp_config.ini
+TEMPLATE="DCC/upload_template.txt"
 UPLOAD_DAT="uploader_test.tmp"
 
 # add username and date to template to create UPLOAD_DAT
