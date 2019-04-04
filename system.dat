@@ -1,61 +1,24 @@
 # Set system-specific paths here
 # This is a bash script
 
-# SR and BAM MAP are used to get all cases and the associated disease
-
-# SR file (from "Submitted Reads") is created by case discovery, and provides information necessary
-# for download of BAM and FASTQ files from GDC
-# BAM_MAP file is typically created during import, has paths and other details of BAM / FASTQ files
-
 # STAGE_ROOT is where verbatim copy of uploaded data is stored
-# ASCP_CONNECT is path to aspera connect install directry (TODO: Confirm) 
+# ASCP_CONNECT is path to aspera connect install directry 
 
-# Locale: defines system-specific details.  Currently MGI and DC2 implemented
+# Locale: defines system-specific details.  Currently MGI, `katmai`, and `denali` implemented
 LOCALE=$1
 
-# Both BAMMAP and SR are master files
+# Both BAMMAP and AR are master files 
 if [ $LOCALE == "MGI" ]; then
-    CONFIGD="/gscmnt/gc2619/dinglab_cptac3/GDC_import/import.config"
-    STAGE_ROOT="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit/staged_data.${PROJECT}.${SUBMIT}"
+    STAGE_BASE="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit.Y2"
     ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
-    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
-    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/MGI.BamMap.dat"
-    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
 elif [ $LOCALE == "denali" ]; then 
-    CONFIGD="/diskmnt/Projects/cptac_downloads/data/GDC_import/import.config"
-    STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
-    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
-    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/denali.BamMap.dat"
-    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
+    STAGE_BASE="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging.Y2"
 elif [ $LOCALE == "katmai" ]; then 
-    CONFIGD="/diskmnt/Projects/cptac/GDC_import/import.config"
-    STAGE_ROOT="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging/staged_data.${PROJECT}.${SUBMIT}"
+    STAGE_BASE="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging.Y2"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
-    SR="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.SR.dat"
-    BAMMAP="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/katmai.BamMap.dat"
-    ALLCASES="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog/CPTAC3.C325.cases.dat"
 else 
     >&2 echo Unknown LOCALE $LOCALE
     exit 1
 fi
 
-# Definitions common to locales
-#BAMMAP="$CONFIGD/$PROJECT/${PROJECT}.BamMap.dat"
-#SR="$CONFIGD/$PROJECT/${PROJECT}.SR.dat"
-
-CASES="dat/cases.dat"
-
-
-# Test to make sure these exist
-if [ ! -e $BAMMAP ]; then
-    >&2 echo ERROR: BAM_MAP $BAMMAP does not exist
-    exit 1
-fi
-if [ ! -e $SR ]; then
-    >&2 echo ERROR: SR File $SR does not exist
-    exit 1
-fi
-
-echo SR File: $SR
-echo BAMMAP: $BAMMAP
-
+STAGE_ROOT="${STAGE_BASE}/staged_data.${BATCH}.${DATESTAMP}"

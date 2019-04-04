@@ -1,11 +1,10 @@
 # analysis.dat
 # ANALYSIS
 # PIPELINE_VER
-# DATD
+# ANALYSIS_DESCRIPTION
 # PROCESSING_TXT
 # REF
-# PIPELINE_DAT
+# DO_COMPRESS
+# PREPEND_CASE
 
-# Need to stage batch 5 and 6 together
-RNA-Seq_Expression	v1.0	/gscmnt/gc2737/ding/qgao/TMP/LUAD_b5/Submission/GRCh38/Expression	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/FPKM_count.README	hg38	pipes/RNA-Seq_Expression.dat
-RNA-Seq_Transcript	v1.0	/gscmnt/gc2737/ding/qgao/TMP/LUAD_b5/Submission/GRCh38/Transcript	/gscmnt/gc2521/dinglab/qgao/Scripts/Work_log/Transcript_GRCh38.README	hg38	pipes/RNA-Seq_Transcript.dat
+WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/demo/task_call/katmai.C3/dat/analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	0	1

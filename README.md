@@ -1,15 +1,30 @@
+# CPTAC3 Year 2 submissions
 
-[Submission details](https://docs.google.com/spreadsheets/d/1Q0GdJpyqJAJBAwk7VkI0Jbqtyldnm4qRjwLjxgLLxRE/edit#gid=386370036)
+What's new:
+* All analyses come with analysis description file, which is defined here
+    https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit
+* Submission takes place using Google Form, https://docs.google.com/forms/d/1hkN9QsLChNDe3xipwE1O3aDBoCfdIMTztoOWSDEagr4/edit
+  * This populates Pipeline Management Y2 sheet: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
+  * Submission link: https://docs.google.com/forms/d/e/1FAIpQLSfw5EXIeUEw_pIEjyGhOCJaIAA9MT4Ub5Qlhthudy6RLBVRYw/viewform?usp=sf_link
+* Resurrecting submit.CPTAC3 project, incorporating analysis description logic to simplify manifest file creation
+
+GitHub:
+```
+git clone https://github.com/ding-lab/submit.CPTAC3 PROJECT_NAME
+```
 
 # Quick start
+
+Info below is from Y1, may be outdated
+
 ## Configuration
 
 ### Config file 
 
 Edit the following files.  
 * batch.dat - timestamp, locale, other per-submission information
-* system.dat - system paths per locale
 * analyses.dat - Details of analyses (pipelines) used in this batch.  One row per analysis 
+* system.dat - system paths per locale
 Note that all of these are executed as bash scripts.
 
 ### DCC
@@ -41,32 +56,24 @@ bash upload_submission.sh
 # Details
 ## Definition files:
 
-Each analysis in each submission has configuration defined by 4 files:
+Each analysis in each submission has configuration defined by 3 files:
+* batch.dat - timestamp, other per-submission information
+  * `DATESTAMP` - YYYYMMDD timestamp
+  * `BATCH` - e.g., Y2.b1
+  * `LOCALE` - `MGI`, `katmai`, `denali`
+* analyses.dat - one row per analysis, may be multiple rows.  Columns are:
+  * `ANALYSIS` - canonical analysis name
+  * `PIPELINE_VER` - version of this pipeline, e.g., v1.1
+  * `ANALYSIS_DESCRIPTION` - Description of all results and their input.  Format described [here](https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit)
+  * `PROCESSING_TXT` - path to processing description
+  * `REF` - string description of reference
+  * `DO_COMPRESS` - 1 if compressing data files upon staging, 0 otherwise
+  * `PREPEND_CASE` - 1 if add prefix CASE to data filename upon staging, 0 otherwise
 * system.dat - system paths
   * `BAMMAP` - path to BamMap file, which defines the paths to input data.  Submission scripts iterate over this file
   * `SR` - "Submitted Reads" file, providing information about data at GDC
   * `STAGE_ROOT` - path to staging directory
   * `ASCP_CONNECT` - path to ascp
-* batch.dat - timestamp, other per-submission information
-  * `DATESTAMP` - YYYYMMDD timestamp
-  * `SUBMIT` - Submission round (A, B, etc)
-  * `PROJECT` - e.g., CPTAC3.b2
-  * `DISEASES` - white-space separated list of diseases
-* analyses.dat - one row per analysis, may be multiple rows.  Columns are:
-  * `ANALYSIS` - canonical analysis name
-  * `PIPELINE_VER` - version of this pipeline, e.g., v1.1
-  * `DATD` - location of pipeline results directory
-  * `PROCESSING_TXT` - path to processing description
-  * `REF` - string description of reference
-  * `PIPELINE_DAT` - filename of the per-pipeline.dat file, below
-* per-pipeline.dat - specified for each analysis, has details of processing and output filename of each pipeline
-  * `ES` - experimental strategy
-  * `MANIFEST_TYPE` - defines the input files associated with this analysis
-  * `INPUT_SUFFIX` - Output filenames have the form, `CASE.INPUT_SUFFIX` (e.g., germline.vcf)
-  * `OUTPUT_SUFFIX` - the suffix of the staged files
-  * `IS_COMPRESSED` - 1 if compressing file upon staging
-  * `RESULT_SUFFIX` - is `OUTPUT_SUFFIX`, add .gz if `IS_COMPRESSED`
-  * `IS_SEPARATE_TUMOR_NORMAL` - data are for tumor and normal individually
 
 For each new submission need to edit (at a minimum) `batch.dat` and `analysis.dat`.  The per-pipeline 
 details should not change once they are defined.
@@ -80,15 +87,3 @@ The motivation for all these definitions is to allow easier reuse and standardiz
 Need to get token in ./DCC
 
 Run `DCC/test_dcc.sh`.  Will need to delete test dataset on DCC.
-
-# TODO:
-
-For future work, need simply to have a cases list, rather than a BAM file.  Be able to use a master BAM file instead,
-and match the reference
-
-several complications crop up:
-* We need to have a uniform list of cases for all data in analysis.dat.  That means that cannot have a mix of batches with different directories
-  It would be good if can have list of cases defined per line in analysis.dat, so that can have heterogenous lists
-  Currently, data will have to be staged
-* Multiple datafiles per analysis (e.g., one analysis outputs C3L-00001.vcf and C3L-00001.bed) are difficult to process, and require separate
-  lines in analysis.dat

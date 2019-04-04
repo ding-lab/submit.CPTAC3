@@ -1,8 +1,6 @@
 # Define parameters specific to this submission
 # This is a bash script
 
-DATESTAMP="20181203"  # YYYYMMDD
-SUBMIT="A"  
-PROJECT="LUAD.b5"    
-DISEASES="LUAD"
-LOCALE="MGI"
+DATESTAMP="20190405"  # YYYYMMDD
+BATCH="Y2.b1"
+LOCALE="katmai"
