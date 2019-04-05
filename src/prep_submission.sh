@@ -4,7 +4,7 @@
 # https://dinglab.wustl.edu/
 
 read -r -d '' USAGE <<'EOF'
-Prepare submitted CPTAC3 analysis data prior to upload to DCC
+Prepare submitted CPTAC3 analysis data prior to upload to DCC.  
 
 Usage:
   prep_submission.sh [options] 
@@ -24,6 +24,7 @@ Preparation takes three steps:
 Data are uploaded following data preparation.
 
 The file analyses.txt defines the details of each pipeline analysis to upload
+prep_submission.sh loops over all entries in analyses.txt, calls stage_data.sh on each
 
 EOF
 
@@ -114,7 +115,7 @@ test_exit_status
 # Content:
 # 1. ANALYSIS
 # 2. PIPELINE_VER
-# 3. ANALYSIS_DESCRIPTION
+# 3. ANALYSIS_SUMMARY
 # 4. PROCESSING_TXT
 # 5. REF
 # 6. DO_COMPRESS
@@ -122,18 +123,18 @@ test_exit_status
 
 # Iterate over all entries in analyses.dat
 while read i; do
-# analysis description file columns:
+# analysis summary file columns:
 
 
     ANALYSIS=$( echo "$i" | cut -f 1 )
     PIPELINE_VER=$( echo "$i" | cut -f 2 )
-    ANALYSIS_DESCRIPTION=$( echo "$i" | cut -f 3  )
+    ANALYSIS_SUMMARY=$( echo "$i" | cut -f 3  )
     PROCESSING_TXT=$( echo "$i" | cut -f 4  )
     REF=$( echo "$i" | cut -f 5  )
     DO_COMPRESS=$( echo "$i" | cut -f 6  )
     PREPEND_CASE=$( echo "$i" | cut -f 7  )
 
-    confirm $ANALYSIS_DESCRIPTION
+    confirm $ANALYSIS_SUMMARY
     confirm $PROCESSING_TXT
 
 	>&2 echo Processing $ANALYSIS
@@ -145,7 +146,7 @@ while read i; do
         STEP_ARGS="$STEP_ARGS -D"
     fi
 
-    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S $STAGE_ROOT -s $DATESTAMP -B $BATCH $ANALYSIS_DESCRIPTION $ANALYSIS $PIPELINE_VER"
+    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S "$STAGE_ROOT/$DCC_PREFIX" -s $DATESTAMP -B $BATCH $ANALYSIS_SUMMARY $ANALYSIS $PIPELINE_VER"
 
     >&2 echo Running: $CMD
     eval $CMD

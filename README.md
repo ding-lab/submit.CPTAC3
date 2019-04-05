@@ -47,11 +47,13 @@ Remove test file from DCC using the web interface.
 ## Processing
 
 ```
-bash prep_submission.sh stage
-bash prep_submission.sh manifest
-bash prep_submission.sh description
-bash upload_submission.sh
+bash 1_prep_submission.sh
+
 ```
+
+All data gets staged to directory defined as,
+  $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
+For example, per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
 
 # Details
 ## Definition files:
@@ -61,6 +63,7 @@ Each analysis in each submission has configuration defined by 3 files:
   * `DATESTAMP` - YYYYMMDD timestamp
   * `BATCH` - e.g., Y2.b1
   * `LOCALE` - `MGI`, `katmai`, `denali`
+  * `DCC_PREFIX` - Defines the top level directory at DCC.
 * analyses.dat - one row per analysis, may be multiple rows.  Columns are:
   * `ANALYSIS` - canonical analysis name
   * `PIPELINE_VER` - version of this pipeline, e.g., v1.1

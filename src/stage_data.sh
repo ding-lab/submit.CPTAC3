@@ -1,9 +1,9 @@
 read -r -d '' USAGE <<'EOF'
 stage data by copying source data to target.  Staging directories created
 Usage: 
- stage_data.sh [options] analysis_description analysis pipeline_version
+ stage_data.sh [options] analysis_summary analysis pipeline_version
 
-analysis_description: File containing details about all output files, as described here: 
+analysis_summary: File containing details about all output files, as described here: 
     https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit
 analysis: canonical analysis name, e.g., WGS_SV
 pipeline_version: a text identifier of this pipeline, used for destination path creation
@@ -27,7 +27,7 @@ Options:
 -s DATESTAMP: Datestamp, of format YYYYMMDD.  Default: "YYYYMMDD"
 -P PROCESSING_TXT: Processing description file to be copied to each result directory
 
-Loop across all data files in analysis description file and copy data to staging directory
+Loop across all data files in analysis summary file and copy data to staging directory
  * file may have case name prepended
  * file may be compressed
  * Files will be placed in directories according to disease
@@ -235,22 +235,22 @@ function process_result {
     echo "$MANIFEST_LINE"
 }
 
-# stage_data.sh [options] analysis_description analysis pipeline_version
+# stage_data.sh [options] analysis_summary analysis pipeline_version
 
 if [ "$#" -ne 3 ]; then
-    >&2 echo Error: Require 3 arguments: analysis_description analysis pipeline_version
+    >&2 echo Error: Require 3 arguments: analysis_summary analysis pipeline_version
     >&2 echo Got: $# : $@ 
     >&2 echo "$USAGE"
     exit 1  # exit code 1 indicates error
 fi
 
-ANALYSIS_DESCRIPTION=$1  # e.g. WGS-Somatic
+ANALYSIS_SUMMARY=$1  
 ANALYSIS=$2
 PIPELINE_VER=$3
 
-# get manifest header.  It is built up of info from analysis description and info from here
+# get manifest header.  It is built up of info from analysis summary and info from here
 # 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
-AR_HEADER=$( head -n 1 $ANALYSIS_DESCRIPTION )
+AR_HEADER=$( head -n 1 $ANALYSIS_SUMMARY )
 AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 5- )
 MAN_HEADER=$( printf "case\tdisease\tfilename\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 
@@ -270,7 +270,7 @@ while read AD; do
     MAN="$OUTD/manifest.txt"
 
     # Test if OUTD exists.  If it does not, create it, and create a manifest.txt header.
-    # Also copy processing description file to Output directory, if needed
+    # Also copy processing summary file to Output directory, if needed
     if [ ! -d $OUTD ]; then
         >&2 echo OUTD does not exist.  Creating $OUTD
         mkdir -p $OUTD
@@ -296,4 +296,6 @@ while read AD; do
         exit 0  # 0 indicates no error 
     fi
 
-done < $ANALYSIS_DESCRIPTION
+done < $ANALYSIS_SUMMARY
+
+>&2 echo Data staged to subdirectories of $STAGE_ROOT

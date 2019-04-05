@@ -9,7 +9,13 @@
 # Options:
 # -d: dry run
 
-source batch_config.sh
+source batch.dat # timestamp, other per-submission information
+source system.dat $LOCALE # system paths
+
+if [ ! -e $ASCP_INI ]; then
+    >&2 echo ASCP configuration file does not exist: $ASCP_INI
+    exit 1
+fi
 
 # from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
 source $ASCP_INI

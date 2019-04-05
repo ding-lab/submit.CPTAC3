@@ -22,3 +22,4 @@ else
 fi
 
 STAGE_ROOT="${STAGE_BASE}/staged_data.${BATCH}.${DATESTAMP}"
+ASCP_INI="DCC/ascp_config.ini"

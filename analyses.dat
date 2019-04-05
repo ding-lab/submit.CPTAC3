@@ -6,5 +6,18 @@
 # REF
 # DO_COMPRESS
 # PREPEND_CASE
+#
+# Based on information here: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
 
 WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/demo/task_call/katmai.C3/dat/analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	0	1
+
+WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/LSCC/Y2.b1_LSCC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
+WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/HNSCC/Y2.b1_HNSCC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
+WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/GBM/Y2.b1_GBM.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
+
+# WGS CNV Somatic
+WGS_CNV_Somatic	v2.0	/home/mwyczalk_test/Projects/CPTAC3/submit.Y2/Y2.b1.A.SomaticSV/analysis_summary.manual_edit/BICSEQ2/BICSEQ2.Y2.b1.analysis_description.dat	/diskmnt/Projects/CPTAC3CNV/BICSEQ2/BICSEQ2/README.processing_description.md	hg38	1	1
+
+# QC has missing data and duplicate bams, being currently addressed
+# QC	v1.0	/home/mwyczalk_test/Projects/CPTAC3/submit.Y2/Y2.b1.A.SomaticSV/analysis_summary.manual_edit/QC/QC.Y2.b1.analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	1	1
+
