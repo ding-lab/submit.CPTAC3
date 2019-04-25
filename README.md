@@ -48,6 +48,7 @@ Remove test file from DCC using the web interface.
 
 ```
 bash 1_prep_submission.sh
+bash 2_upload_submission.sh
 
 ```
 
