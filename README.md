@@ -1,6 +1,6 @@
 # CPTAC3 Year 2 submissions
 
-What's new:
+Overview of links:
 * All analyses come with analysis description file, which is defined here
     https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit
 * Submission takes place using Google Form, https://docs.google.com/forms/d/1hkN9QsLChNDe3xipwE1O3aDBoCfdIMTztoOWSDEagr4/edit
@@ -15,8 +15,6 @@ git clone https://github.com/ding-lab/submit.CPTAC3 PROJECT_NAME
 
 # Quick start
 
-Info below is from Y1, may be outdated
-
 ## Configuration
 
 ### Config file 
@@ -25,7 +23,16 @@ Edit the following files.
 * batch.dat - timestamp, locale, other per-submission information
 * analyses.dat - Details of analyses (pipelines) used in this batch.  One row per analysis 
 * system.dat - system paths per locale
-Note that all of these are executed as bash scripts.
+Additional details about these files below.  Note that `batch.dat` and `system.dat` are executed as shell scripts.
+
+#### Testing
+
+Test configuration file details prior to staging with
+```
+bash 1_prep_submission -d1
+```
+**TODO** improve ways of confirming correct format of analysis summary file
+
 
 ### DCC
 Configure DCC upload files.  
@@ -54,7 +61,7 @@ bash 2_upload_submission.sh
 
 All data gets staged to directory defined as,
   $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
-For example, per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
+For example, per-analysis-directory = `CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405`
 
 # Details
 ## Definition files:

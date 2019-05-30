@@ -1,25 +1,47 @@
-# analysis.dat
-# ANALYSIS
-# PIPELINE_VER
-# ANALYSIS_SUMMARY
-# PROCESSING_TXT
-# REF
-# DO_COMPRESS
-# PREPEND_CASE
+# columns in analysis.dat
+# * ANALYSIS
+# * PIPELINE_VER
+# * ANALYSIS_SUMMARY
+# * PROCESSING_TXT
+# * REF
+# * DO_COMPRESS
+# * PREPEND_CASE
 #
-# Based on information here: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
+# Details of pipeline submission: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
 
-#WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/demo/task_call/katmai.C3/dat/analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	0	1
+# Submitting the following:
+# * WXS_MSI
+# * RNA-Seq_Transcript_Splicing
+# * RNA-Seq_Fusion
+# * WGS_CNV_Somatic
+# * WGS_SV
+# Note that WXS_MSI and RNA-Seq_Fusion have separate results for GBM and UCEC
 
-#WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/LSCC/Y2.b1_LSCC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
-#WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/HNSCC/Y2.b1_HNSCC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
-#WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b1/GBM/Y2.b1_GBM.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
+WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b2/GBM/Y2.b2_GBM.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
+WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b2/UCEC/Y2.b2_UCEC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
 
-# WGS CNV Somatic
-#WGS_CNV_Somatic	v2.0	/home/mwyczalk_test/Projects/CPTAC3/submit.Y2/Y2.b1.A.SomaticSV/analysis_summary.manual_edit/BICSEQ2/BICSEQ2.Y2.b1.analysis_description.dat	/diskmnt/Projects/CPTAC3CNV/BICSEQ2/BICSEQ2/README.processing_description.md	hg38	1	1
+RNA-Seq_Transcript_Splicing	v1.0	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b2/Y2.b2.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b2/README.md	hg38	1	1
 
-# QC has missing data and duplicate bams, being currently addressed
-# QC	v1.0	/home/mwyczalk_test/Projects/CPTAC3/submit.Y2/Y2.b1.A.SomaticSV/analysis_summary.manual_edit/QC/QC.Y2.b1.analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	1	1
+RNA-Seq_Fusion	v2.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/GBM/Y2.b2_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/FUSION.README	hg38	0	0
+RNA-Seq_Fusion	v2.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/UCEC/Y2.b2_UCEC.analysis_description.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/FUSION.README	hg38	0	0
 
-# Adjacent normal
-#WXS_Adjacent_Somatic	v1.0	/gscuser/mwyczalk/projects/CWL/tin-daisy/demo/task_call/cromwell.Y2b1.normals/dat/analysis_summary.dat	/gscuser/mwyczalk/projects/CWL/tin-daisy/demo/task_call/cromwell.Y2b1.normals/processing_description.md	hg38	0	1
+WGS_CNV_Somatic	v2.0	/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/submit.Y2/Y2.b2.20190529/analysis_summary.manual_edit/BICSEQ2/BICSEQ2.Y2.b1.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Somatic_CNV/BICSEQ2/Y2.b2/scripts/README.processing_description.md	hg38	1	1
+
+WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/runs/Y2.b2.b/dat/analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	0	1
+
+# Past submissions, for templates:
+#
+# WGS_SV	v1.0	.../analysis_summary.dat	.../processing_description.txt	hg38	0	1
+#
+# WXS_MSI	v1.1	.../Y2.b1_LSCC.analysis_description.dat	.../MSI.README	hg38	0	0
+# WXS_MSI	v1.1	.../Y2.b1_HNSCC.analysis_description.dat	.../MSI.README	hg38	0	0
+#
+# WGS_CNV_Somatic	v2.0	.../BICSEQ2.Y2.b1.analysis_description.dat	.../README.processing_description.md	hg38	1	1
+#
+# QC	v1.0	.../QC.Y2.b1.analysis_summary.dat	.../processing_description.txt	hg38	1	1
+#
+# WXS_Normal_Adjacent	v1.0	.../analysis_summary.dat	.../processing_description.md	hg38	0	1
+#
+# RNA-Seq_Transcript	v1	.../Y2.b1.transcript_summary.dat	.../README.md	hg38	1	1
+#
+# RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0

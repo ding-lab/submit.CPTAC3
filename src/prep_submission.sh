@@ -10,7 +10,7 @@ Usage:
   prep_submission.sh [options] 
 options:
   -h: Print this help message
-  -1: process just one step and stop
+  -1: process just one sample per analysis
   -d: dry run.  Print out what would be done, but don't do anything
   -w: Warn if data file missing, rather than quit
   -A ANALYSIS_DAT: path to analyses.dat
@@ -47,7 +47,6 @@ while getopts ":hd1wA:B:S:" opt; do
     1) 
       >&2 echo "Stop after one"
       ARGS="$ARGS -1" 
-      STOPATONE=1
       ;;
     w) 
       >&2 echo "Warn if data missing"

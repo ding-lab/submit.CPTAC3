@@ -226,10 +226,16 @@ function process_result {
     fi
 
     # Now evaluate values needed for manifest file
-    SIZE=$(stat --printf="%s" $DEST_FN)
-    test_exit_status
-    MD5=$(md5sum $DEST_FN | cut -f 1 -d ' ')
-    test_exit_status
+	# If DRYRUN, skip this because files may not exist
+	if [ ! $DRYRUN ]; then
+        SIZE=$(stat --printf="%s" $DEST_FN)
+        test_exit_status
+        MD5=$(md5sum $DEST_FN | cut -f 1 -d ' ')
+        test_exit_status
+	else
+        SIZE="unknown"
+        MD5="unknown"
+	fi
 
     MANIFEST_LINE=$( printf "$CASE\t$DIS\t$FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
     echo "$MANIFEST_LINE"
@@ -283,6 +289,10 @@ while read AD; do
 
         # Copy processing description file
         if [ ! -z $PROCESSING_TXT ]; then
+            if [ ! -f $PROCESSING_TXT ]; then
+                >&2 echo Error: Processing description does not exist: $PROCESSING_TXT
+                exit 1
+            fi
             >&2 echo Copying $PROCESSING_TXT to $OUTD
             cp $PROCESSING_TXT $OUTD
             test_exit_status
