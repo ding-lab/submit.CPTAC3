@@ -8,6 +8,8 @@
 # * PREPEND_CASE
 #
 # Details of pipeline submission: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
+#
+Methylation_Array	v1.1	/diskmnt/Projects/Users/wliang/Methylome_CPTAC/04_Pipeline/04_MergedData/Processed_hg38_remap/AnalysisSummary.txt	/diskmnt/Projects/Users/wliang/Methylome_CPTAC/04_Pipeline/04_MergedData/Processed_hg38_remap/cptac_methylation_analysis.txt	hg38	0	0
 
 # Submitting the following:
 # * WXS_MSI
@@ -16,18 +18,6 @@
 # * WGS_CNV_Somatic
 # * WGS_SV
 # Note that WXS_MSI and RNA-Seq_Fusion have separate results for GBM and UCEC
-
-WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b2/GBM/Y2.b2_GBM.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
-WXS_MSI	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MSI_hg38/Y2.b2/UCEC/Y2.b2_UCEC.analysis_description.dat	/diskmnt/Projects/Users/dcui/Projects/MSI_hg38_pipeline/MSI.README	hg38	0	0
-
-RNA-Seq_Transcript_Splicing	v1.0	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b2/Y2.b2.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b2/README.md	hg38	1	1
-
-RNA-Seq_Fusion	v2.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/GBM/Y2.b2_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/FUSION.README	hg38	0	0
-RNA-Seq_Fusion	v2.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/UCEC/Y2.b2_UCEC.analysis_description.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/FUSION.README	hg38	0	0
-
-WGS_CNV_Somatic	v2.0	/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/submit.Y2/Y2.b2.20190529/analysis_summary.manual_edit/BICSEQ2/BICSEQ2.Y2.b1.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Somatic_CNV/BICSEQ2/Y2.b2/scripts/README.processing_description.md	hg38	1	1
-
-WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/runs/Y2.b2.b/dat/analysis_summary.dat	/home/mwyczalk_test/Projects/SomaticSV/somatic_sv_workflow/processing_description.txt	hg38	0	1
 
 # Past submissions, for templates:
 #
@@ -45,3 +35,5 @@ WGS_SV	v1.0	/home/mwyczalk_test/Projects/SomaticSV/runs/Y2.b2.b/dat/analysis_sum
 # RNA-Seq_Transcript	v1	.../Y2.b1.transcript_summary.dat	.../README.md	hg38	1	1
 #
 # RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0
+#
+# Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
