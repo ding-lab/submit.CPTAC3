@@ -11,9 +11,6 @@ pipeline_version: a text identifier of this pipeline, used for destination path 
 Output directory is defined as:
   OUTD = $STAGE_ROOT/$DIS/CPTAC3_${DIS}_${ANALYSIS}_${PIPELINE_VER}_${BATCH}_${DATESTAMP}
 
-BATCH
-DATESTAMP
-
 Options:
 -h: help
 -z: compress the file while staging
@@ -23,38 +20,62 @@ Options:
 -D: Prepend case name to data file name
 -w: Warn if data file does not exist rather than quitting
 -S STAGE_ROOT: staging root directory.  Default: /data
+-R DCC_PREFIX: Root directory on DCC.  Optional
 -B BATCH: batch name.  Default "NoBatch"
 -s DATESTAMP: Datestamp, of format YYYYMMDD.  Default: "YYYYMMDD"
 -P PROCESSING_TXT: Processing description file to be copied to each result directory
+-C DCC_SUMMARY: If defined, write DCC Analysis Summary file to given filename
+-M: Manifest only.  Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+-m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
 
 Loop across all data files in analysis summary file and copy data to staging directory
  * file may have case name prepended
  * file may be compressed
  * Files will be placed in directories according to disease
-Create a manifest file at this time, one line generated for every in processing description
+Create a manifest file at this time, one line generated for every entry in analysis summary
  * Requires obtaining file size, md5sum
  * One manifest per disease.  One header per disease.  Will append to any existing data
  * Involves essentially appending to an analysis directory data as described below
-Also copy processing description file, if provided, to every directory
+Copy processing description file, if provided, to every directory
+If requested, write DCC_SUMMARY file which provides details about result files on DCC.
+
+Destination directory for staged data is defined as,
+ $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
+For example, per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
 
 Analysis Description File - input format (note output file format)
-* 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
+* 1.Case name 2.Disease 3.Output File Path 4.Output File Format 
+* Remaining fields are variable, for example: 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
 
 Manifest file - output format
     1. Case name
     2. Disease 
-    3.+Data file name
-    4.+Filesize
-    5.+File format
-    6.+md5sum
-    7. Tumor sample name
-    8. Tumor BAM UUID
-    9. Normal sample name
-    10.Normal BAM UUID
-New fields have + ; Data file name is filename associated Output File Path, with .gz added if compressed
+    3. Data file name
+    4. Filesize
+    5. File format
+    6. md5sum
+    7. Tumor sample name    (variable)
+    8. Tumor BAM UUID       (variable)
+    9. Normal sample name   (variable)
+    10.Normal BAM UUID      (variable)
+Fields 7+ are pipeline-specific and obtained from analysis summary file
+Data file name is filename associated Output File Path, with .gz added if compressed
 File format is obtained from Analysis Description File
 
 Manifest file is written to every directory, i.e., one will be written per disease
+
+DCC Analysis Summary file has the following fields:
+ 1. case
+ 2. disease
+ 3. pipeline_name
+ 4. pipeline_version
+ 5. timestamp
+ 6. DCC_path
+ 7. filesize
+ 8. file_format
+ 9. md5sum
+
+Additional (variable) fields are as in manifest file
 
 EOF
 
@@ -114,9 +135,10 @@ function get_dest_dir {
 STAGE_ROOT="/data"  
 BATCH="NoBatch"  
 DATESTAMP="YYYYMMDD"  
+MANIFEST_FILENAME="manifest.txt"  
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hzfd1DwS:B:s:P:" opt; do
+while getopts ":hzfd1DwS:B:s:P:C:Mm:R:" opt; do
   case $opt in
     h) # Dry run 
       echo "$USAGE" 
@@ -156,6 +178,18 @@ while getopts ":hzfd1DwS:B:s:P:" opt; do
       PROCESSING_TXT=$OPTARG
       confirm $PROCESSING_TXT
       ;;
+    C) 
+      DCC_SUMMARY=$OPTARG
+      ;;
+    M) 
+      MANIFEST_ONLY=1
+      ;;
+    m) 
+      MANIFEST_FILENAME=$OPTARG
+      ;;
+    R) 
+      DCC_PREFIX=$OPTARG
+      ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG" 
       >&2 echo "$USAGE" 
@@ -173,18 +207,19 @@ shift $((OPTIND-1))
 function process_result {
 # for each entry in analysis direcotry file,
 # * copy data to staging area, as defined by OUTD
-# * write one line of manifest to stdout
+# * return information needed to construct one line in manifest and DCC_summary files
     OUTD=$1
-    AR="$2"
-    
-# 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5-. other fields to pass along as-is
-    CASE=$( echo "$AD" | cut -f 1  )
-    DIS=$( echo "$AD" | cut -f 2  )
-    OUT_FN=$( echo "$AD" | cut -f 3  )
-    OUT_FF=$( echo "$AD" | cut -f 4  )
-    AR_TAIL=$( echo "$AD" | cut -f 5-  )
+    DCC_OUTD=$2
+    AR="$3"
 
-    if [ ! -e $OUT_FN ]; then  # Might be good to have option here to either warn or quit 
+# 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5-. other fields to pass along as-is
+    CASE=$( echo "$AR" | cut -f 1  )
+    DIS=$( echo "$AR" | cut -f 2  )
+    OUT_FN=$( echo "$AR" | cut -f 3  )
+    OUT_FF=$( echo "$AR" | cut -f 4  )
+    AR_TAIL=$( echo "$AR" | cut -f 5-  )
+
+    if [ ! -e $OUT_FN ]; then  # Have option here to either warn or quit 
         if [ $WARN_MISSING ]; then
             >&2 echo WARNING: $OUT_FN does not exist.  Continuing
             return
@@ -204,41 +239,67 @@ function process_result {
 
     # We are copying OUT_FN to DEST_FN
     DEST_FN="$OUTD/$FN"
-    
+    DCC_FN="$DCC_OUTD/$FN"
 
-    if [ -e $DEST_FN ] && [ -s $DEST_FN ];  then  # file exists and is not zero size
-        if [  $FORCE_OVERWRITE ]; then
-            >&2 echo Destination file $DEST_FN exists.  Overwriting
+    # If "manifest only", we don't copy data but assume it is there.
+    if [ -z $MANIFEST_ONLY ]; then  
+        if [ -e $DEST_FN ] && [ -s $DEST_FN ];  then  # file exists and is not zero size
+            if [  $FORCE_OVERWRITE ]; then
+                >&2 echo Destination file $DEST_FN exists.  Overwriting
+            else
+                >&2 echo Destination file $DEST_FN exists.  Skipping
+                return
+            fi
+        fi
+
+        if [ $COMPRESS ]; then
+            >&2 echo Compressing $OUT_FN to $DEST_FN
+            CMD="gzip -v - <$OUT_FN > $DEST_FN"
+            run_cmd "$CMD"
         else
-            >&2 echo Destination file $DEST_FN exists.  Skipping
-            return
+            >&2 echo Copying $OUT_FN to $DEST_FN
+            CMD="cp $OUT_FN $DEST_FN"
+            run_cmd "$CMD"
+        fi
+    else
+        >&2 echo Manifest only: not copying data, testing to make sure it exists
+        if [ ! -e $DEST_FN ]; then  
+            if [ $WARN_MISSING ]; then
+                >&2 echo WARNING: $DEST_FN does not exist.  Continuing
+                return
+            else
+                >&2 echo $DEST_FN does not exist.  Quitting
+                exit 1
+            fi
         fi
     fi
 
-    if [ $COMPRESS ]; then
-        >&2 echo Compressing $OUT_FN to $DEST_FN
-        CMD="gzip -v - <$OUT_FN > $DEST_FN"
-        run_cmd "$CMD"
-    else
-        >&2 echo Copying $OUT_FN to $DEST_FN
-        CMD="cp $OUT_FN $DEST_FN"
-        run_cmd "$CMD"
-    fi
-
     # Now evaluate values needed for manifest file
-	# If DRYRUN, skip this because files may not exist
-	if [ ! $DRYRUN ]; then
+	# If DRYRUN, evaluate only if files exist (they may not)
+    # otherwise assume files exist
+    if [ ! -f $DEST_FN ]; then
+        if [ $DRYRUN ]; then
+            SIZE="unknown"
+            MD5="unknown"
+        else
+            >&2 echo ERROR: $DEST_FN does not exist
+            exit 1
+        fi
+    else
         SIZE=$(stat --printf="%s" $DEST_FN)
         test_exit_status
         MD5=$(md5sum $DEST_FN | cut -f 1 -d ' ')
         test_exit_status
-	else
-        SIZE="unknown"
-        MD5="unknown"
-	fi
+    fi
 
-    MANIFEST_LINE=$( printf "$CASE\t$DIS\t$FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
-    echo "$MANIFEST_LINE"
+# The following variables read as globals are needed for DCC_LINE
+# ANALYSIS
+# PIPELINE_VER
+# DATESTAMP
+    MANIFEST_DATA=$( printf "$DCC_FN\t$CASE\t$DIS\t$FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
+#    DCC_LINE=$( printf "$CASE\t$DIS\t$ANALYSIS\t$PIPELINE_VER\t$DATESTAMP\t$DCC_FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
+
+    echo "$DCC_FN" "$CASE" "$DIS" "$FN" "$SIZE" "$OUT_FF" "$MD5" "$AR_TAIL"
 }
 
 # stage_data.sh [options] analysis_summary analysis pipeline_version
@@ -255,29 +316,55 @@ ANALYSIS=$2
 PIPELINE_VER=$3
 
 # get manifest header.  It is built up of info from analysis summary and info from here
-# 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
+# mandatory : 1.Case name 2.Disease 3.Output File Path 4.Output File Format 
+# variable, e.g. : 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
 AR_HEADER=$( head -n 1 $ANALYSIS_SUMMARY )
 AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 5- )
 MAN_HEADER=$( printf "case\tdisease\tfilename\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
+DCC_HEADER=$( printf "case\tdisease\tpipeline_name\tpipeline_version\ttimestamp\tDCC_path\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 
 echo Writing data to $STAGE_ROOT
 mkdir -p $STAGE_ROOT
 test_exit_status
 
-# Output directory is $STAGE_ROOT/$DIS/$DESTD
+# Output directory is $STAGE_ROOT/$DCC_PREFIX/$DIS/$DESTD
 # where DESTD is generated by $( get_dest_dir )
+
+if [ ! -z $DCC_SUMMARY ]; then
+    if [ ! $DRYRUN ]; then
+        # Create header for DCC Analysis Summary 
+        >&2 echo Initializing DCC Analysis Summary $DCC_SUMMARY
+        echo "$DCC_HEADER" > $DCC_SUMMARY
+        test_exit_status
+    fi
+fi
+
+# Loop over all entries in an analysis summary file
 while read AD; do
 
     [[ $AD = \#* ]] && continue  # Skip commented out entries
 
     DIS=$( echo "$AD" | cut -f 2  )
     DESTD=$(get_dest_dir $DIS $ANALYSIS $PIPELINE_VER $BATCH $DATESTAMP)
-    OUTD=$STAGE_ROOT/$DIS/$DESTD
-    MAN="$OUTD/manifest.txt"
+    # OUTD is the full path to where this file will be staged
+    OUTD=$STAGE_ROOT/$DCC_PREFIX/$DIS/$DESTD
+    MAN="$OUTD/$MANIFEST_FILENAME"
+    # Directory relative to DCC.  Essentially OUTD with STAGE_ROOT = /
+    DCC_DATD="/$DCC_PREFIX/$DIS/$DESTD"
+
+
+    # If dry run, spit out some additional details
+    if [ $DRYRUN ]; then
+        >&2 echo Manifest path: $MAN
+        if [ ! -z $DCC_SUMMARY ]; then
+            >&2 echo DCC analysis summary path: $DCC_SUMMARY
+        fi
+    fi
 
     # Test if OUTD exists.  If it does not, create it, and create a manifest.txt header.
     # Also copy processing summary file to Output directory, if needed
-    if [ ! -d $OUTD ]; then
+    # Skip this processing if only manifest
+    if [ ! -d $OUTD ] && [ ! -z $MANIFEST_ONLY ]; then
         >&2 echo OUTD does not exist.  Creating $OUTD
         mkdir -p $OUTD
         test_exit_status
@@ -299,7 +386,27 @@ while read AD; do
         fi
     fi
 
-    process_result $OUTD "$AD" >> $MAN
+    # from https://stackoverflow.com/questions/2488715/idioms-for-returning-multiple-values-in-shell-scripting
+    read DCC_FN CASE DIS FN SIZE OUT_FF MD5 AR_TAIL < <( process_result $OUTD $DCC_DATD "$AD" )
+    test_exit_status
+
+    MAN_LINE=$( printf "$CASE\t$DIS\t$FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
+
+# The following variables read as globals are needed for DCC_LINE
+# ANALYSIS PIPELINE_VER DATESTAMP
+    DCC_LINE=$( printf "$CASE\t$DIS\t$ANALYSIS\t$PIPELINE_VER\t$DATESTAMP\t$DCC_FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
+
+    if [ "$DRYRUN" == "d" ]; then
+        >&2 echo Dryrun: adding manifest line: $MAN_LINE
+        if [ ! -z $DCC_SUMMARY ]; then
+            >&2 echo Dryrun: adding DCC Summary line: $DCC_LINE
+        fi
+    else
+        echo "$MAN_LINE" >> $MAN
+        if [ ! -z $DCC_SUMMARY ]; then
+            echo "$DCC_LINE" >> $DCC_SUMMARY
+        fi
+    fi
 
     if [ $STOPATONE ]; then
         >&2 echo Stopping after one

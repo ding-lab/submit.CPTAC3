@@ -28,3 +28,5 @@
 #
 # Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
 # miRNA-Seq	v1.0	.../Y2.B3.miRNA.analysis_summary.dat	.../Y2.B3.miRNA.processing_description.md	hg38	0	0
+
+RNA-Seq_Expression	v1.0	/diskmnt/Projects/cptac_scratch/CPTAC_expression/Y1Y2.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC_expression/Y1Y2.processing_description.md	hg38	0	0

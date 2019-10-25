@@ -16,6 +16,9 @@ options:
   -A ANALYSIS_DAT: path to analyses.dat
   -B BATCH_DAT: Path to batch.dat
   -S SYSTEM_DAT: Path to system.dat
+  -C DCC_SUMMARY: If defined, write DCC Analysis Summary file to given filename
+  -M: Manifest only.  Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+  -m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
 
 Preparation takes three steps:
 1. Stage the data.  This involves copying data, possibly compressing it, and converting to standardized filename
@@ -34,7 +37,7 @@ SYSTEM_DAT="system.dat"
 
 ARGS=""
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hd1wA:B:S:" opt; do
+while getopts ":hd1wA:B:S:C:Mm:" opt; do
   case $opt in
     h)  
       echo "$USAGE"
@@ -63,6 +66,15 @@ while getopts ":hd1wA:B:S:" opt; do
     S) 
       SYSTEM_DAT="$OPTARG"
       confirm $SYSTEM_DAT
+      ;;
+    C) 
+      ARGS="$ARGS -C $OPTARG" 
+      ;;
+    M) 
+      ARGS="$ARGS -M " 
+      ;;
+    m) 
+      ARGS="$ARGS -m $OPTARG" 
       ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG"
@@ -145,7 +157,7 @@ while read i; do
         STEP_ARGS="$STEP_ARGS -D"
     fi
 
-    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S "$STAGE_ROOT/$DCC_PREFIX" -s $DATESTAMP -B $BATCH $ANALYSIS_SUMMARY $ANALYSIS $PIPELINE_VER"
+    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S "$STAGE_ROOT" -R "$DCC_PREFIX" -s $DATESTAMP -B $BATCH $ANALYSIS_SUMMARY $ANALYSIS $PIPELINE_VER"
 
     >&2 echo Running: $CMD
     eval $CMD
