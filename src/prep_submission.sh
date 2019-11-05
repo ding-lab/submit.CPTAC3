@@ -16,8 +16,11 @@ options:
   -A ANALYSIS_DAT: path to analyses.dat
   -B BATCH_DAT: Path to batch.dat
   -S SYSTEM_DAT: Path to system.dat
-  -C DCC_SUMMARY: If defined, write DCC Analysis Summary file to given filename
-  -M: Manifest only.  Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+  -C: Write DCC Analysis Summary file 
+  -T DCC_SUMMARY_TEMPLATE: template for generating DCC analysis summary file. "%s" is replaced by the analysis name
+     Default is "dat/%s.DCC_analysis_summary.dat", which for yields for example "dat/RNA-Seq_Expression.DCC_analysis_summary.dat"
+  -M: Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+  -N: Don't write manifest.  NOTE: -MNC will leave data and manifest file untouched, only create DCC summary file
   -m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
 
 Preparation takes three steps:
@@ -35,9 +38,11 @@ ANALYSES_DAT="analyses.dat"
 BATCH_DAT="batch.dat"
 SYSTEM_DAT="system.dat"
 
+DCC_SUMMARY_TEMPLATE="dat/%s.DCC_analysis_summary.dat"
+
 ARGS=""
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hd1wA:B:S:C:Mm:" opt; do
+while getopts ":hd1wA:B:S:CT:MNm:" opt; do
   case $opt in
     h)  
       echo "$USAGE"
@@ -68,10 +73,16 @@ while getopts ":hd1wA:B:S:C:Mm:" opt; do
       confirm $SYSTEM_DAT
       ;;
     C) 
-      ARGS="$ARGS -C $OPTARG" 
+      WRITE_DCC_ANALYSIS=1
+      ;;
+    T) 
+      DCC_SUMMARY_TEMPLATE="$OPTARG"
       ;;
     M) 
       ARGS="$ARGS -M " 
+      ;;
+    N) 
+      ARGS="$ARGS -N " 
       ;;
     m) 
       ARGS="$ARGS -m $OPTARG" 
@@ -117,11 +128,31 @@ function confirm {
     fi
 }
 
+# Evaluate given command CMD either as dry run or for real with
+#     CMD="tabix -p vcf $OUT"
+#     run_cmd "$CMD"
+function run_cmd {
+    CMD=$1
+
+    NOW=$(date)
+    if [ "$DRYRUN" == "d" ]; then
+        >&2 echo [ $NOW ] Dryrun: $CMD
+    else
+        >&2 echo [ $NOW ] Running: $CMD
+        eval $CMD
+        test_exit_status
+        NOW=$(date)
+        >&2 echo [ $NOW ] Completed successfully
+    fi
+}
+
 source $BATCH_DAT # defines DATESTAMP, BATCH
 test_exit_status
 
 source $SYSTEM_DAT $LOCALE # defines STAGE_ROOT, 
 test_exit_status
+
+echo STAGE_ROOT = $STAGE_ROOT
 
 # Content:
 # 1. ANALYSIS
@@ -149,6 +180,13 @@ while read i; do
     confirm $PROCESSING_TXT
 
 	>&2 echo Processing $ANALYSIS
+
+    STEP_ARGS="" 
+    if [ ! -z $WRITE_DCC_ANALYSIS ]; then
+        DCC_SUMMARY_FN=$(printf $DCC_SUMMARY_TEMPLATE $ANALYSIS)
+        >&2 echo Writing DCC analysis to : $DCC_SUMMARY_FN
+        STEP_ARGS="$STEP_ARGS -C $DCC_SUMMARY_FN"
+    fi 
 
     if [ $DO_COMPRESS == 1 ]; then
         STEP_ARGS="$STEP_ARGS -z"

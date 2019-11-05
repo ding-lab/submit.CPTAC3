@@ -1,7 +1,7 @@
 # CPTAC3 Year 2 submissions
 
 Overview of links:
-* All analyses come with analysis description file, which is defined here
+* All analyses come with analysis summary file, which is defined here
     https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit
 * Submission takes place using Google Form, https://docs.google.com/forms/d/1hkN9QsLChNDe3xipwE1O3aDBoCfdIMTztoOWSDEagr4/edit
   * This populates Pipeline Management Y2 sheet: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881

@@ -1,2 +1,4 @@
+mkdir -p dat
 
-src/prep_submission.sh $@
+# prep_submission.sh reads analyses.dat, batch.dat, system.dat
+src/prep_submission.sh -C $@

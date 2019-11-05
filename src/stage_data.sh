@@ -9,7 +9,7 @@ analysis: canonical analysis name, e.g., WGS_SV
 pipeline_version: a text identifier of this pipeline, used for destination path creation
 
 Output directory is defined as:
-  OUTD = $STAGE_ROOT/$DIS/CPTAC3_${DIS}_${ANALYSIS}_${PIPELINE_VER}_${BATCH}_${DATESTAMP}
+  OUTD = $STAGE_ROOT/$DCC_PREFIX/$DIS/CPTAC3_${DIS}_${ANALYSIS}_${PIPELINE_VER}_${BATCH}_${DATESTAMP}
 
 Options:
 -h: help
@@ -25,23 +25,22 @@ Options:
 -s DATESTAMP: Datestamp, of format YYYYMMDD.  Default: "YYYYMMDD"
 -P PROCESSING_TXT: Processing description file to be copied to each result directory
 -C DCC_SUMMARY: If defined, write DCC Analysis Summary file to given filename
--M: Manifest only.  Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+-M: NO_COPY  Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
+    This is a special mode for generating manifest without touching data.  Note that manifest file will be appended to if it exists
+-N: Don't write manifest (though DCC_SUMMARY will be written as requested)
 -m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
 
-Loop across all data files in analysis summary file and copy data to staging directory
- * file may have case name prepended
- * file may be compressed
- * Files will be placed in directories according to disease
-Create a manifest file at this time, one line generated for every entry in analysis summary
- * Requires obtaining file size, md5sum
- * One manifest per disease.  One header per disease.  Will append to any existing data
- * Involves essentially appending to an analysis directory data as described below
+Loop across all data files in analysis summary file and copy data (result file) to staging directory
+ * optionally prepend case name to results file
+ * optionally compress results file 
+ * result files will be copied to per-disease output directories 
+Create a manifest file, one line for every entry (result file) in analysis summary
+ * obtains file size and calculates md5sum
+ * One manifest per disease.  One header per manifest  Appends to an existing manifest file
 Copy processing description file, if provided, to every directory
-If requested, write DCC_SUMMARY file which provides details about result files on DCC.
+Optionally write DCC_SUMMARY file which provides details about result files on DCC.
 
-Destination directory for staged data is defined as,
- $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
-For example, per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
+Example per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
 
 Analysis Description File - input format (note output file format)
 * 1.Case name 2.Disease 3.Output File Path 4.Output File Format 
@@ -138,7 +137,7 @@ DATESTAMP="YYYYMMDD"
 MANIFEST_FILENAME="manifest.txt"  
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hzfd1DwS:B:s:P:C:Mm:R:" opt; do
+while getopts ":hzfd1DwS:B:s:P:C:NMm:R:" opt; do
   case $opt in
     h) # Dry run 
       echo "$USAGE" 
@@ -181,8 +180,11 @@ while getopts ":hzfd1DwS:B:s:P:C:Mm:R:" opt; do
     C) 
       DCC_SUMMARY=$OPTARG
       ;;
+    N)  # Idea is to allow DCC summary to be written without modifying exising data
+      NO_MANIFEST=1
+      ;;
     M) 
-      MANIFEST_ONLY=1
+      NO_COPY=1
       ;;
     m) 
       MANIFEST_FILENAME=$OPTARG
@@ -242,7 +244,7 @@ function process_result {
     DCC_FN="$DCC_OUTD/$FN"
 
     # If "manifest only", we don't copy data but assume it is there.
-    if [ -z $MANIFEST_ONLY ]; then  
+    if [ -z $NO_COPY ]; then  
         if [ -e $DEST_FN ] && [ -s $DEST_FN ];  then  # file exists and is not zero size
             if [  $FORCE_OVERWRITE ]; then
                 >&2 echo Destination file $DEST_FN exists.  Overwriting
@@ -262,7 +264,7 @@ function process_result {
             run_cmd "$CMD"
         fi
     else
-        >&2 echo Manifest only: not copying data, testing to make sure it exists
+        >&2 echo Not copying data, testing to make sure it exists
         if [ ! -e $DEST_FN ]; then  
             if [ $WARN_MISSING ]; then
                 >&2 echo WARNING: $DEST_FN does not exist.  Continuing
@@ -323,7 +325,7 @@ AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 5- )
 MAN_HEADER=$( printf "case\tdisease\tfilename\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 DCC_HEADER=$( printf "case\tdisease\tpipeline_name\tpipeline_version\ttimestamp\tDCC_path\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 
-echo Writing data to $STAGE_ROOT
+echo STAGE_ROOT = $STAGE_ROOT
 mkdir -p $STAGE_ROOT
 test_exit_status
 
@@ -363,26 +365,31 @@ while read AD; do
 
     # Test if OUTD exists.  If it does not, create it, and create a manifest.txt header.
     # Also copy processing summary file to Output directory, if needed
-    # Skip this processing if only manifest
-    if [ ! -d $OUTD ] && [ ! -z $MANIFEST_ONLY ]; then
+    if [ ! -d $OUTD ] ; then
         >&2 echo OUTD does not exist.  Creating $OUTD
         mkdir -p $OUTD
         test_exit_status
 
-        # Create header for manifest.txt.  Any old one will be silently deleted
-        >&2 echo Initializing manifest $MAN
-        echo "$MAN_HEADER" > $MAN
-        test_exit_status
+        if [ ! $NO_MANIFEST ]; then
+            # Create header for manifest.txt.  Any old one will be silently deleted
+            >&2 echo Initializing manifest $MAN
+            echo "$MAN_HEADER" > $MAN
+            test_exit_status
+        else
+            >&2 echo Skipping manifest writing
+        fi
 
         # Copy processing description file
-        if [ ! -z $PROCESSING_TXT ]; then
-            if [ ! -f $PROCESSING_TXT ]; then
-                >&2 echo Error: Processing description does not exist: $PROCESSING_TXT
-                exit 1
+        if [ -z $NO_COPY ]; then
+            if [ ! -z $PROCESSING_TXT ]; then
+                if [ ! -f $PROCESSING_TXT ]; then
+                    >&2 echo Error: Processing description does not exist: $PROCESSING_TXT
+                    exit 1
+                fi
+                >&2 echo Copying $PROCESSING_TXT to $OUTD
+                cp $PROCESSING_TXT $OUTD
+                test_exit_status
             fi
-            >&2 echo Copying $PROCESSING_TXT to $OUTD
-            cp $PROCESSING_TXT $OUTD
-            test_exit_status
         fi
     fi
 
@@ -402,7 +409,9 @@ while read AD; do
             >&2 echo Dryrun: adding DCC Summary line: $DCC_LINE
         fi
     else
-        echo "$MAN_LINE" >> $MAN
+        if [ -z $NO_MANIFEST ]; then
+            echo "$MAN_LINE" >> $MAN
+        fi
         if [ ! -z $DCC_SUMMARY ]; then
             echo "$DCC_LINE" >> $DCC_SUMMARY
         fi
