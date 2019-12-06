@@ -1,8 +1,8 @@
 # Define parameters specific to this submission
 # This is a bash script
 
-DATESTAMP="20190529"  # YYYYMMDD
-BATCH="Y2.b2"
+DATESTAMP="20190807"  # YYYYMMDD
+BATCH="Y2.ALL"
 LOCALE="katmai"
 
 # All data gets staged to directory defined as,
