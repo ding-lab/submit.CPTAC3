@@ -9,10 +9,7 @@
 #
 # Details of pipeline submission: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
 #
-
-QC	v1.0	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/1.BAM_FastQC/inputs/QC.Y2.b3.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/README.md	hg38	1	1
-RNA-Seq_Transcript	v1	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/Y2.b3.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/README.md	hg38	1	1
-
+RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y1.b1_redo/LUAD/Fusion_hg38_Y1/Y1.bAll_LUAD.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
 
 # Submitting the following:
 # * WXS_MSI

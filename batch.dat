@@ -1,12 +1,12 @@
 # Define parameters specific to this submission
 # This is a bash script
 
-DATESTAMP="20190529"  # YYYYMMDD
-BATCH="Y2.b2"
+DATESTAMP="20190807"  # YYYYMMDD
+BATCH="Y1.ALL"
 LOCALE="katmai"
 
 # All data gets staged to directory defined as,
 # $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
 # For example, per-analysis-directory = CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405
 
-DCC_PREFIX="CPTAC3.Y2_WashU"
+DCC_PREFIX="CPTAC3_LUAD"
