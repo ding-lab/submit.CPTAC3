@@ -2,7 +2,7 @@
 # This is a bash script
 
 DATESTAMP="20190807"  # YYYYMMDD
-BATCH="Y2.ALL"
+BATCH="Y2.b3"
 LOCALE="katmai"
 
 # All data gets staged to directory defined as,

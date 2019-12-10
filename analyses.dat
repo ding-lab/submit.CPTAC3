@@ -8,22 +8,35 @@
 # * PREPEND_CASE
 #
 # Details of pipeline submission: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
+#
 
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/GBM/Y2.b1_redo_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/HNSCC/Y2.b1_redo_HNSCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b1/LSCC/Y2.b1_redo_LSCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/GBM/Y2.b2_redo_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y2.b2/UCEC/Y2.b2_redo_UCEC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/AML/Y2.B3_AML.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/CCRCC/Y2.B3_CCRCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/CM/Y2.B3_CM.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/GBM/Y2.B3_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/HNSCC/Y2.B3_HNSCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/LSCC/Y2.B3_LSCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/LUAD/Y2.B3_LUAD.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/PDA/Y2.B3_PDA.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/SAR/Y2.B3_SAR.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b3/UCEC/Y2.B3_UCEC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b4/GBM/Y2.b4_GBM.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
-RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/Y2.b4/HNSCC/Y2.b4_HNSCC.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
+QC	v1.0	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/1.BAM_FastQC/inputs/QC.Y2.b3.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/README.md	hg38	1	1
+RNA-Seq_Transcript	v1	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/Y2.b3.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/README.md	hg38	1	1
 
+
+# Submitting the following:
+# * WXS_MSI
+# * RNA-Seq_Transcript
+# * RNA-Seq_Fusion
+# * WGS_CNV_Somatic
+# * WGS_SV
+# Note that WXS_MSI and RNA-Seq_Fusion have separate results for GBM and UCEC
+
+# Past submissions, for templates:
+#
+# WGS_SV	v1.0	.../analysis_summary.dat	.../processing_description.txt	hg38	0	1
+#
+# WXS_MSI	v1.1	.../Y2.b1_LSCC.analysis_description.dat	.../MSI.README	hg38	0	0
+# WXS_MSI	v1.1	.../Y2.b1_HNSCC.analysis_description.dat	.../MSI.README	hg38	0	0
+#
+# WGS_CNV_Somatic	v2.0	.../BICSEQ2.Y2.b1.analysis_description.dat	.../README.processing_description.md	hg38	1	1
+#
+# QC	v1.0	.../QC.Y2.b1.analysis_summary.dat	.../processing_description.txt	hg38	1	1
+#
+# WXS_Normal_Adjacent	v1.0	.../analysis_summary.dat	.../processing_description.md	hg38	0	1
+#
+# RNA-Seq_Transcript	v1	.../Y2.b1.transcript_summary.dat	.../README.md	hg38	1	1
+#
+# RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0
+#
+# Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
