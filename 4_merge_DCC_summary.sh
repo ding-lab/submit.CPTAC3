@@ -1,5 +1,5 @@
 CATALOGD="/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/CPTAC3.catalog/DCC_Analysis_Summary"
-ANALYSES_DAT="analyses.dat"
+ANALYSES_DAT="analyses-adhoc.dat"
 
 
 function merge_analysis {
@@ -20,7 +20,7 @@ function merge_analysis {
     DCC="dat/${ANALYSIS}.DCC_analysis_summary.dat"
     DCC_MERGED="dat/${ANALYSIS}.MERGED.DCC_analysis_summary.dat"
 
-    head -n1 $DCC > $DCC_MERGED
+    head -n1 $DCC_MASTER > $DCC_MERGED
     cat $DCC_MASTER $DCC | grep -v "^#" | sort -u >> $DCC_MERGED
 
     >&2 echo Batch DCC_Analysis_Summary: $DCC 
