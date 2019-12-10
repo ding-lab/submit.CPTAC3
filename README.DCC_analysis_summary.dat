@@ -1,5 +1,5 @@
 Creating DCC analysis summary file after submission has taken place
-Reminder, this consists of all Y2 cases for pipeline RNA-Seq_Fusion
+Additional details in README.batch.md
 
 1. Created new branch to hold commits associated with submission:
     git checkout -b submission
@@ -9,21 +9,17 @@ Reminder, this consists of all Y2 cases for pipeline RNA-Seq_Fusion
     git checkout master
     git pull origin master
 3. bring back edits from Y2.all
-    git merge submission
-        -> this resulted in merge conflicts in analyses.dat
-           kept just the RNA-Seq_Fusion analyses
-    git add analyses.dat
+    git checkout submission -- analyses.dat batch.dat
+    git add analyses.dat batch.dat
     git commit
 
 4. Test post-staging analysis summary creation:
         bash 3_update_DCC_summary.sh -1d
-    Looks good, all files seem to exist, the staging directory is,
-        /diskmnt/Projects/cptac_scratch/CPTAC3-DCC-Staging.Y2/staged_data.Y2.ALL.20190807
-    Out of precaution, make entire staging directory unwriteable:
-        cd /diskmnt/Projects/cptac_scratch/CPTAC3-DCC-Staging.Y2/staged_data.Y2.ALL.20190807
-        chmod a-w -R *
+    Good to do an inspection of the STAGE_ROOT directory and make sure all data is there
+    It might helpful for safety reasons to make STAGE_ROOT read-only
+        chmod a-w -R $STAGE_ROOT
 
 5. run whole shebang:
     bash 3_update_DCC_summary.sh
-   This generates dat/RNA-Seq_Fusion.DCC_analysis_summary.dat
-    706 cases, 1172 samples
+   This generates dat/PIPELINE.DCC_analysis_summary.dat
+

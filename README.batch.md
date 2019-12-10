@@ -28,3 +28,7 @@ These changes should be communicated to Yige and fixed on her end for batch 3.  
 doing ad hoc script to modify the analysis summary based on work for Y2 batch 1.
 Corrected analysis summary file:
     /diskmnt/Projects/cptac_scratch/CPTAC3.workflow/submit.Y2/Y2.b2.20190529/analysis_summary.manual_edit/BICSEQ2/BICSEQ2.Y2.b1.analysis_description.dat
+
+-- DCC Analysis Summary --
+
+Subsequent work here took place december 2019 to generate DCC Analysis Summary file for these uploads.  See README.DCC... for details
