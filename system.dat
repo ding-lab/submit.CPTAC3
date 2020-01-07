@@ -11,13 +11,16 @@ LOCALE=$1
 if [ $LOCALE == "MGI" ]; then
     STAGE_BASE="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit.Y2"
     ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
+    CATALOGD="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog"
 elif [ $LOCALE == "denali" ]; then 
     STAGE_BASE="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging.Y2"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
+    CATALOGD="..."
 elif [ $LOCALE == "katmai" ]; then 
     #STAGE_BASE="/diskmnt/Projects/cptac/CPTAC3-DCC-Staging.Y2"
     STAGE_BASE="/diskmnt/Projects/cptac_scratch/CPTAC3-DCC-Staging.Y2"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
+    CATALOGD="..."
 else 
     >&2 echo Unknown LOCALE $LOCALE
     exit 1

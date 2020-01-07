@@ -1,11 +1,17 @@
-CATALOGD="/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/CPTAC3.catalog/DCC_Analysis_Summary"
-ANALYSES_DAT="analyses-adhoc.dat"
+BATCH_DAT="batch.dat"
+SYSTEM_DAT="system.dat"
+ANALYSES_DAT="analyses.dat"
 
+source $BATCH_DAT # defines DATESTAMP, BATCH
+test_exit_status
+
+source $SYSTEM_DAT $LOCALE # defines STAGE_ROOT, 
+test_exit_status
 
 function merge_analysis {
     ANALYSIS=$1
 
-    DCC_MASTER="$CATALOGD/${ANALYSIS}.DCC_analysis_summary.dat"
+    DCC_MASTER="$CATALOGD/DCC_Analysis_Summary/${ANALYSIS}.DCC_analysis_summary.dat"
 
     # If no errors, write merged DCC analysis summary, which is DCC analysis summary and DCC_MASTER concatenated and sorted
     # The output filename will be $BAMMAP.merged
