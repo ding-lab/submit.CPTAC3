@@ -1,15 +1,16 @@
 Creating DCC analysis summary file after submission has taken place
-Additional details in README.batch.md
+Details specific to this project in in README.batch.md
 
 1. Created new branch to hold commits associated with submission:
     git checkout -b submission
-    git add analyses.dat batch.dat
+    git add analyses.dat batch.dat README.batch.md
     git commit
 2. check out origin master
     git checkout master
     git pull origin master
-3. bring back edits from Y2.all
-    git checkout submission -- analyses.dat batch.dat
+3. bring back edits from Y2.all to new DCC_AS branch
+    git checkout -b DCC_AS
+    git checkout submission -- analyses.dat batch.dat README.batch.md
     git add analyses.dat batch.dat
     git commit
 
