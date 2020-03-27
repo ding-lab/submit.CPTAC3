@@ -146,7 +146,7 @@ function run_cmd {
     fi
 }
 
-source $BATCH_DAT # defines DATESTAMP, BATCH
+source $BATCH_DAT # defines DATESTAMP, BATCH, C3Y
 test_exit_status
 
 source $SYSTEM_DAT $LOCALE # defines STAGE_ROOT, 
@@ -195,7 +195,7 @@ while read i; do
         STEP_ARGS="$STEP_ARGS -D"
     fi
 
-    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S "$STAGE_ROOT" -R "$DCC_PREFIX" -s $DATESTAMP -B $BATCH $ANALYSIS_SUMMARY $ANALYSIS $PIPELINE_VER"
+    CMD="src/stage_data.sh $ARGS $STEP_ARGS -P $PROCESSING_TXT -S "$STAGE_ROOT" -R "$DCC_PREFIX" -s $DATESTAMP -B $BATCH -Y $C3Y $ANALYSIS_SUMMARY $ANALYSIS $PIPELINE_VER"
 
     >&2 echo Running: $CMD
     eval $CMD

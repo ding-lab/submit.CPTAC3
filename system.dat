@@ -21,6 +21,11 @@ elif [ $LOCALE == "katmai" ]; then
     STAGE_BASE="/diskmnt/Projects/cptac_scratch/CPTAC3-DCC-Staging.Y2"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
     CATALOGD="..."
+elif [ $LOCALE == "compute1" ]; then 
+
+    STAGE_BASE="/storage1/fs1/dinglab/Active/CPTAC3/Common/CPTAC3-DCC-Staging"
+    ASCP_CONNECT="/home/m.wyczalkowski/.aspera/connect"
+    CATALOGD="/storage1/fs1/dinglab/Active/CPTAC3/Common/CPTAC3.catalog"
 else 
     >&2 echo Unknown LOCALE $LOCALE
     exit 1

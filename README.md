@@ -1,4 +1,4 @@
-# CPTAC3 Year 2 submissions
+# CPTAC3 Year 2/3 submissions
 
 Overview of links:
 * All analyses come with analysis summary file, which is defined here
@@ -14,6 +14,16 @@ git clone https://github.com/ding-lab/submit.CPTAC3 PROJECT_NAME
 ```
 
 # Quick start
+
+## Install Aspera Connect
+
+Need to download and [IBM Aspera Connect](https://downloads.asperasoft.com/en/downloads/8?list) using command like,
+```
+wget https://download.asperasoft.com/download/sw/connect/3.9.9/ibm-aspera-connect-3.9.9.177872-linux-g2.12-64.tar.gz \
+&& tar -zxf ibm-aspera-connect-3.9.9.177872-linux-g2.12-64.tar.gz \
+&& bash ibm-aspera-connect-3.9.9.177872-linux-g2.12-64.sh
+```
+This will deploy Aspera Connect for user in `ASCP_CONNECT` directory (e.g., `/home/m.wyczalkowski/.aspera/connect`)
 
 ## Configuration
 

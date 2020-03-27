@@ -22,6 +22,7 @@ Options:
 -S STAGE_ROOT: staging root directory.  Default: /data
 -R DCC_PREFIX: Root directory on DCC.  Optional
 -B BATCH: batch name.  Default "NoBatch"
+-Y C3Y: indicates "CPTAC3 Year" and takes values `Y1`, `Y2`, etc.  Default: Y0
 -s DATESTAMP: Datestamp, of format YYYYMMDD.  Default: "YYYYMMDD"
 -P PROCESSING_TXT: Processing description file to be copied to each result directory
 -C DCC_SUMMARY: If defined, write DCC Analysis Summary file to given filename
@@ -70,10 +71,11 @@ DCC Analysis Summary file has the following fields:
  3. pipeline_name
  4. pipeline_version
  5. timestamp
- 6. DCC_path
- 7. filesize
- 8. file_format
- 9. md5sum
+ 6. C3Y
+ 7. DCC_path
+ 8. filesize
+ 9. file_format
+10. md5sum
 
 Additional (variable) fields are as in manifest file
 
@@ -136,9 +138,10 @@ STAGE_ROOT="/data"
 BATCH="NoBatch"  
 DATESTAMP="YYYYMMDD"  
 MANIFEST_FILENAME="manifest.txt"  
+C3Y="Y0"  
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hzfd1DwS:B:s:P:C:NMm:R:" opt; do
+while getopts ":hzfd1DwS:B:s:P:C:NMm:R:Y:" opt; do
   case $opt in
     h) # Dry run 
       echo "$USAGE" 
@@ -192,6 +195,9 @@ while getopts ":hzfd1DwS:B:s:P:C:NMm:R:" opt; do
       ;;
     R) 
       DCC_PREFIX=$OPTARG
+      ;;
+    Y) 
+      C3Y=$OPTARG
       ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG" 
@@ -324,7 +330,7 @@ PIPELINE_VER=$3
 AR_HEADER=$( head -n 1 $ANALYSIS_SUMMARY )
 AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 5- )
 MAN_HEADER=$( printf "# case\tdisease\tfilename\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
-DCC_HEADER=$( printf "# case\tdisease\tpipeline_name\tpipeline_version\ttimestamp\tDCC_path\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
+DCC_HEADER=$( printf "# case\tdisease\tpipeline_name\tpipeline_version\ttimestamp\tC3Y\tDCC_path\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 
 echo STAGE_ROOT = $STAGE_ROOT
 mkdir -p $STAGE_ROOT
@@ -407,8 +413,8 @@ while read AD; do
     MAN_LINE=$( printf "$CASE\t$DIS\t$FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
 
 # The following variables read as globals are needed for DCC_LINE
-# ANALYSIS PIPELINE_VER DATESTAMP
-    DCC_LINE=$( printf "$CASE\t$DIS\t$ANALYSIS\t$PIPELINE_VER\t$DATESTAMP\t$DCC_FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
+# ANALYSIS PIPELINE_VER DATESTAMP C3Y
+    DCC_LINE=$( printf "$CASE\t$DIS\t$ANALYSIS\t$PIPELINE_VER\t$DATESTAMP\t$C3Y\t$DCC_FN\t$SIZE\t$OUT_FF\t$MD5\t$AR_TAIL\n" )
 
     if [ "$DRYRUN" == "d" ]; then
         >&2 echo Dryrun: adding manifest line: $MAN_LINE
