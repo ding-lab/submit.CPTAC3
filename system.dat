@@ -19,7 +19,7 @@ elif [ $LOCALE == "denali" ]; then
 elif [ $LOCALE == "katmai" ]; then 
     STAGE_BASE="/diskmnt/Projects/cptac_scratch/CPTAC3.genomic_staging/CPTAC3-DCC-Staging.Y3"
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
-    CATALOGD="/home/mwyczalk_test/Projects/CPTAC3/CPTAC3.catalog"
+    CATALOGD="/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/CPTAC3.catalog"
 elif [ $LOCALE == "compute1" ]; then 
 
     STAGE_BASE="/storage1/fs1/dinglab/Active/CPTAC3/Common/CPTAC3-DCC-Staging"
