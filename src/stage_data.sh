@@ -30,9 +30,12 @@ Options:
     This is a special mode for generating manifest without touching data.  Note that manifest file will be appended to if it exists
 -N: Don't write manifest (though DCC_SUMMARY will be written as requested)
 -m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
+-x XF: prepend value of column XF from AR file to output filename
 
 Loop across all data files in analysis summary file and copy data (result file) to staging directory
  * optionally prepend case name to results file
+   * optionally prepend value of XF AR field to name of results file
+   * This allows output filenames to be unique even if multiple outputs per case
  * optionally compress results file 
  * result files will be copied to per-disease output directories 
 Create a manifest file, one line for every entry (result file) in analysis summary
@@ -141,7 +144,7 @@ MANIFEST_FILENAME="manifest.txt"
 C3Y="Y0"  
 
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hzfd1DwS:B:s:P:C:NMm:R:Y:" opt; do
+while getopts ":hzfd1DwS:B:s:P:C:NMm:R:Y:x:" opt; do
   case $opt in
     h) # Dry run 
       echo "$USAGE" 
@@ -199,6 +202,9 @@ while getopts ":hzfd1DwS:B:s:P:C:NMm:R:Y:" opt; do
     Y) 
       C3Y=$OPTARG
       ;;
+    x) 
+      XF=$OPTARG
+      ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG" 
       >&2 echo "$USAGE" 
@@ -241,6 +247,10 @@ function process_result {
 
     if [ $COMPRESS ]; then
         FN="${FN}.gz"
+    fi
+    if [ ! -z $XF ]; then
+        OUT_XF=$( echo "$AR" | cut -f $XF  )
+        FN="${OUT_XF}.${FN}"
     fi
     if [ $PREPEND_CASE ]; then
         FN="${CASE}.${FN}"

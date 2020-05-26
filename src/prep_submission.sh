@@ -22,6 +22,7 @@ options:
   -M: Do not copy data or processing description, but create manifest and, if requested, DCC summary files.
   -N: Don't write manifest.  NOTE: -MNC will leave data and manifest file untouched, only create DCC summary file
   -m MANIFEST_FILENAME: manifest filename.  Default: "manifest.txt"
+  -x XF: prepend value of column XF from AR file to output filename
 
 Preparation takes three steps:
 1. Stage the data.  This involves copying data, possibly compressing it, and converting to standardized filename
@@ -42,7 +43,7 @@ DCC_SUMMARY_TEMPLATE="dat/%s.DCC_analysis_summary.dat"
 
 ARGS=""
 # http://wiki.bash-hackers.org/howto/getopts_tutorial
-while getopts ":hd1wA:B:S:CT:MNm:" opt; do
+while getopts ":hd1wA:B:S:CT:MNm:x:" opt; do
   case $opt in
     h)  
       echo "$USAGE"
@@ -86,6 +87,9 @@ while getopts ":hd1wA:B:S:CT:MNm:" opt; do
       ;;
     m) 
       ARGS="$ARGS -m $OPTARG" 
+      ;;
+    x) 
+      ARGS="$ARGS -x $OPTARG" 
       ;;
     \?)
       >&2 echo "Invalid option: -$OPTARG"
