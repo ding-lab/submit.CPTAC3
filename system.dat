@@ -9,7 +9,7 @@ LOCALE=$1
 
 # Both BAMMAP and AR are master files 
 if [ $LOCALE == "MGI" ]; then
-    STAGE_BASE="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit.Y2"
+    STAGE_BASE="/gscmnt/gc2521/dinglab/mwyczalk/CPTAC3-submit.Y3"
     ASCP_CONNECT="/gscuser/mwyczalk/.aspera/connect"
     CATALOGD="/gscuser/mwyczalk/projects/CPTAC3/CPTAC3.catalog"
 elif [ $LOCALE == "denali" ]; then 
