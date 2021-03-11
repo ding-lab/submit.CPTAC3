@@ -40,3 +40,5 @@ RNA-Seq_Transcript	v1	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/Y2.b3.
 # RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0
 #
 # Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
+# 
+# RNA-Seq_Expression	v1.0	.../analysis_summary.dat	.../README.md	hg38	0	0
