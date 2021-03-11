@@ -8,37 +8,27 @@
 # * PREPEND_CASE
 #
 # Details of pipeline submission: https://docs.google.com/spreadsheets/d/19t62v6OA22KK3moXg-kn_CNfXXCGSqtbz5koqVaWqy8/edit#gid=1096034881
-#
 
-QC	v1.0	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/1.BAM_FastQC/inputs/QC.Y2.b3.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/CPTAC3_QC/y2.b3/README.md	hg38	1	1
-RNA-Seq_Transcript	v1	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/Y2.b3.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/Y2.b3/README.md	hg38	1	1
+# Multiple results may be listed.  Multiple results of the same type will not interfere
+
+RNA-Seq_Expression	v1.0	 /diskmnt/Projects/cptac_scratch/CPTAC_expression/20210302_UCEC_3/analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC_expression/pipeline_workflow/README.md	hg38	0	0
+RNA-Seq_Transcript	v1.2	/diskmnt/Projects/cptac_scratch/CPTACsplicing/UCEC_3_20210302/UCEC_3_20210302.transcript_summary.dat	/diskmnt/Projects/cptac_scratch/CPTACsplicing/UCEC_3_20210302/README.md	hg38	1	1
+RNA-Seq_Fusion	v2.2	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/Fusion_hg38/Y3/RNA-Seq_Fusion.UCEC_3/UCEC_3.Fusion.analysis_description.dat	/diskmnt/Projects/cptac_scratch_2/Fusion_hg38/README	hg38	0	0
+miRNA-Seq	v1.1	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MIRNA/UCEC_3/Log/UCEC_3.miRNA.analysis_summary.dat	/diskmnt/Projects/cptac_scratch/CPTAC3_analysis/MIRNA/UCEC_3/Log/UCEC_3.miRNA.processing_description.md	hg38	0	0
+Methylation_Array	v1.1	/diskmnt/Projects/Users/wliang/CPTAC_Pancan_Methylation/09_Pipeline/20210307_UCEC_3/Processed_hg38_remap/AnalysisSummary.txt	/diskmnt/Projects/Users/wliang/CPTAC_Pancan_Methylation/09_Pipeline/20210307_UCEC_3/Processed_hg38_remap/cptac_methylation_analysis.txt	hg38	0	0
 
 
-# Submitting the following:
-# * WXS_MSI
-# * RNA-Seq_Transcript
-# * RNA-Seq_Fusion
-# * WGS_CNV_Somatic
-# * WGS_SV
-# Note that WXS_MSI and RNA-Seq_Fusion have separate results for GBM and UCEC
 
-# Past submissions, for templates:
+
+# Templates
 #
 # WGS_SV	v1.0	.../analysis_summary.dat	.../processing_description.txt	hg38	0	1
-#
-# WXS_MSI	v1.1	.../Y2.b1_LSCC.analysis_description.dat	.../MSI.README	hg38	0	0
 # WXS_MSI	v1.1	.../Y2.b1_HNSCC.analysis_description.dat	.../MSI.README	hg38	0	0
-#
 # WGS_CNV_Somatic	v2.0	.../BICSEQ2.Y2.b1.analysis_description.dat	.../README.processing_description.md	hg38	1	1
-#
 # QC	v1.0	.../QC.Y2.b1.analysis_summary.dat	.../processing_description.txt	hg38	1	1
-#
 # WXS_Normal_Adjacent	v1.0	.../analysis_summary.dat	.../processing_description.md	hg38	0	1
-#
 # RNA-Seq_Transcript	v1	.../Y2.b1.transcript_summary.dat	.../README.md	hg38	1	1
-#
 # RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0
-#
 # Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
-# 
 # RNA-Seq_Expression	v1.0	.../analysis_summary.dat	.../README.md	hg38	0	0
+# miRNA-Seq	v1.1	.../CCRCC_ITH.miRNA.analysis_summary.dat	.../CCRCC_ITH.miRNA.processing_description.md	hg38	0	0
