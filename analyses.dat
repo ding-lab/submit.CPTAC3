@@ -32,3 +32,4 @@ Methylation_Array	v1.1	/diskmnt/Projects/Users/wliang/CPTAC_Pancan_Methylation/0
 # Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
 # RNA-Seq_Expression	v1.0	.../analysis_summary.dat	.../README.md	hg38	0	0
 # miRNA-Seq	v1.1	.../CCRCC_ITH.miRNA.analysis_summary.dat	.../CCRCC_ITH.miRNA.processing_description.md	hg38	0	0
+# WXS_Somatic_Variant_SW	v1.6	.../analysis_summary.dat	.../processing_description.txt	hg38	0	0
