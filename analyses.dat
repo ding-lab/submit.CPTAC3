@@ -25,5 +25,5 @@
 # RNA-Seq_Expression	v1.0	.../analysis_summary.dat	.../README.md	hg38	0	0
 # miRNA-Seq	v1.1	.../CCRCC_ITH.miRNA.analysis_summary.dat	.../CCRCC_ITH.miRNA.processing_description.md	hg38	0	0
 # WXS_Somatic_Variant_SW	v1.6	.../analysis_summary.dat	.../processing_description.txt	hg38	0	0
-# WXS_Somatic_Variant_TinDaisy	v2.5	.../analysis_summary.dat	.../processing_description.txt	hg38	0	1
+# WXS_Somatic_Variant_TD	v2.5	.../analysis_summary.dat	.../processing_description.txt	hg38	0	1
 # WXS_Germline	v1.1b	...	...	hg38	1	0
