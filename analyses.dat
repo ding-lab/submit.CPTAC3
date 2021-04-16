@@ -20,6 +20,7 @@
 # QC	v1.0	.../QC.Y2.b1.analysis_summary.dat	.../processing_description.txt	hg38	1	1
 # WXS_Normal_Adjacent	v1.0	.../analysis_summary.dat	.../processing_description.md	hg38	0	1
 # RNA-Seq_Transcript	v1	.../Y2.b1.transcript_summary.dat	.../README.md	hg38	1	1
+  # Important: for Transcript, set ARG="-x 5" in 1_prep_submission.sh
 # RNA-Seq_Fusion	v2.1	.../Y2.b1_GBM.analysis_description.dat	.../FUSION.README	hg38	0	0
 # Methylation_Array	v1.1	.../AnalysisSummary.txt	.../cptac_methylation_analysis.txt	hg38	0	0
 # RNA-Seq_Expression	v1.0	.../analysis_summary.dat	.../README.md	hg38	0	0
