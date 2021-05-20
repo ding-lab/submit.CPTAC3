@@ -66,12 +66,17 @@ Remove test file from DCC using the web interface.
 ```
 bash 1_prep_submission.sh
 bash 2_upload_submission.sh
-
+bash 3_merge_DCC_summary.sh
 ```
 
 All data gets staged to directory defined as,
   $STAGE_ROOT/$DCC_PREFIX/DISEASE/per-analysis-directory
 For example, per-analysis-directory = `CPTAC3_GBM_WGS_CNV_Somatic_v2.0_Y2.b1_20190405`
+
+DCC Analysis File gets created and merged with master file in 
+[CPTAC3 Catalog / DCC Analysis Summary](https://github.com/ding-lab/CPTAC3.catalog/tree/master/DCC_Analysis_Summary)
+
+
 
 # Details
 ## Definition files:
