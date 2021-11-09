@@ -44,6 +44,11 @@ function merge_analysis {
         >&2 echo Writing to $DCC_MERGED
         head -n1 $DCC_MASTER > $DCC_MERGED
         cat $DCC_MASTER $DCC | grep -v "^#" | sort -u >> $DCC_MERGED
+
+        # Adding this after realizing that inconsistent headers can be silently missed
+        >&2 echo Confirm headers are consistent:
+        >&2 head -n1 $DCC
+        >&2 head -n1 $DCC_MASTER
     fi
 
 #    >&2 echo Batch DCC_Analysis_Summary: $DCC 
