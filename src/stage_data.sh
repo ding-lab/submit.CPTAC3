@@ -5,6 +5,7 @@ Usage:
 
 analysis_summary: File containing details about all output files, as described here: 
     https://docs.google.com/document/d/1Ho5cygpxd8sB_45nJ90d15DcdaGCiDqF0_jzIcc-9B4/edit
+    Note that using updated format which starts with run_name (though run_name not currently used)
 analysis: canonical analysis name, e.g., WGS_SV
 pipeline_version: a text identifier of this pipeline, used for destination path creation
 
@@ -227,12 +228,13 @@ function process_result {
     DCC_OUTD=$2
     AR="$3"
 
-# 1.Case name 2.Disease 3.Output File Path 4.Output File Format 5-. other fields to pass along as-is
-    CASE=$( echo "$AR" | cut -f 1  )
-    DIS=$( echo "$AR" | cut -f 2  )
-    OUT_FN=$( echo "$AR" | cut -f 3  )
-    OUT_FF=$( echo "$AR" | cut -f 4  )
-    AR_TAIL=$( echo "$AR" | cut -f 5-  )
+# 1. run name 2.Case name 3.Disease 4.Output File Path 5.Output File Format 6-. other fields to pass along as-is
+    RUN_NAME=$( echo "$AR" | cut -f 1  )
+    CASE=$( echo "$AR" | cut -f 2  )
+    DIS=$( echo "$AR" | cut -f 3  )
+    OUT_FN=$( echo "$AR" | cut -f 4  )
+    OUT_FF=$( echo "$AR" | cut -f 5  )
+    AR_TAIL=$( echo "$AR" | cut -f 6-  )
 
     if [ ! -e $OUT_FN ]; then  # Have option here to either warn or quit 
         if [ $WARN_MISSING ]; then
@@ -335,10 +337,11 @@ ANALYSIS=$2
 PIPELINE_VER=$3
 
 # get manifest header.  It is built up of info from analysis summary and info from here
-# mandatory : 1.Case name 2.Disease 3.Output File Path 4.Output File Format 
-# variable, e.g. : 5.Tumor sample name 6.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
+# mandatory : 1. Run name 2.Case name 3.Disease 4.Output File Path 5.Output File Format 
+# variable, e.g. : 6.Tumor sample name 7.Tumor BAM UUID 7.Normal sample name 8 Normal BAM UUID
+# Currently, run name is ignored
 AR_HEADER=$( head -n 1 $ANALYSIS_SUMMARY )
-AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 5- )
+AR_HEADER_TAIL=$( echo "$AR_HEADER" | cut -f 6- )
 MAN_HEADER=$( printf "# case\tdisease\tfilename\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 DCC_HEADER=$( printf "# case\tdisease\tpipeline_name\tpipeline_version\ttimestamp\tC3Y\tDCC_path\tfilesize\tfile_format\tmd5sum\t$AR_HEADER_TAIL\n" )
 
@@ -369,7 +372,7 @@ while read AD; do
 
     [[ $AD = \#* ]] && continue  # Skip commented out entries
 
-    DIS=$( echo "$AD" | cut -f 2  )
+    DIS=$( echo "$AD" | cut -f 3  )
     DESTD=$(get_dest_dir $DIS $ANALYSIS $PIPELINE_VER $BATCH $DATESTAMP)
     # OUTD is the full path to where this file will be staged
     OUTD=$STAGE_ROOT/$DCC_PREFIX/$DIS/$DESTD
