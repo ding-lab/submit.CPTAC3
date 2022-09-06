@@ -9,6 +9,8 @@
 # Options:
 # -d: dry run
 
+# Updated, does not use token
+
 source batch.dat # timestamp, other per-submission information
 source system.dat $LOCALE # system paths
 
@@ -17,7 +19,7 @@ if [ ! -e $ASCP_INI ]; then
     exit 1
 fi
 
-# from ascp_config.ini get values for ASCP_USER and ASCP_TOKEN
+# from ascp_config.ini get values for ASCP_USER 
 source $ASCP_INI
 
 ASCP="$ASCP_CONNECT/bin/ascp"
@@ -55,8 +57,8 @@ SRC=$1
 DEST=$2
 
 # These parameters as suggested by Ratna Thangudu 1/24/18
-$ASCP  \
- -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
+# In August 2022 removing -i and -W flags.  Using password access
+CMD="$ASCP  \
  -P 33001 \
  -O 33001 \
  -l 300M \
@@ -64,8 +66,11 @@ $ASCP  \
  -T \
  -Q \
  --user $ASCP_USER \
- -W $ASCP_TOKEN \
  --host cptc-xfer.uis.georgetown.edu \
  --mode send \
-$SRC $DEST
+$SRC $DEST "
+ # -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
+#  -W $ASCP_TOKEN \
 
+>&2 echo Running: $CMD
+eval $CMD

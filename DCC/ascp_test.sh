@@ -21,13 +21,12 @@ TAG="Uploaded by user $ASCP_USER on $DT"
 cp $TEMPLATE $UPLOAD_DAT
 echo $TAG >> $UPLOAD_DAT
 echo Created $UPLOAD_DAT
-echo Uploading to DCC site at cptc-xfer.uis.georgetown.edu.
+echo Uploading to DCC site at https://cptac-data-portal.georgetown.edu/cptac/
 echo Please remove this file from this site when test complete
 
 DEST="/"
 
-$ASCP  \
- -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
+CMD="$ASCP  \
  -P 33001 \
  -O 33001 \
  -l 300M \
@@ -35,8 +34,14 @@ $ASCP  \
  -T \
  -Q \
  --user $ASCP_USER \
- -W $ASCP_TOKEN \
  --host cptc-xfer.uis.georgetown.edu \
  --mode send \
-$UPLOAD_DAT $DEST
+$UPLOAD_DAT $DEST"
+
+echo Running: $CMD
+echo Enter password for \"aspera connect ascp\" when prompted
+eval $CMD
+
+# -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
+# -W $ASCP_TOKEN \
 

@@ -1,18 +1,1 @@
-ASCP_USER="username"
-ASCP_TOKEN="token"
-
-# how to obtain upload token:
-# Get the upload token from the web interface
-# a.      Login to https://cptc-xfer.uis.georgetown.edu/aspera/home.html with aspera direct login/password
-# b.     Browse to desired page/folder where you want to upload and Right click to go to ‘view page source’ to view the html source of the page
-#       -> upload scripts assume that the desired page/folder is the root folder
-# c.     On the Source page search (Ctrl+F) for the word 'send' and then look for a token tag in the html code and copy the code 
-#     e.g., ATM3_cf867dcf96959cfd1f5339b67e390dafcf867dcf96959cfd1f5339b67e390dafuhdbaj_3MTA
-
-# Optional.  Used for downloading from DCC
-ASCP_TOKEN_RECEIVE="receive_token"
-
-# Procedure for obtaining download token is similar, but need to search for the token associated with each directory or file
-# Search for `data-direction="receive"` and save the token associated with the file or directory of interest
-# in ascp_config.ini as ASCP_TOKEN_RECEIVE.  This is then used in the script ascp_recv_test.sh
-
+ASCP_USER="c3MWgdp1"
