@@ -18,7 +18,7 @@ Options:
 -f: force overwrite of target even if it exists
 -d: dry run.  Only pretend to copy.  Will create manifest
 -1: Stop after one case
--D: Prepend case name to data file name
+-D: Prepend run name to data file name
 -w: Warn if data file does not exist rather than quitting
 -S STAGE_ROOT: staging root directory.  Default: /data
 -R DCC_PREFIX: Root directory on DCC.  Optional
@@ -167,7 +167,7 @@ while getopts ":hzfd1DwS:B:s:P:C:NMm:R:Y:x:" opt; do
       STOPATONE=1
       ;;
     D)  
-      PREPEND_CASE=1
+      PREPEND_RUNNAME=1
       ;;
     w) 
       WARN_MISSING=1
@@ -254,8 +254,8 @@ function process_result {
         OUT_XF=$( echo "$AR" | cut -f $XF  )
         FN="${OUT_XF}.${FN}"
     fi
-    if [ $PREPEND_CASE ]; then
-        FN="${CASE}.${FN}"
+    if [ $PREPEND_RUNNAME ]; then
+        FN="${RUN_NAME}.${FN}"
     fi
 
     # We are copying OUT_FN to DEST_FN
