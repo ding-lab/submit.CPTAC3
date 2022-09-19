@@ -59,18 +59,18 @@ DEST=$2
 # These parameters as suggested by Ratna Thangudu 1/24/18
 # In August 2022 removing -i and -W flags.  Using password access
 CMD="$ASCP  \
+ -L -
  -P 33001 \
  -O 33001 \
- -l 300M \
+ -l 3M \
  -k 2 \
- -T \
  -Q \
  --user $ASCP_USER \
  --host cptc-xfer.uis.georgetown.edu \
  --mode send \
+$ARGS \
 $SRC $DEST "
- # -i $ASCP_CONNECT/etc/asperaweb_id_dsa.openssh \
-#  -W $ASCP_TOKEN \
+# $SRC $DEST 2>&1 | tee ascp_log.txt "
 
 >&2 echo Running: $CMD
 eval $CMD
