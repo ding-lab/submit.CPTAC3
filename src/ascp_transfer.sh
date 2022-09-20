@@ -58,11 +58,11 @@ DEST=$2
 
 # These parameters as suggested by Ratna Thangudu 1/24/18
 # In August 2022 removing -i and -W flags.  Using password access
+# -L -      this is good for logging
 CMD="$ASCP  \
- -L -
  -P 33001 \
  -O 33001 \
- -l 3M \
+ -l 300M \
  -k 2 \
  -Q \
  --user $ASCP_USER \
