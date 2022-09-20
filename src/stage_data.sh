@@ -368,7 +368,9 @@ if [ ! -z $DCC_SUMMARY ]; then
 fi
 
 # Loop over all entries in an analysis summary file
-while read AD; do
+# skip first line whether comment or not
+# https://www.unix.com/unix-for-dummies-questions-and-answers/170787-skip-first-line-when-doing-read-csv-file.html
+sed 1d $ANALYSIS_SUMMARY | while read AD; do
 
     [[ $AD = \#* ]] && continue  # Skip commented out entries
 
@@ -448,6 +450,7 @@ while read AD; do
         exit 0  # 0 indicates no error 
     fi
 
-done < $ANALYSIS_SUMMARY
+#done < $ANALYSIS_SUMMARY
+done 
 
 >&2 echo Data staged to subdirectories of $STAGE_ROOT
