@@ -21,7 +21,7 @@ elif [ $LOCALE == "katmai" ]; then
     ASCP_CONNECT="/home/mwyczalk_test/.aspera/connect"
     CATALOGD="/diskmnt/Projects/cptac_scratch/CPTAC3.workflow/CPTAC3.catalog"
 elif [ $LOCALE == "compute1" ]; then 
-    STAGE_BASE="/storage1/fs1/dinglab/Active/Projects/CPTAC3/Common/CPTAC3-DCC-Staging"
+    STAGE_BASE="/storage1/fs1/dinglab/Active/Projects/CPTAC3/Common/CPTAC3-DCC-Staging/staging-compute1"
     ASCP_CONNECT="/home/m.wyczalkowski/.aspera/connect"
     CATALOGD="/storage1/fs1/dinglab/Active/Projects/CPTAC3/Common/CPTAC3.catalog"
 else 
